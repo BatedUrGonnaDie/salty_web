@@ -1,0 +1,7 @@
+<%= provide(:title, "Salty Bot") %>
+<% if signed_in? %>
+  You are signed in as <%= current_user.twitch_name %>.<br />
+  <%= link_to "Sign Out", sign_out_path, class: "pure-button", method: "delete" %>
+<% else %>
+  <%= link_to "Login", to_twitch_path, class: "pure-button" %>
+<% end %>

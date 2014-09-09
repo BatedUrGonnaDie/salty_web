@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  twitch_name: MyString
+  twitch_id: 1
+  oauth: MyString
+  email: MyString
+
+two:
+  twitch_name: MyString
+  twitch_id: 1
+  oauth: MyString
+  email: MyString
