@@ -1,0 +1,20 @@
+<%= provide(:title, "Salty Bot") %>
+<% if signed_in? %>
+  <div style="float: left; display: inline-block;">
+    You are signed in as <%= current_user.twitch_name %>.<br>
+  </div>
+  <div style="float: right; display: inline-block;">
+    <%= link_to "Sign Out", sign_out_path, class: "pure-button", method: "delete" %><br>
+  </div><br><br>
+  <%= form_for current_user, url: update_salty_path, html: {class: "pure-form"} do |f| %>
+    Channel to Join: <%= f.text_field :twitch_name, disabled: true %>
+    Bot Nick to Use: <small>*Leave blank if you want the default name.</small><%= f.text_field :bot_nick %>
+    Oauth for Bot Nick: <%= f.password_field :bot_oauth %>
+    Link Title and Uploader of Youtube Videos in Chat?<br>
+    Yes <%= f.radio_button :youtube_link, "true" %> No <%= f.radio_button :youtube_link, "false" %><br>
+    <p>Commands and Game Related Content</p><br>
+    <%= f.submit "Save" %>
+  <% end %>
+<% else %>
+  <%= link_to "Login", to_twitch_path, class: "pure-button" %>
+<% end %>
