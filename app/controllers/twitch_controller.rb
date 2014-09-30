@@ -12,12 +12,12 @@ class TwitchController < ApplicationController
 
     if user.nil?
       user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
+      user_commands = Command.new(twitch_id: user_data['_id'])
+      user_commands.save
     end
 
     user.oauth = oauth
     user.save
-    user_commands = Command.new(twitch_id: user_data['_id'])
-    user_commands.save
     sign_in user
     flash[:success] = "Signed in as #{user.twitch_name}."
     redirect_to salty_path
