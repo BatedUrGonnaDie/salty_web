@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   delete 'twitch/sign_out',     to: 'twitch#sign_out',      as: :sign_out
 
   get    'twitch/salty',        to: 'users#salty',          as: :salty
-  get    'twitch/salty/',       to: 'users#edit',           as: :edit_salty
   patch  'twitch/salty/update', to: 'users#update',         as: :update_salty
 
 end
