@@ -5,7 +5,11 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :twitch_id
       t.string :oauth
       t.string :email
-
+      t.string :bot_nick
+      t.string :bot_oauth
+      t.string :srl_nick
+      t.string :summoner_name
+      t.string :osu_nick
       t.timestamps
     end
   end

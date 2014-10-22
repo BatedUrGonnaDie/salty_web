@@ -11,47 +11,54 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928220527) do
+ActiveRecord::Schema.define(version: 20141022094313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "commands", force: true do |t|
-    t.integer "twitch_id"
-    t.json    "commands",    default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "wr",          default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "leaderboard", default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "splits",      default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "race",        default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "quote",       default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "addquote",    default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "pun",         default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "addpun",      default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "song",        default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "rank",        default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "vote",        default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "runes",       default: {"on"=>false, "admin"=>false, "limit"=>15}
-    t.json    "masteries",   default: {"on"=>false, "admin"=>false, "limit"=>15}
+    t.integer "user_id"
+    t.string  "command_name"
+    t.string  "on"
+    t.boolean "admin"
+    t.integer "limit"
   end
 
-  add_index "commands", ["twitch_id"], name: "index_commands_on_twitch_id", using: :btree
+  create_table "custom_commands", force: true do |t|
+    t.integer "user_id"
+    t.string  "command_name"
+    t.string  "trigger"
+    t.integer "limit"
+    t.boolean "admin"
+    t.string  "output"
+  end
+
+  create_table "settings", force: true do |t|
+    t.integer "user_id"
+    t.boolean "osu_link",        default: false
+    t.boolean "youtube_link",    default: false
+    t.boolean "social_active",   default: false
+    t.string  "social_output"
+    t.integer "social_time"
+    t.integer "social_messages"
+    t.boolean "toobou_active",   default: false
+    t.integer "toobou_limit"
+    t.string  "toobou_trigger"
+    t.string  "toobou_output"
+  end
 
   create_table "users", force: true do |t|
     t.string   "twitch_name"
     t.integer  "twitch_id"
     t.string   "oauth"
     t.string   "email"
+    t.string   "bot_nick"
+    t.string   "bot_oauth"
+    t.string   "srl_nick"
+    t.string   "summoner_name"
+    t.string   "osu_nick"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "bot_nick",      default: ""
-    t.string   "bot_oauth",     default: ""
-    t.string   "srl_nick",      default: ""
-    t.string   "summoner_name", default: ""
-    t.boolean  "youtube_link",  default: false
-    t.json     "osu",           default: {"osu_nick"=>"", "song_link"=>false}
-    t.json     "social",        default: {"on"=>false, "text"=>"", "time"=>0, "messages"=>0}
-    t.json     "toobou",        default: {"on"=>false, "limit"=>120, "trigger"=>"toobou", "insult"=>"I think you トーボウ, #learnmoonrunes"}
-    t.json     "custom",        default: {"on"=>false, "triggers"=>[], "output"=>[], "admins"=>[], "limits"=>[]}
   end
 
 end

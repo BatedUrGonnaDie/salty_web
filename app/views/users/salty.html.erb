@@ -10,10 +10,6 @@
     Channel to Join: <%= f.text_field :twitch_name, disabled: true %>
     Bot Nick to Use: <small>*Leave blank if you want the default name.</small><%= f.text_field :bot_nick %>
     Oauth for Bot Nick: <%= f.password_field :bot_oauth %>
-    Link Title and Uploader of Youtube Videos in Chat?<br>
-    Yes <%= f.radio_button :youtube_link, "true" %> No <%= f.radio_button :youtube_link, "false" %><br>
-    <p>Commands and Game Related Content</p><br>
-      
     <%= f.submit "Save" %>
   <% end %>
 <% else %>
