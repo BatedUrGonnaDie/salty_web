@@ -17,15 +17,15 @@ ActiveRecord::Schema.define(version: 20141022094313) do
   enable_extension "plpgsql"
 
   create_table "commands", force: true do |t|
-    t.integer "user_id"
-    t.string  "command_name"
+    t.integer "twitch_id"
+    t.string  "name"
     t.string  "on"
     t.boolean "admin"
     t.integer "limit"
   end
 
   create_table "custom_commands", force: true do |t|
-    t.integer "user_id"
+    t.integer "twitch_id"
     t.string  "command_name"
     t.string  "trigger"
     t.integer "limit"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20141022094313) do
   end
 
   create_table "settings", force: true do |t|
-    t.integer "user_id"
+    t.integer "twitch_id"
     t.boolean "osu_link",        default: false
     t.boolean "youtube_link",    default: false
     t.boolean "social_active",   default: false

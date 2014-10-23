@@ -7,9 +7,31 @@
     <%= link_to "Sign Out", sign_out_path, class: "pure-button", method: "delete" %><br>
   </div><br><br>
   <%= form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f| %>
+    <h1>General Info</h1>
     Channel to Join: <%= f.text_field :twitch_name, disabled: true %>
     Bot Nick to Use: <small>*Leave blank if you want the default name.</small><%= f.text_field :bot_nick %>
     Oauth for Bot Nick: <%= f.password_field :bot_oauth %>
+    SpeedRunsLive Nick: <small>*Only required for !race</small><%= f.text_field :srl_nick %>
+    Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
+    Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
+    <h1>General Commands</h1><br>
+    <b>!commands</b>
+    
+    <h1>Random Options</h1>
+    <%= f.fields_for :settings, @current_user.settings do |d| %>
+      <%= d.check_box :youtube_link %> Link Youtube Videos In Chat<br><br>
+      <b>Social</b><br>
+      <%= d.check_box :social_active %> Enabled<br>
+      Output: <%= d.text_field :social_output %>
+      Time Between Messages: <%= d.text_field :social_time %>
+      Messages In Chat Before Can Fire: <%= d.text_field :social_messages %>
+      <b>Toobou</b><br>
+      <%= d.check_box :toobou_active %> Enabled<br>
+      Time Between Insults: <%= d.text_field :toobou_limit %>
+      Trigger: <%= d.text_field :toobou_trigger %>
+      Output: <%= d.text_field :toobou_output %>
+    <% end %>
+    <br>
     <%= f.submit "Save" %>
   <% end %>
 <% else %>

@@ -12,6 +12,7 @@ class TwitchController < ApplicationController
 
     if user.nil?
       user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
+      user.create_settings!
     end
 
     user.oauth = oauth

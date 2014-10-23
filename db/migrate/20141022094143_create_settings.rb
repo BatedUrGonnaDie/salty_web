@@ -1,7 +1,7 @@
 class CreateSettings < ActiveRecord::Migration
   def change
     create_table :settings do |t|
-      t.integer :user_id
+      t.integer :twitch_id
       t.boolean :osu_link, default: false
       t.boolean :youtube_link, default: false
       t.boolean :social_active, default: false
