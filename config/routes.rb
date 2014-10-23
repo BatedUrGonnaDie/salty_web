@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   get    'twitch/sign_in',      to: 'twitch#to_twitch',     as: :to_twitch
   get    'twitch/auth',         to: 'twitch#from_twitch',   as: :twitch_auth
-  delete 'twitch/sign_out',     to: 'twitch#sign_out',      as: :sign_out
+  get    'twitch/sign_out',     to: 'twitch#sign_out',      as: :sign_out
 
   get    'twitch/salty',        to: 'users#salty',          as: :salty
   patch  'twitch/salty/update', to: 'users#update',         as: :update_salty
