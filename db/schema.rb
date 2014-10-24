@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20141022094313) do
 
   create_table "custom_commands", force: true do |t|
     t.integer "twitch_id"
-    t.string  "command_name"
+    t.string  "name"
     t.string  "trigger"
     t.integer "limit"
     t.boolean "admin"

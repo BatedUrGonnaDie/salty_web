@@ -2,7 +2,7 @@ class CreateCustomCommands < ActiveRecord::Migration
   def change
     create_table :custom_commands do |t|
       t.integer :twitch_id
-      t.string :command_name
+      t.string :name
       t.string :trigger
       t.integer :limit
       t.boolean :admin
