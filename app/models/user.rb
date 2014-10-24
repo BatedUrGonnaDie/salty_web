@@ -28,6 +28,6 @@ class User < ActiveRecord::Base
 
       runes:        Command.new(name: "runes",        on: false,  admin: false, limit: 30),
       masteries:    Command.new(name: "masteries",    on: false,  admin: false, limit: 30)
-    }.merge(super.map{ |command| {command.name => command} }.inject(:merge)).values
+    }.merge(super.map{ |command| {command.name => command} }.inject(:merge) || {}).values
   end
 end
