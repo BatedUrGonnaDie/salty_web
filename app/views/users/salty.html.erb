@@ -15,7 +15,15 @@
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
     <h1>General Commands</h1><br>
-    <b>!commands</b>
+    
+    <%= f.fields_for :commands do |d| %>
+      <div class="pure-u-1-2">
+        <b><%= d.text_field :name, readonly: true %></b><br>
+        <%= d.check_box :on %> Enabled<br>
+        <%= d.check_box :admin %> Mod Only Command?<br>
+        Cooldown: <%= d.number_field :limit %>
+      </div>
+    <% end %>
     
     <h1>Random Options</h1>
     <%= f.fields_for :settings, @current_user.settings do |d| %>
@@ -23,11 +31,11 @@
       <b>Social</b><br>
       <%= d.check_box :social_active %> Enabled<br>
       Output: <%= d.text_field :social_output %>
-      Time Between Messages: <%= d.text_field :social_time %>
-      Messages In Chat Before Can Fire: <%= d.text_field :social_messages %>
+      Time Between Messages: <%= d.number_field :social_time %>
+      Messages In Chat Before Can Fire: <%= d.number_field :social_messages %>
       <b>Toobou</b><br>
       <%= d.check_box :toobou_active %> Enabled<br>
-      Time Between Insults: <%= d.text_field :toobou_limit %>
+      Time Between Insults: <%= d.number_field :toobou_limit %>
       Trigger: <%= d.text_field :toobou_trigger %>
       Output: <%= d.text_field :toobou_output %>
     <% end %>

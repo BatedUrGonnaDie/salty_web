@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   has_one   :settings, foreign_key: :twitch_id
   has_many  :commands, foreign_key: :twitch_id
   has_many  :custom_commands, foreign_key: :twitch_id
+  accepts_nested_attributes_for :commands
   before_save {
     #bot name if blank
     #bot oauth if blank
