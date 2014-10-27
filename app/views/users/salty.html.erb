@@ -8,9 +8,12 @@
   </div><br><br>
   <%= form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f| %>
     <h1>General Info</h1>
+    <%= f.fields_for :settings do |d| %>
+      <%= d.check_box :active %> Enable the Bot<br><br>
+    <% end %>
     Channel to Join: <%= f.text_field :twitch_name, disabled: true %>
-    Bot Nick to Use: <small>*Leave blank if you want the default name.</small><%= f.text_field :bot_nick %>
-    Oauth for Bot Nick: <%= f.password_field :bot_oauth %>
+    Bot Nick to Use: <small>*Leave blank if you want the default name of "TheSaltyBot"</small><%= f.text_field :bot_nick %>
+    Oauth for Bot Nick: <small>Leave blank if using default name</small><%= f.password_field :bot_oauth %>
     SpeedRunsLive Nick: <small>*Only required for !race</small><%= f.text_field :srl_nick %>
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
@@ -36,7 +39,7 @@
       <% end %>
 
         <div class="pure-u-1-2">
-          <b><%= d.text_field :name, readonly: true, class: "pure-u-1-2" %></b><br>
+          <b><%= d.text_field :name, readonly: true, class: "pure-u-1-3" %></b><br>
           <%= d.check_box :on %> Enabled<br>
           <%= d.check_box :admin %> Mod Only Command?<br>
           Cooldown: <br><%= d.number_field :limit, class: "pure-u-1-3" %>
@@ -48,14 +51,14 @@
     </div>
     
     <h1>Random Options</h1>
-    <%= f.fields_for :settings, @current_user.settings do |d| %>
+    <%= f.fields_for :settings do |d| %>
       <%= d.check_box :youtube_link %> Link Youtube Videos In Chat<br><br>
       <b>Social</b><br>
       <%= d.check_box :social_active %> Enabled<br>
       Output: <%= d.text_field :social_output %>
       Time Between Messages: <%= d.number_field :social_time %>
-      Messages In Chat Before Can Fire: <%= d.number_field :social_messages %>
-      <b>Toobou</b><br>
+      Number of Messages Before Sending: <%= d.number_field :social_messages %>
+      <br><b>Toobou</b><br>
       <%= d.check_box :toobou_active %> Enabled<br>
       Time Between Insults: <%= d.number_field :toobou_limit %>
       Trigger: <%= d.text_field :toobou_trigger %>

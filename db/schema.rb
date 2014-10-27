@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20141022094313) do
 
   create_table "settings", force: true do |t|
     t.integer "twitch_id"
+    t.boolean "active",          default: false
     t.boolean "osu_link",        default: false
     t.boolean "youtube_link",    default: false
     t.boolean "social_active",   default: false
