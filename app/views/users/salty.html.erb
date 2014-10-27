@@ -14,15 +14,38 @@
     SpeedRunsLive Nick: <small>*Only required for !race</small><%= f.text_field :srl_nick %>
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
-    <h1>General Commands</h1><br>
-
+    <% counter = 0 %>
     <%= f.fields_for :commands do |d| %>
-      <b><%= d.text_field :name, readonly: true, class: "pure-u-1-4" %></b><br>
-      <%= d.check_box :on %> Enabled<br>
-      <%= d.check_box :admin %> Mod Only Command?<br>
-      Cooldown: <%= d.number_field :limit, class: "pure-u-1-5" %>
-      <br><br>
-    <% end %>
+
+      <% counter = counter + 1 %>
+      <% if counter == 1 %>
+        <h1>General Commands</h1>
+        <div class="pure-g">
+      <% elsif counter == 9 %>
+        </div>
+        <h1>Speed Running Commands</h1>
+        <div class="pure-g">
+      <% elsif counter == 13 %>
+        </div>
+        <h1>Osu Commands</h1>
+        <div class="pure-g">
+      <% elsif counter == 15 %>
+        </div>
+        <h1>League Commands</h1>
+        <div class="pure-g">
+      <% end %>
+
+        <div class="pure-u-1-2">
+          <b><%= d.text_field :name, readonly: true, class: "pure-u-1-2" %></b><br>
+          <%= d.check_box :on %> Enabled<br>
+          <%= d.check_box :admin %> Mod Only Command?<br>
+          Cooldown: <br><%= d.number_field :limit, class: "pure-u-1-3" %>
+        </div>
+        <% if counter % 2 == 0 %>
+          <br><br>
+        <% end %>
+      <% end %>
+    </div>
     
     <h1>Random Options</h1>
     <%= f.fields_for :settings, @current_user.settings do |d| %>
@@ -39,7 +62,7 @@
       Output: <%= d.text_field :toobou_output %>
     <% end %>
     <br>
-    <%= f.submit "Save" %>
+    <%= f.submit "Save", class: "pure-button pure-button-primary" %>
   <% end %>
 <% else %>
   <%= link_to "Login", to_twitch_path, class: "pure-button" %>
