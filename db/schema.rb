@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 20141022094313) do
     t.string   "twitch_name"
     t.integer  "twitch_id"
     t.string   "oauth"
+    t.string   "oauth_hash"
     t.string   "email"
     t.string   "bot_nick"
     t.string   "bot_oauth"

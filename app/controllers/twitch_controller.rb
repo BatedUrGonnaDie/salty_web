@@ -16,6 +16,7 @@ class TwitchController < ApplicationController
     end
 
     user.oauth = oauth
+    user.oauth_hash = User.digest(oauth)
     if user.save
       sign_in user
       flash[:success] = "Signed in as #{user.twitch_name}."
