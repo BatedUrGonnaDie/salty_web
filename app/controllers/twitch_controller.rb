@@ -29,9 +29,6 @@ class TwitchController < ApplicationController
     redirect_to root_path
   end
 
-  def salty
-  end
-
   private
     def client_id
       client_id = ENV["salty_client_id"]

@@ -1,9 +1,9 @@
 class CreateCommands < ActiveRecord::Migration
   def change
     create_table :commands do |t|
-      t.integer :twitch_id
+      t.integer :user_id
       t.string :name
-      t.string :on
+      t.boolean :on
       t.boolean :admin
       t.integer :limit
     end

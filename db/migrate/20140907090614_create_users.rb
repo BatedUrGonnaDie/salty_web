@@ -10,6 +10,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :srl_nick
       t.string :summoner_name
       t.string :osu_nick
+      t.integer :splits_io_id
       t.timestamps
     end
   end

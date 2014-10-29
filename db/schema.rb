@@ -17,32 +17,34 @@ ActiveRecord::Schema.define(version: 20141022094313) do
   enable_extension "plpgsql"
 
   create_table "commands", force: true do |t|
-    t.integer "twitch_id"
+    t.integer "user_id"
     t.string  "name"
-    t.string  "on"
+    t.boolean "on"
     t.boolean "admin"
     t.integer "limit"
   end
 
   create_table "custom_commands", force: true do |t|
-    t.integer "twitch_id"
+    t.integer "user_id"
     t.string  "name"
     t.string  "trigger"
-    t.integer "limit"
+    t.boolean "on"
     t.boolean "admin"
+    t.integer "limit"
     t.string  "output"
   end
 
   create_table "settings", force: true do |t|
-    t.integer "twitch_id"
-    t.boolean "active",          default: false
-    t.boolean "osu_link",        default: false
-    t.boolean "youtube_link",    default: false
-    t.boolean "social_active",   default: false
+    t.integer "user_id"
+    t.boolean "active",           default: false
+    t.boolean "osu_link",         default: false
+    t.string  "osu_current_song"
+    t.boolean "youtube_link",     default: false
+    t.boolean "social_active",    default: false
     t.string  "social_output"
     t.integer "social_time"
     t.integer "social_messages"
-    t.boolean "toobou_active",   default: false
+    t.boolean "toobou_active",    default: false
     t.integer "toobou_limit"
     t.string  "toobou_trigger"
     t.string  "toobou_output"
@@ -58,6 +60,7 @@ ActiveRecord::Schema.define(version: 20141022094313) do
     t.string   "srl_nick"
     t.string   "summoner_name"
     t.string   "osu_nick"
+    t.integer  "splits_io_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
