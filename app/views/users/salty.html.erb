@@ -14,7 +14,7 @@
     <br><br>
     Channel to Join: <%= f.text_field :twitch_name, readonly: true %>
     Bot Nick to Use: <small>*Leave blank if you want the default name of "TheSaltyBot"</small><%= f.text_field :bot_nick, placeholder: "TheSaltyBot" %>
-    Oauth for Bot Nick: <small>Leave blank if using default name</small><%= f.password_field :bot_oauth, placeholder: "oauth:xxxxxxxxxxxxxxxxxxxxxxxx" %>
+    Oauth for Bot Nick: <small>Leave blank if using default name</small><%= f.password_field :bot_oauth, placeholder: "Only insert text if change is needed" %>
     SpeedRunsLive Nick: <small>*Case sensitive, only required for !race</small><%= f.text_field :srl_nick %>
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>

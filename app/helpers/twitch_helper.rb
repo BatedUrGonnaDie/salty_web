@@ -1,8 +1,7 @@
 module TwitchHelper
 
   def sign_in(user)
-    cookies.permanent[:name] = user[:twitch_name]
-    cookies.permanent[:oauth_hash] = user[:oauth_hash]
+    cookies.permanent[:session] = user[:session]
     self.current_user = user
   end
 
@@ -15,16 +14,14 @@ module TwitchHelper
   end
 
   def current_user
-    user_hash = cookies[:oauth_hash]
-    user_name = cookies[:name]
-    unless user_hash == nil
-      @current_user ||= User.find_by(oauth_hash: user_hash, twitch_name: user_name)
+    user_session = cookies[:session]
+    unless user_session == nil
+      @current_user ||= User.find_by(session: user_session)
     end
   end
 
   def destroy
-    cookies.delete(:name)
-    cookies.delete(:oauth_hash)
+    cookies.delete(:session)
     self.current_user = nil
   end
 end
