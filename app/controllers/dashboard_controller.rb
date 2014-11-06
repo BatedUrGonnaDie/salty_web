@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
   end
 
   def dashboard
-    
+    puts info
   end
 
   private
