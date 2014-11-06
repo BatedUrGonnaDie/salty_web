@@ -12,7 +12,7 @@ class DashboardController < ApplicationController
 
   def dashboard
     @info = flash[:info]
-    flash.discard
+    flash.delete(:info)
   end
 
   private
