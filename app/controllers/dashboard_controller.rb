@@ -11,9 +11,8 @@ class DashboardController < ApplicationController
   end
 
   def dashboard
-    if flash[:info]
-      puts 'hi'
-    end
+    @info = flash[:info]
+    flash.discard
   end
 
   private
