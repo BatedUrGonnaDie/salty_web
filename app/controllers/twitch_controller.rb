@@ -41,7 +41,7 @@ class TwitchController < ApplicationController
     end
 
     def redirect_uri
-      redirect_uri = "http://#{request.host_with_port}/twitch/salty/auth"
+      redirect_uri = "https://#{request.host_with_port}/twitch/salty/auth"
     end
 
     def full_twitch_info

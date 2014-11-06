@@ -24,7 +24,7 @@ class DashboardController < ApplicationController
     end
 
     def redirect_uri
-      redirect_uri = "http://#{request.host_with_port}/twitch/dashboard/auth"
+      redirect_uri = "https://#{request.host_with_port}/twitch/dashboard/auth"
     end
 
     def scopes
