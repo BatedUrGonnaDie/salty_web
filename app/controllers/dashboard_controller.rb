@@ -8,6 +8,7 @@ class DashboardController < ApplicationController
     oauth = HTTParty.post("https://api.twitch.tv/kraken/oauth2/token", query: full_twitch_info)['access_token']
     @info = oauth
     redirect_to dashboard_path
+  end
 
   def dashboard
   end
