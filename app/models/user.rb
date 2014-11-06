@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_many  :quotes
   accepts_nested_attributes_for :settings
   accepts_nested_attributes_for :commands
+  accepts_nested_attributes_for :custom_commands
   accepts_nested_attributes_for :quotes
   before_save {
     #bot name if blank
