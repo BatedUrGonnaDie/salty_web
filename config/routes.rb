@@ -16,5 +16,5 @@ Rails.application.routes.draw do
   get   'twitch/dashboard/out',   to: 'dashboard#to_twitch',    as: :dashboard_out
   get   'twitch/dashboard/auth',  to: 'dashboard#from_twitch',  as: :dashboard_auth
 
-  get   'twitch/dashboard',       to: 'dashboard#show',         as: :dashboard
+  get   'twitch/dashboard',       to: 'dashboard#dashboard',         as: :dashboard
 end
