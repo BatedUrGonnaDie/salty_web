@@ -11,6 +11,7 @@ class DashboardController < ApplicationController
   end
 
   def dashboard
+    @info = @info
   end
 
   private
