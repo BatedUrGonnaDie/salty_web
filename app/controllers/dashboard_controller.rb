@@ -29,7 +29,7 @@ class DashboardController < ApplicationController
     end
 
     def scopes
-      scopes = "channel_editor+channel_commercial+chat_login"
+      scopes = "user_read+channel_editor+channel_commercial+chat_login"
     end
 
     def full_twitch_info
