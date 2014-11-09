@@ -1,0 +1,14 @@
+<%= provide(:title, "Quotes") %>
+<% if signed_in? %>
+  <div style="float: left; display: inline-block;">
+    You are signed in as <%= @current_user.twitch_name %>.<br>
+  </div>
+  <div style="float: right; display: inline-block;">
+    <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
+  </div><br><br>
+  <%= form_for @current_user.quotes, url: update_salty_quotes_path, html: {class: "pure-form"} do |f| %>
+
+  <% end %>
+<% else %>
+
+<% end %>

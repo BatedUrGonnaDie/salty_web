@@ -11,6 +11,13 @@ class UsersController < ApplicationController
     redirect_to salty_path
   end
 
+  def quotes
+  end
+
+  def q_update
+    
+  end
+
   private
 
     def user_params
