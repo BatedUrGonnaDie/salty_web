@@ -4,11 +4,21 @@
     You are signed in as <%= @current_user.twitch_name %>.<br>
   </div>
   <div style="float: right; display: inline-block;">
+    <%= link_to "Main Page", salty_path, class: "pure-button" %>
     <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
   </div><br><br>
-  <%= form_for @current_user.quotes, url: update_salty_quotes_path, html: {class: "pure-form"} do |f| %>
-
+  <% if @current_user.quotes != [] %>
+    <%= form_for @current_user, url: update_salty_quotes_path, html: {class: "pure-form"} do |f| %>
+      <% counter = 0 %>
+      <%= f.fields_for :quotes do |d| %>
+        <%= d.text_field :text_type, readonly: true %>
+        <%= d.text_field :text %>
+        <%= d.checkbox :reviewed %>
+      <% end %>
+    <% end %>
+  <% else %>
+    You have no quotes/puns to edit/review.  Go say some funny stuff yo.
   <% end %>
 <% else %>
-
+  Please sign in on the main salty page located <%= link_to "here.", salty_path %>
 <% end %>

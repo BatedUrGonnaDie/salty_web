@@ -4,6 +4,7 @@
     You are signed in as <%= @current_user.twitch_name %>.<br>
   </div>
   <div style="float: right; display: inline-block;">
+    <%= link_to "Quotes", salty_quotes_path, class: "pure-button" %>
     <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
   </div><br><br>
   <%= form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f| %>
@@ -21,7 +22,7 @@
     <% counter = 0 %>
     <%= f.fields_for :commands do |d| %>
 
-      <% counter = counter + 1 %>
+      <% ++counter %>
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">

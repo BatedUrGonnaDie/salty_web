@@ -20,7 +20,6 @@ class TwitchController < ApplicationController
 
     if user.save
       sign_in user
-      flash[:success] = "Signed in as #{user.twitch_name}."
       redirect_to salty_path
     end
   end
@@ -41,7 +40,11 @@ class TwitchController < ApplicationController
     end
 
     def redirect_uri
-      redirect_uri = "https://#{request.host_with_port}/twitch/salty/auth"
+      if !Rails.env.development?
+        redirect_uri = "https://#{request.host_with_port}/twitch/salty/auth"
+      else
+        redirect_uri = "http://#{request.host_with_port}/twitch/salty/auth"
+      end
     end
 
     def full_twitch_info
