@@ -15,7 +15,11 @@ class UsersController < ApplicationController
   end
 
   def q_update
-    
+    user = User.find_by(twitch_name: params[:user][:twitch_name])
+
+    user.update_attributes(user_params)
+    flash[:success] = "Quotes Updated"
+    redirect_to salty_quotes_path
   end
 
   private
@@ -25,7 +29,8 @@ class UsersController < ApplicationController
                                     :social_active, :social_output, :social_time, :social_messages,
                                     :toobou_active, :toobou_limit, :toobou_trigger, :toobou_output]},
                                     :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name,
-                                    :commands_attributes => [:id, :name, :on, :admin, :limit])
+                                    :commands_attributes => [:id, :name, :on, :admin, :limit],
+                                    :quotes_attributes => [:id, :text_type, :text, :reviewed])
     end
 
 end
