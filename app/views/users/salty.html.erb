@@ -22,7 +22,7 @@
     <% counter = 0 %>
     <%= f.fields_for :commands do |d| %>
 
-      <% ++counter %>
+      <% counter = counter + 1 %>
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">
