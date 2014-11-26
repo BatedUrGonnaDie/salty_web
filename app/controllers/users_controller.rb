@@ -18,7 +18,7 @@ class UsersController < ApplicationController
     user = User.find_by(twitch_name: params[:user][:twitch_name])
 
     user.update_attributes(user_params)
-    flash[:success] = "Quotes Updated"
+    flash[:success] = "Quotes/Puns Updated"
     redirect_to salty_quotes_path
   end
 
