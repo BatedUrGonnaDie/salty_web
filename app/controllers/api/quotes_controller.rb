@@ -9,7 +9,7 @@ class Api::QuotesController < Api::ApplicationController
       limit = params[:limit] || 1
       limit.times {num_used.push(rand(u_quotes.length))}
       num_used.each do |x| 
-        r_quote_array.push(x)
+        r_quote_array.push(u_quotes[x])
       end
       render status: 200, json: {status: 200, text: r_quote_array}
     else
