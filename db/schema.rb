@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141107090427) do
+ActiveRecord::Schema.define(version: 20141223125806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20141107090427) do
     t.integer "user_id"
     t.boolean "active",           default: false
     t.boolean "osu_link",         default: false
-    t.string  "osu_current_song"
+    t.string  "osu_current_song", default: ""
     t.boolean "youtube_link",     default: false
     t.boolean "social_active",    default: false
     t.string  "social_output"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20141107090427) do
     t.integer "toobou_limit"
     t.string  "toobou_trigger"
     t.string  "toobou_output"
+    t.string  "osu_song_key"
   end
 
   create_table "users", force: true do |t|

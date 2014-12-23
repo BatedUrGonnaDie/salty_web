@@ -19,4 +19,12 @@ Rails.application.routes.draw do
   get   'twitch/dashboard/auth',      to: 'dashboard#from_twitch',  as: :dashboard_auth
 
   get   'twitch/dashboard',           to: 'dashboard#dashboard',    as: :dashboard
+
+  # API Stuff
+  namespace :api do
+    get   'quote', to: 'quotes#text_show',    as: :text_show
+
+    get   'song', to: 'songs#song_show',    as: :song_show
+    post  'song', to: 'songs#song_update',  as: :song_update
+  end
 end
