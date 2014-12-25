@@ -22,11 +22,8 @@ default: &default
   pool: 5
 
 development:
-  <<: *default
-  database: <%= ENV['salty_database_dev'] %>
-  pool: 5
-  username: <%= ENV['salty_user'] %>
-  password: <%= ENV['salty_password'] %>
+  adapter: sqlite3
+  database: db/development.sqlite3
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
@@ -41,11 +38,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: <%= ENV['salty_database_test'] %>
-  pool: 5
-  username: <%= ENV['salty_user'] %>
-  password: <%= ENV['salty_password'] %>
+  adapter: sqlite3
+  database: db/test.sqlite3
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
