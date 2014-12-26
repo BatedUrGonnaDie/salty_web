@@ -1,16 +1,12 @@
 class Api::SongsController < Api::ApplicationController
+  before_action :set_user
 
   def index
-    user = User.find_by(twitch_name: params[:user])
-    if user
-      user_song = user.settings[:osu_current_song]
-      if user_song == ""
-        render status: 400, json: {status: 400, error: "No current song."}
-      else
-        render status: 200, json: {status: 200, song: "#{user_song}"}
-      end
+    user_song = @user.settings[:osu_current_song]
+    if user_song == ""
+      render status: 400, json: {status: 400, error: "No current song."}
     else
-      render status: 400, json: {status: 400, error: "Invalid user."}
+      render status: 200, json: {status: 200, song: "#{user_song}"}
     end
   end
 

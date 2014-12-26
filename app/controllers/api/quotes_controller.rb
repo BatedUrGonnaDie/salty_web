@@ -11,12 +11,6 @@ class Api::QuotesController < Api::ApplicationController
 
   private
 
-    def set_user
-      unless @user = User.find_by(twitch_name: params[:user_id])
-        render status: 400, json: {status: 400, error: "Invalid user."}
-      end
-    end
-
     def check_for_quotes
       if @user.quotes.empty?
         render status: 400, json: {status: 400, error: "No quotes for this user."}
@@ -25,7 +19,7 @@ class Api::QuotesController < Api::ApplicationController
 
     def limit
       if params[:limit].present?
-        params[:limit].to_i < 0 ? 0 : params[:limit].to_i
+        [0, params[:limit], 10].sort[1]
       else
         1
       end
