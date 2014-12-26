@@ -24,9 +24,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :users, only: [] do
       resources :quotes, only: [:index]
+      resources :song, only: [:index, :new]
     end
-
-    get   'song', to: 'songs#song_show',    as: :song_show
-    post  'song', to: 'songs#song_update',  as: :song_update
   end
 end

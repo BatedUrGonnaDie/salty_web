@@ -1,6 +1,6 @@
 class Api::SongsController < Api::ApplicationController
 
-  def song_show
+  def index
     user = User.find_by(twitch_name: params[:user])
     if user
       user_song = user.settings[:osu_current_song]
@@ -14,7 +14,7 @@ class Api::SongsController < Api::ApplicationController
     end
   end
 
-  def song_update
+  def new
     user_key = params[:key]
     u_setting = Settings.find_by(osu_current_song: user_to_find)
     if u_settings
