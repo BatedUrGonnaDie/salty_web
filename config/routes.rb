@@ -22,7 +22,9 @@ Rails.application.routes.draw do
 
   # API Stuff
   namespace :api do
-    get   'quote', to: 'quotes#text_show',    as: :text_show
+    resources :users, only: [] do
+      resources :quotes, only: [:index]
+    end
 
     get   'song', to: 'songs#song_show',    as: :song_show
     post  'song', to: 'songs#song_update',  as: :song_update
