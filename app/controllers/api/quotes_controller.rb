@@ -19,7 +19,7 @@ class Api::QuotesController < Api::ApplicationController
 
     def limit
       if params[:limit].present?
-        [0, params[:limit], 10].sort[1]
+        [0, params[:limit].to_i, 10].sort[1]
       else
         1
       end
