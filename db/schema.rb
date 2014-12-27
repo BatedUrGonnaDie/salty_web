@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141223125806) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20141227095307) do
 
   create_table "commands", force: true do |t|
     t.integer "user_id"
@@ -34,15 +31,6 @@ ActiveRecord::Schema.define(version: 20141223125806) do
     t.string  "output"
   end
 
-  create_table "quotes", force: true do |t|
-    t.integer  "user_id"
-    t.string   "text_type"
-    t.boolean  "reviewed"
-    t.string   "text"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "settings", force: true do |t|
     t.integer "user_id"
     t.boolean "active",           default: false
@@ -58,6 +46,15 @@ ActiveRecord::Schema.define(version: 20141223125806) do
     t.string  "toobou_trigger"
     t.string  "toobou_output"
     t.string  "osu_song_key"
+  end
+
+  create_table "textutils", force: true do |t|
+    t.integer  "user_id"
+    t.string   "type"
+    t.boolean  "reviewed"
+    t.string   "text"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

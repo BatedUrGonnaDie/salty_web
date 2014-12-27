@@ -16,12 +16,4 @@ class Api::QuotesController < Api::ApplicationController
         render status: 400, json: {status: 400, error: "No quotes for this user."}
       end
     end
-
-    def limit
-      if params[:limit].present?
-        [0, params[:limit].to_i, 10].sort[1]
-      else
-        1
-      end
-    end
 end

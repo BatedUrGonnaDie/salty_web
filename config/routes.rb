@@ -22,9 +22,10 @@ Rails.application.routes.draw do
 
   # API Stuff
   namespace :api do
-    resources :users, only: [] do
+    resources :user, only: [] do
       resources :quotes, only: [:index]
-      resources :song, only: [:index, :new]
+      resources :puns, only: [:index]
+      resources :songs, only: [:index, :new]
     end
   end
 end

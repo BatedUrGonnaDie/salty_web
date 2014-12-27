@@ -1,3 +1,3 @@
-class Quote < ActiveRecord::Base
+class Quote < Textutil
   belongs_to :user
 end

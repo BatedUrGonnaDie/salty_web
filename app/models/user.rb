@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many  :commands
   has_many  :custom_commands
   has_many  :quotes
+  has_many  :puns
   accepts_nested_attributes_for :settings
   accepts_nested_attributes_for :commands
   accepts_nested_attributes_for :custom_commands

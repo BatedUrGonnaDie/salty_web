@@ -2,28 +2,42 @@ class Api::SongsController < Api::ApplicationController
   before_action :set_user
 
   def index
-    user_song = @user.settings[:osu_current_song]
-    if user_song == ""
-      render status: 400, json: {status: 400, error: "No current song."}
-    else
-      render status: 200, json: {status: 200, song: "#{user_song}"}
-    end
+    render status: 200, json: {status: 200, song: "#{get_song}"}
   end
 
   def new
-    user_key = params[:key]
-    u_setting = Settings.find_by(osu_current_song: user_to_find)
-    if u_settings
-      if params[:primary]
-        u_setting[:osu_current_song] = params[:primary]
-        render status: 200
-        return
-      else
-        render status: 200
-        return
-      end
+    check_for_key
+    check_for_primary
+    @u_settings[:osu_current_song] = params[:primary]
+    if @u_settings.save
+      render status: 200, json: {status: 200, song: @u_settings[:osu_current_song]}
     else
-      render status: 400, json: {status: 400, error: "Invalid Key."}
+      render status: 500, json: {status: 500, error: "Unable to save song."}
     end
   end
+
+  private
+    def get_song
+      @user.settings[:osu_current_song]
+    end
+
+    def check_for_key
+      if params[:key].present?
+        if @user.settings[:osu_song_key] != params[:key]
+          render status: 401, json: {status: 401, error: "This endpoint requires a valid key."}
+        else
+          @u_settings
+        end
+      else
+        render status: 400, json: {status: 400, error: "This endpoint requires the \"key\" parameter."}
+      end
+    end
+
+    def check_for_primary
+      if params[:primary].present?
+        if params[:primary].empty?
+          render status: 200
+        end
+      end
+    end
 end
