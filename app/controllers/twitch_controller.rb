@@ -10,6 +10,7 @@ class TwitchController < ApplicationController
       user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
       unless user_data.success?
         redirect_to salty_path
+      end
     else
       redirect_to salty_path
     end
