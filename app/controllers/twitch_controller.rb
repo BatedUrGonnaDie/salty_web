@@ -6,7 +6,13 @@ class TwitchController < ApplicationController
 
   def from_twitch
     oauth = HTTParty.post("https://api.twitch.tv/kraken/oauth2/token", query: full_twitch_info)['access_token']
-    user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
+    if oauth.success?
+      user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
+      unless user_data.success?
+        redirect_to salty_path
+    else
+      redirect_to salty_path
+    end
 
     user = User.find_by twitch_id: user_data['_id']
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141227095307) do
+ActiveRecord::Schema.define(version: 20150106075826) do
 
   create_table "commands", force: true do |t|
     t.integer "user_id"
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20141227095307) do
     t.integer  "user_id"
     t.string   "type"
     t.boolean  "reviewed"
-    t.string   "text"
+    t.text     "text"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
