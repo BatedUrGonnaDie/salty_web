@@ -3,9 +3,10 @@ class Api::PunsController < Api::ApplicationController
   before_action :check_for_puns
 
   def index
+    check_reviewed(@user.puns)
     render status: 200, json: {
       status: 200,
-      puns: @user.puns.sample(limit).map { |pun| {text: pun.text} }
+      puns: @r_text.sample(limit).map { |pun| {text: pun.text} }
     }
   end
 

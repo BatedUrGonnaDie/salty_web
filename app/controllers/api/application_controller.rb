@@ -16,4 +16,9 @@ class Api::ApplicationController < ApplicationController
         1
       end
     end
+
+    def check_reviewed(text_array)
+      @r_text = []
+      text_array.each {|t| @r_text.push(t) if t.reviewed}
+    end
 end

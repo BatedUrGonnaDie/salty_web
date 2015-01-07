@@ -5,8 +5,9 @@ class TwitchController < ApplicationController
   end
 
   def from_twitch
-    oauth = HTTParty.post("https://api.twitch.tv/kraken/oauth2/token", query: full_twitch_info)['access_token']
-    if oauth.success?
+    twitch_response = HTTParty.post("https://api.twitch.tv/kraken/oauth2/token", query: full_twitch_info)
+    if twitch_response.success?
+      oauth = twitch_response['access_token']
       user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
       unless user_data.success?
         redirect_to salty_path

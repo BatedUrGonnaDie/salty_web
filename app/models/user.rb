@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :commands
   accepts_nested_attributes_for :custom_commands
   accepts_nested_attributes_for :quotes
+  accepts_nested_attributes_for :puns
   before_save {
     #bot name if blank
     #bot oauth if blank
