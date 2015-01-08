@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :user, only: [] do
       resources :quotes, only: [:index]
       resources :puns, only: [:index]
-      resources :songs, only: [:index, :new]
+      resources :songs, only: [:index, :create]
     end
   end
 end
