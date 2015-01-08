@@ -5,7 +5,7 @@ class Api::SongsController < Api::ApplicationController
     render status: 200, json: {status: 200, song: "#{get_song}"}
   end
 
-  def new
+  def create
     check_for_key
     check_for_primary
     @u_settings[:osu_current_song] = params[:primary]
