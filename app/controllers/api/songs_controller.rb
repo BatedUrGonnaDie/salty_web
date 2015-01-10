@@ -39,6 +39,8 @@ class Api::SongsController < Api::ApplicationController
         if params[:primary].empty?
           render status: 200
         end
+      else
+        render status: 200
       end
     end
 end

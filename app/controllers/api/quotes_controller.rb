@@ -6,7 +6,7 @@ class Api::QuotesController < Api::ApplicationController
     check_reviewed(@user.quotes)
     render status: 200, json: {
       status: 200,
-      quotes: r_text.sample(limit).map { |quote| {text: quote.text} }
+      quotes: @r_text.sample(limit).map { |quote| {text: quote.text} }
     }
   end
 
