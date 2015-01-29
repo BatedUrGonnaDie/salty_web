@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:update, :q_update]
+  before_action :authenticate, only: [:update, :q_update]
+
   def salty
   end
 
   def update
-    user = User.find_by(twitch_name: params[:user][:twitch_name])
-
-    user.update_attributes(user_params)
+    @user.update_attributes(user_params)
 
     flash[:success] = "Settings Saved"
     redirect_to salty_path
@@ -15,9 +16,8 @@ class UsersController < ApplicationController
   end
 
   def q_update
-    user = User.find_by(twitch_name: params[:user][:twitch_name])
+    @user.update_attributes(user_params)
 
-    user.update_attributes(user_params)
     flash[:success] = "Quotes/Puns Updated"
     redirect_to salty_quotes_path
   end
@@ -33,4 +33,15 @@ class UsersController < ApplicationController
                                     :quotes_attributes => [:id, :text_type, :text, :reviewed])
     end
 
+    def set_user
+      unless @user = User.find_by(twitch_name: params[:user][:twitch_name])
+        raise ActiveRecord::RecordNotFound.new('Not Found')
+      end
+    end
+
+    def authenticate
+      unless current_user == @user
+        render status: 403, text: '403 Unauthorized'
+      end
+    end
 end
