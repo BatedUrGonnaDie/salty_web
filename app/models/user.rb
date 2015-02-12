@@ -20,9 +20,9 @@ class User < ActiveRecord::Base
     {
       commands:     Command.new(name: "commands",     on: false, admin: false, limit: 30),
       quote:        Command.new(name: "quote",        on: false, admin: false, limit: 30),
-      add_quote:    Command.new(name: "add_quote",    on: false, admin: false, limit: 30),
+      addquote:     Command.new(name: "add_quote",    on: false, admin: false, limit: 30),
       pun:          Command.new(name: "pun",          on: false, admin: false, limit: 30),
-      add_pun:      Command.new(name: "add_pun",      on: false, admin: false, limit: 30),
+      addpun:       Command.new(name: "add_pun",      on: false, admin: false, limit: 30),
       vote:         Command.new(name: "vote",         on: false, admin: false, limit: 30),
       uptime:       Command.new(name: "uptime",       on: false, admin: false, limit: 30),
       highlight:    Command.new(name: "highlight",    on: false, admin: false, limit: 30),
