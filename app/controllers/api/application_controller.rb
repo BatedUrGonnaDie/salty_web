@@ -9,6 +9,12 @@ class Api::ApplicationController < ApplicationController
       end
     end
 
+    def authenticate
+      unless current_user == @user
+        render status: 403, text: '403 Unauthorized'
+      end
+    end
+
     def limit
       if params[:limit].present?
         [0, params[:limit].to_i, 10].sort[1]

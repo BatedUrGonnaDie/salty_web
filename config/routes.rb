@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   # API Stuff
   namespace :api do
     resources :user, only: [] do
-      resources :quotes, only: [:index]
-      resources :puns, only: [:index]
+      resources :quotes, only: [:index, :create]
+      resources :puns, only: [:index, :create]
       resources :songs, only: [:index, :create]
     end
   end

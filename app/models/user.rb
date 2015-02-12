@@ -9,10 +9,8 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :custom_commands
   accepts_nested_attributes_for :quotes
   accepts_nested_attributes_for :puns
-  before_save {
-    #bot name if blank
-    #bot oauth if blank
-  }
+
+  validates_presence_of :twitch_name, :twitch_id, :oauth, :bot_nick, :bot_oauth
 
   def User.digest(token)
     Digest::SHA1.hexdigest(token.to_s)
