@@ -12,7 +12,7 @@ class Api::QuotesController < Api::ApplicationController
   end
 
   def create
-    quote = Quote.new(user_id: @user.id, reviewed: params[:reviewed].to_bool, text: params[:text])
+    quote = Quote.new(user_id: @user.id, reviewed: params[:reviewed], text: params[:text])
     if quote.save
       render status: 200, json: {
         status: 200,
