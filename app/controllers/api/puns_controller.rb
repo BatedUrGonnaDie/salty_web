@@ -12,7 +12,7 @@ class Api::PunsController < Api::ApplicationController
   end
 
   def create
-    pun = Pun.new(user_id: params[:user_id], reviewed: params[:reviewed], text: params[:text])
+    pun = Pun.new(user_id: @user.id, reviewed: params[:reviewed], text: params[:text])
     if pun.save
       render status: 200, json: {
         status: 200,
