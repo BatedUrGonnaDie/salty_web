@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update_attributes(user_params)
+    @user.update_attributes(user_params.reject{|_, v| _.to_s == "bot_oauth" && v.blank?})
 
     flash[:success] = "Settings Saved"
     redirect_to salty_path

@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :quotes
   accepts_nested_attributes_for :puns
 
-  validates_presence_of :twitch_name, :twitch_id, :oauth, :bot_nick
-  validates_presence_of :bot_oauth, allow_blank: true
+  validates_presence_of :twitch_name, :twitch_id, :oauth, :bot_nick, :bot_oauth
 
   def User.digest(token)
     Digest::SHA1.hexdigest(token.to_s)
