@@ -16,7 +16,7 @@ class Api::PunsController < Api::ApplicationController
     if pun.save
       render status: 200, json: {
         status: 200,
-        quote: pun
+        pun: pun
       }
     else
       render status: 400, json: {
