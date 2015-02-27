@@ -17,6 +17,10 @@
         <div class="pure-u-1-3">
           <%= d.check_box :reviewed %> Approved<br>
           <%= d.text_field :text %>
+          <% unless d.object.reviewed %>
+            <button type="button" class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Approve</button>
+          <% end %>
+          <button type="button" class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Delete</button>
         </div>
 
         <% if counter % 2 == 0 %>
@@ -27,7 +31,7 @@
         <% end %>
       <% end %>
 
-    </div>
+    </div><br><br><br>
     <input id="new_quote_input" type="text" name="new_quote_input"></input>
     <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quote_input').val()});" >Create New Quote</button>
     <% counter = 0 %>
