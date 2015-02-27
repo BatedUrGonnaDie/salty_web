@@ -28,7 +28,8 @@
       <% end %>
 
     </div>
-    <button type="button" class="pure-button pure-button-primary">New Quote</button>
+    <input id="new_quote_input" type="text" name="new_quote_input"></input>
+    <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quote_input').val()});" >Create New Quote</button>
     <% counter = 0 %>
     <h1>Puns</h1>
     <div class="pure-g">
@@ -46,8 +47,10 @@
           </div>
         <% end %>
       <% end %>
-    </div>
-    <button type="button" class="pure-button pure-button-primary">New Pun</button>
+      </div>
+    <input id="new_pun_input" type="text" name="new_pun_input"></input>
+    <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_pun_input').val()});" >Create New Pun</button>
+    
     <br><br>
     <%= f.submit "Save", class: "pure-button pure-button-primary" %>
   <% end %>
