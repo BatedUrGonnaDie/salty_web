@@ -1,7 +1,7 @@
 class Api::QuotesController < Api::ApplicationController
   before_action :set_user
   before_action :check_for_quotes, only: [:index]
-  before_action :authenticate, only: [:create, :update]
+  before_action :authenticate, only: [:create, :update, :destroy]
 
   def index
     check_reviewed(@user.quotes)
@@ -12,11 +12,11 @@ class Api::QuotesController < Api::ApplicationController
   end
 
   def create
-    quote = Quote.new(user_id: @user.id, reviewed: params[:reviewed], text: params[:text])
-    if quote.save
+    @quote = Quote.new(user_id: @user.id, reviewed: params[:reviewed], text: params[:text])
+    if @quote.save
       render status: 200, json: {
         status: 200,
-        quote: quote
+        quote: @quote
       }
     else
       render status: 400, json: {
@@ -32,6 +32,21 @@ class Api::QuotesController < Api::ApplicationController
       render status: 200, json: {
         status: 200,
         text: "Updated successfully"
+      }
+    else
+      render status: 400, json: {
+        status: 400,
+        error: "Something went wrong"
+      }
+    end
+  end
+
+  def destroy
+    @quote = Quote.find_by(id: params[:id])
+    if @quote.destroy
+      render status: 200, json: {
+        status: 200,
+        text: "Successfully destroyed"
       }
     else
       render status: 400, json: {
