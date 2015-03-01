@@ -20,9 +20,11 @@
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
     <% counter = 0 %>
+    <% counter_break = 0 %>
     <%= f.fields_for :commands do |d| %>
 
       <% counter = counter + 1 %>
+      <% counter_break = counter_break + 1 %>
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">
@@ -30,14 +32,17 @@
         </div>
         <h1>Speed Running Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 13 %>
+        <% counter_break = 1 %>
+      <% elsif counter == 14 %>
         </div>
         <h1>Osu Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 15 %>
+        <% counter_break = 1 %>
+      <% elsif counter == 16 %>
         </div>
         <h1>League Commands</h1>
         <div class="pure-g">
+        <% counter_break = 1 %>
       <% end %>
 
         <div class="pure-u-1-3">
@@ -46,7 +51,7 @@
           <%= d.check_box :admin %> Mod Only Command?<br>
           Cooldown: <br><%= d.number_field :limit%>
         </div>
-        <% if counter % 2 == 0 %>
+        <% if counter_break % 2 == 0 %>
           <br><br>
         <% else %>
           <div class="pure-u-1-3">

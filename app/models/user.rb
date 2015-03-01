@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
 
       wr:           Command.new(name: "wr",           on: false, admin: false, limit: 30),
       leaderboard:  Command.new(name: "leaderboard",  on: false, admin: false, limit: 30),
+      pb:           Command.new(name: "pb",           on: false, admin: false, limit: 30),
       splits:       Command.new(name: "splits",       on: false, admin: false, limit: 30),
       race:         Command.new(name: "race",         on: false, admin: false, limit: 30),
 
