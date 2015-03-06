@@ -6,9 +6,16 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update_attributes(user_params.reject{|_, v| _.to_s == "bot_oauth" && v.blank?})
+    if @user.update_attributes(user_params.reject{|k, v| k == :bot_oauth && v.blank?})
+      if send_update
+        flash[:success] = "Settings Saved"
+      else
+        flash[:warning] = "Settings could not be updated in the bot."
+      end
+    else
+      flash[:error] = "There was an error saving your settings."
+    end
 
-    flash[:success] = "Settings Saved"
     redirect_to salty_path
   end
 
@@ -43,5 +50,15 @@ class UsersController < ApplicationController
       unless current_user == @user
         render status: 403, text: '403 Unauthorized'
       end
+    end
+
+
+
+    def send_update
+      sock = TCPSocket.new(ENV["salty_ip_address"], 6666)
+      sock.write(ENV["salty_web_secret"])
+      sock.write JSON.generate({user_id: @user.id})
+      sock.close()
+      return true
     end
 end
