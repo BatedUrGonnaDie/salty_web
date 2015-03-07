@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params.reject{|k, v| k == :bot_oauth && v.blank?})
+    if @user.update_attributes(user_params.reject{|k, v| k.to_s == "bot_oauth" && v.blank?})
       if send_update
         flash[:success] = "Settings Saved"
       else
