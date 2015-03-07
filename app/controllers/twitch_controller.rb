@@ -23,7 +23,6 @@ class TwitchController < ApplicationController
       user.create_settings!
     end
 
-    user.oauth = oauth
     user.session = User.digest((SecureRandom.urlsafe_base64).to_s)
 
     if user.save

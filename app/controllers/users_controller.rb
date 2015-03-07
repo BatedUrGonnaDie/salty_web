@@ -34,7 +34,8 @@ class UsersController < ApplicationController
     def user_params
       params.require(:user).permit({:settings_attributes => [:id, :active, :youtube_link, :osu_link,
                                     :social_active, :social_output, :social_time, :social_messages,
-                                    :toobou_active, :toobou_limit, :toobou_trigger, :toobou_output]},
+                                    :toobou_active, :toobou_limit, :toobou_trigger, :toobou_output,
+                                    :voting_active, :voting_mods, :sub_message_active, :sub_message_text, :sub_message_resub]},
                                     :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name,
                                     :commands_attributes => [:id, :name, :on, :admin, :limit],
                                     :quotes_attributes => [:id, :text_type, :text, :reviewed])
@@ -51,8 +52,6 @@ class UsersController < ApplicationController
         render status: 403, text: '403 Unauthorized'
       end
     end
-
-
 
     def send_update
       sock = TCPSocket.new(ENV["salty_ip_address"], 6666)

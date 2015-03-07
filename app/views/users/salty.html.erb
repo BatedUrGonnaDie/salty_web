@@ -28,17 +28,17 @@
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 9 %>
+      <% elsif counter == 8 %>
         </div>
         <h1>Speed Running Commands</h1>
         <div class="pure-g">
         <% counter_break = 1 %>
-      <% elsif counter == 14 %>
+      <% elsif counter == 13 %>
         </div>
         <h1>Osu Commands</h1>
         <div class="pure-g">
         <% counter_break = 1 %>
-      <% elsif counter == 16 %>
+      <% elsif counter == 15 %>
         </div>
         <h1>League Commands</h1>
         <div class="pure-g">
@@ -64,6 +64,11 @@
     <%= f.fields_for :settings do |d| %>
       <%= d.check_box :youtube_link %> Link Youtube Videos In Chat<br><br>
       <%= d.check_box :osu_link %> Send Osu Songs In Chat To User? <small>*requires osu name</small><br><br>
+      <%= d.check_box :sub_message_active %> Have bot say a message when a user subscribes!<br>
+      Regular Sub: <%= d.text_field :sub_message_text %>
+      Resub: <%= d.text_field :sub_message_resub %><br><br>
+      <%= d.check_box :voting_active %> Ability to create polls in chat? <small>*broadcaster only</small><br>
+      <%= d.check_box :voting_mods %> Allow mods to create and end polls as well?<br><br>
       <div class="pure-g">
         <div class="pure-u-1-3">
           <b>Social</b><br>

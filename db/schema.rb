@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106075826) do
+ActiveRecord::Schema.define(version: 20150307095410) do
 
   create_table "commands", force: true do |t|
     t.integer "user_id"
@@ -33,19 +33,24 @@ ActiveRecord::Schema.define(version: 20150106075826) do
 
   create_table "settings", force: true do |t|
     t.integer "user_id"
-    t.boolean "active",           default: false
-    t.boolean "osu_link",         default: false
-    t.string  "osu_current_song", default: ""
-    t.boolean "youtube_link",     default: false
-    t.boolean "social_active",    default: false
+    t.boolean "active",             default: false
+    t.boolean "osu_link",           default: false
+    t.string  "osu_current_song",   default: ""
+    t.boolean "youtube_link",       default: false
+    t.boolean "social_active",      default: false
     t.string  "social_output"
     t.integer "social_time"
     t.integer "social_messages"
-    t.boolean "toobou_active",    default: false
+    t.boolean "toobou_active",      default: false
     t.integer "toobou_limit"
     t.string  "toobou_trigger"
     t.string  "toobou_output"
     t.string  "osu_song_key"
+    t.boolean "sub_message_active", default: false
+    t.string  "sub_message_text",   default: ""
+    t.string  "sub_message_resub",  default: ""
+    t.boolean "voting_active",      default: false
+    t.boolean "voting_mods",        default: false
   end
 
   create_table "textutils", force: true do |t|
@@ -60,7 +65,6 @@ ActiveRecord::Schema.define(version: 20150106075826) do
   create_table "users", force: true do |t|
     t.string   "twitch_name"
     t.integer  "twitch_id"
-    t.string   "oauth"
     t.string   "session"
     t.string   "email"
     t.string   "bot_nick"
