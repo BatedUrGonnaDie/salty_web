@@ -13,7 +13,7 @@ class UsersController < ApplicationController
         flash[:warning] = "Settings could not be updated in the bot."
       end
     else
-      flash[:error] = "There was an error saving your settings."
+      flash[:error] = "There was an error saving your settings.\n" + @user.errors.full_messages.join('\n')
     end
 
     redirect_to salty_path
