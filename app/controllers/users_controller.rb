@@ -23,9 +23,11 @@ class UsersController < ApplicationController
   end
 
   def q_update
-    @user.update_attributes(user_params)
-
-    flash[:success] = "Quotes/Puns Updated"
+    if @user.update_attributes(user_params)
+      flash[:success] = "Quotes/Puns Updated"
+    else
+      flash[:error] = "There was a problem saving updating the quotes and puns."
+    end
     redirect_to salty_quotes_path
   end
 
@@ -38,7 +40,8 @@ class UsersController < ApplicationController
                                     :voting_active, :voting_mods, :sub_message_active, :sub_message_text, :sub_message_resub]},
                                     :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name,
                                     :commands_attributes => [:id, :name, :on, :admin, :limit],
-                                    :quotes_attributes => [:id, :text_type, :text, :reviewed])
+                                    :quotes_attributes => [:text],
+                                    :pun_attributes => [:text])
     end
 
     def set_user

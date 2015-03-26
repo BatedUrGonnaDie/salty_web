@@ -16,17 +16,17 @@ class TwitchController < ApplicationController
       redirect_to salty_path
     end
 
-    user = User.find_by(twitch_id: user_data['_id'])
+    @user = User.find_by(twitch_id: user_data['_id'])
 
-    if user.nil?
-      user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
-      user.create_settings!
+    if @user.nil?
+      @user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
+      @user.create_settings!
     end
 
-    user.session = User.digest((SecureRandom.urlsafe_base64).to_s)
+    @user.session = User.digest((SecureRandom.urlsafe_base64).to_s)
 
-    if user.save
-      sign_in user
+    if @user.save
+      sign_in @user
       redirect_to salty_path
     else
       redirect_to root_path
