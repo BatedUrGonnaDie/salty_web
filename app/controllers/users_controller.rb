@@ -40,8 +40,8 @@ class UsersController < ApplicationController
                                     :voting_active, :voting_mods, :sub_message_active, :sub_message_text, :sub_message_resub]},
                                     :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name,
                                     :commands_attributes => [:id, :name, :on, :admin, :limit],
-                                    :quotes_attributes => [:text, :reviewed],
-                                    :pun_attributes => [:text, :reviewed])
+                                    :quotes_attributes => [:id, :text, :reviewed],
+                                    :pun_attributes => [:id, :text, :reviewed])
     end
 
     def set_user
