@@ -59,7 +59,7 @@
         <% end %>
       <% end %>
     </div>
-    
+
     <h1>Random Options</h1>
     <%= f.fields_for :settings do |d| %>
       <%= d.check_box :youtube_link %> Link Youtube Videos In Chat<br><br>
@@ -74,7 +74,7 @@
           <b>Social</b><br>
           <%= d.check_box :social_active %> Enabled<br>
           Output: <%= d.text_field :social_output %>
-          Time Between Messages: <%= d.number_field :social_time %>
+          Time Between Messages: <small>*Time is in minutes</small><%= d.number_field :social_time %>
           Number of Messages Before Sending: <%= d.number_field :social_messages %>
         </div>
         <div class="pure-u-1-3">
