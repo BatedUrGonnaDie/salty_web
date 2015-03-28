@@ -15,12 +15,13 @@
       <%= f.fields_for :quotes do |d| %>
         <% counter = counter + 1 %>
         <div class="pure-u-1-3">
-          <%= d.text_field :text %>
-          <% unless d.object.reviewed %>
-            <button type="button" class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Approve</button>
-          <% end %>
-          <button type="button" class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Delete</button>
-          <br><br>
+          <div id="quotes-<%= d.object.id %>", class="textutil">
+            <%= d.text_field :text %>
+            <% unless d.object.reviewed %>
+              <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Approve</button>
+            <% end %>
+            <button type="button" id="delete-<%= d.object.id %>", class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Delete</button>
+          </div>
         </div>
 
         <% if counter % 2 == 0 %>
@@ -40,12 +41,13 @@
       <%= f.fields_for :puns do |d| %>
         <% counter = counter + 1 %>
         <div class="pure-u-1-3">
-          <%= d.text_field :text %>
-          <% unless d.object.reviewed %>
-            <button type="button" class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Approve</button>
-          <% end %>
-          <button type="button" class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Delete</button>
-          <br><br>
+          <div id="puns-<%= d.object.id %>", class="textutil">
+            <%= d.text_field :text %>
+            <% unless d.object.reviewed %>
+              <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Approve</button>
+            <% end %>
+            <button type="button" id="delete-<%= d.object.id %>", class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Delete</button>
+          </div>
         </div>
 
         <% if counter % 2 == 0 %>
@@ -58,7 +60,7 @@
       </div><br><br><br>
     <input id="new_pun_input" type="text" name="new_pun_input"></input>
     <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_pun_input').val()});" >Create New Pun</button>
-    
+
     <br><br>
     <%= f.submit "Save", class: "pure-button pure-button-primary" %>
   <% end %>
