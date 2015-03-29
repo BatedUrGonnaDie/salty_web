@@ -62,9 +62,7 @@ class UsersController < ApplicationController
       sock.write JSON.generate({user_id: @user.id})
       sock.close()
       return true
-    rescue Errno::ETIMEDOUT
-      return false
-    rescue Errno::ECONNREFUSED
+    rescue Errno::ETIMEDOUT, Errno::ECONNREFUSED
       return false
     end
 end
