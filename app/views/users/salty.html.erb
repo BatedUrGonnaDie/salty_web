@@ -1,4 +1,4 @@
-<%= provide(:title, "Salty Bot") %>
+<%= provide(:title, "SaltyBot") %>
 <% if signed_in? %>
   <div style="float: left; display: inline-block;">
     You are signed in as <%= @current_user.twitch_name %>.<br>
@@ -10,7 +10,7 @@
   <%= form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f| %>
     <h1>General Info</h1>
     <%= f.fields_for :settings do |d| %>
-      <%= d.check_box :active %> Enable Bot In Desired Channel
+      <%= d.check_box :active %> Enable Bot In Your Channel
     <% end %>
     <br><br>
     Channel to Join: <%= f.text_field :twitch_name, readonly: true %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150307095410) do
+ActiveRecord::Schema.define(version: 20150401101203) do
 
   create_table "commands", force: true do |t|
     t.integer "user_id"
@@ -72,7 +72,6 @@ ActiveRecord::Schema.define(version: 20150307095410) do
     t.string   "srl_nick"
     t.string   "summoner_name"
     t.string   "osu_nick"
-    t.integer  "splits_io_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
