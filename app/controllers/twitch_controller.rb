@@ -29,6 +29,7 @@ class TwitchController < ApplicationController
       sign_in @user
       redirect_to salty_path
     else
+      flash[:error] = @user.errors
       redirect_to root_path
     end
   end
