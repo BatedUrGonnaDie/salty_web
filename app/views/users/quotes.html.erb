@@ -13,8 +13,8 @@
     <div class="pure-g">
 
       <%= f.fields_for :quotes do |d| %>
-        <div class="pure-u-1-2">
-          <div id="quotes-<%= d.object.id %>", class="textutil">
+        <div id="quotes-<%= d.object.id %>", class="pure-u-1-2">
+          <div class="textutil">
             <%= d.text_field :text %>
             <% unless d.object.reviewed %>
               <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Approve</button>
@@ -30,8 +30,8 @@
     <h1>Puns</h1>
     <div class="pure-g">
       <%= f.fields_for :puns do |d| %>
-        <div class="pure-u-1-2">
-          <div id="puns-<%= d.object.id %>", class="textutil">
+        <div id="puns-<%= d.object.id %>", class="pure-u-1-2">
+          <div class="textutil">
             <%= d.text_field :text %>
             <% unless d.object.reviewed %>
               <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Approve</button>
