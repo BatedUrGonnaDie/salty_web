@@ -1,7 +1,8 @@
-class Api::QuotesController < Api::ApplicationController
+class Api::Users::QuotesController < Api::ApplicationController
   before_action :set_user
   before_action :check_for_quotes, only: [:index]
   before_action :authenticate, only: [:create, :update, :destroy]
+  before_action :set_util, only: [:update, :destroy]
 
   def index
     check_reviewed(@user.quotes)
@@ -21,14 +22,13 @@ class Api::QuotesController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        error: "Failed to save."
+        message: "Failed to save."
       }
     end
   end
 
   def update
-    @quote = Quote.find_by(id: params[:id])
-    if @quote.update_attribute :reviewed, params[:reviewed]
+    if @tutil.update_attribute :reviewed, params[:reviewed]
       render status: 200, json: {
         status: 200,
         text: "Updated successfully"
@@ -36,22 +36,21 @@ class Api::QuotesController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        error: "Something went wrong"
+        message: "Something went wrong"
       }
     end
   end
 
   def destroy
-    @quote = Quote.find_by(id: params[:id])
-    if @quote.destroy
+    if @tutil.destroy
       render status: 200, json: {
         status: 200,
-        text: "Successfully destroyed"
+        message: "Successfully destroyed"
       }
     else
       render status: 400, json: {
         status: 400,
-        error: "Something went wrong"
+        message: "Something went wrong"
       }
     end
   end
@@ -60,7 +59,7 @@ class Api::QuotesController < Api::ApplicationController
 
     def check_for_quotes
       if @user.quotes.empty?
-        render status: 400, json: {status: 400, error: "No quotes for this user."}
+        render status: 400, json: {status: 400, message: "No quotes for this user."}
       end
     end
 end

@@ -1,7 +1,8 @@
-class Api::PunsController < Api::ApplicationController
+class Api::Users::PunsController < Api::ApplicationController
   before_action :set_user
   before_action :check_for_puns, only: [:index]
   before_action :authenticate, only: [:create, :update, :destroy]
+  before_action :set_util, only: [:update, :destroy]
 
   def index
     check_reviewed(@user.puns)
@@ -21,37 +22,35 @@ class Api::PunsController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        error: "Failed to save."
+        message: "Failed to save."
       }
     end
   end
 
   def update
-    @pun = Pun.find_by(id: params[:id])
-    if @pun.update_attribute :reviewed, params[:reviewed]
+    if @tutil.update_attribute(:reviewed, params[:reviewed])
       render status: 200, json: {
         status: 200,
-        text: "Updated successfully"
+        message: "Updated successfully"
       }
     else
       render status: 400, json: {
         status: 400,
-        error: "Something went wrong"
+        message: "Something went wrong"
       }
     end
   end
 
   def destroy
-    @pun = Pun.find_by(id: params[:id])
-    if @pun.destroy
+    if @tutil.destroy
       render status: 200, json: {
         status: 200,
-        text: "Successfully destroyed"
+        message: "Successfully destroyed"
       }
     else
       render status: 400, json: {
         status: 400,
-        error: "Something went wrong"
+        message: "Something went wrong"
       }
     end
   end
@@ -60,7 +59,7 @@ class Api::PunsController < Api::ApplicationController
 
     def check_for_puns
       if @user.puns.empty?
-        render status: 400, json: {status: 400, error: "No puns for this user."}
+        render status: 400, json: {status: 400, message: "No puns for this user."}
       end
     end
 end

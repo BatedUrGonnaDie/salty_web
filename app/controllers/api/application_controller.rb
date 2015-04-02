@@ -5,13 +5,13 @@ class Api::ApplicationController < ApplicationController
   private
     def set_user
       unless @user = User.find_by(twitch_name: params[:user_id])
-        render status: 400, json: {status: 400, error: "Invalid user."}
+        render status: 404, json: {status: 404, message: "Invalid user."}
       end
     end
 
     def authenticate
       unless current_user == @user
-        render status: 403, text: '403 Unauthorized'
+        render status: 403, message: '403 Unauthorized'
       end
     end
 
@@ -26,5 +26,11 @@ class Api::ApplicationController < ApplicationController
     def check_reviewed(text_array)
       @r_text = []
       text_array.each {|t| @r_text.push(t) if t.reviewed}
+    end
+
+    def set_util
+      @tutil = Textutil.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render status: 404, json: {status: 404, message: "Textutil with '#{params[:id]}' not found."}
     end
 end

@@ -1,4 +1,4 @@
-class Api::SongsController < Api::ApplicationController
+class Api::Users::SongsController < Api::ApplicationController
   skip_before_filter :verify_authenticity_token, only: [:create]
   before_action :set_user
 
@@ -13,7 +13,7 @@ class Api::SongsController < Api::ApplicationController
     if @u_settings.save
       render status: 200, json: {status: 200, song: @u_settings[:osu_current_song]}
     else
-      render status: 500, json: {status: 500, error: "Unable to save song."}
+      render status: 400, json: {status: 400, message: "Unable to save song."}
     end
   end
 
@@ -25,12 +25,12 @@ class Api::SongsController < Api::ApplicationController
     def check_for_key
       if params[:key].present?
         if @user.settings[:osu_song_key] != params[:key]
-          render status: 401, json: {status: 401, error: "This endpoint requires a valid key."}
+          render status: 401, json: {status: 401, message: "This endpoint requires a valid key."}
         else
           @u_settings
         end
       else
-        render status: 400, json: {status: 400, error: "This endpoint requires the \"key\" parameter."}
+        render status: 400, json: {status: 400, message: "This endpoint requires the \"key\" parameter."}
       end
     end
 
