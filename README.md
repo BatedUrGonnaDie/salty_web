@@ -7,7 +7,7 @@ Running locally for SaltyBot
 `salty_web_secret` This should be the same as the web secret in python bot config file.
 `DATABASE_URL` This should be a postgresql database.
 
-Clone the repo, and run 
+Clone the repo, and run
 `bundle install` followed by `rails server`
 
 If something does not work correctly submit an issue so I can fix it.

@@ -20,12 +20,13 @@ class TwitchController < ApplicationController
 
     if @user.nil?
       @user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
+      new_user = True
     end
 
     @user.session = User.digest((SecureRandom.urlsafe_base64).to_s)
 
     if @user.save
-      @user.create_settings!
+      @user.create_settings! if new_user
       sign_in @user
       redirect_to salty_path
     else
