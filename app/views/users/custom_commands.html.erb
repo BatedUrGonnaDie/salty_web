@@ -1,0 +1,23 @@
+<%= provide(title: "Custom Commands") %>
+<% if signed_in? %>
+  <div style="float: left; display: inline-block;">
+    You are signed in as <%= @current_user.twitch_name %>.<br>
+  </div>
+  <div style="float: right; display: inline-block;">
+    <%= link_to "Main Page", salty_path, class: "pure-button" %>
+    <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
+  </div><br><br>
+  <%= form_for @current_user, update_salty_customs_path, html: {class: "pure-form" do |f| %>
+    <%= f.hidden_field :twitch_name %>
+    <h1>Custom Commands</h1>
+    <%= f.fields_for :custom_commands do |cc| %>
+      <div id="ccustom-<%= d.object.id %>", class="pure-u-1-2">
+        <div class="custom_command">
+          placeholder stuff goes here
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  Please sign in on the main salty page located <%= link_to "here.", salty_path %>
+<% end %>
