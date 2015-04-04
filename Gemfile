@@ -1,25 +1,28 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
+ruby '2.2.1'
 
-gem 'rails', '4.1.5'
-gem 'sass-rails', '~> 4.0.3'
+gem 'rails'
+
+gem 'sass-rails'
+gem 'bootstrap-sass'
 gem 'purecss'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+
+gem 'uglifier'
 gem 'jquery-rails'
-gem 'jbuilder', '~> 2.0'
-gem 'bootstrap-sass', '2.3.2.0'
-gem 'pg', '0.17.1'
-gem 'httparty', '0.13.1'
-gem 'sdoc', '0.4.0', group: :doc
+
+gem 'jbuilder'
+
+gem 'httparty'
+gem 'sdoc', group: :doc
 
 group :development do
-  gem 'spring',  '1.1.3'
+  gem 'spring'
   gem 'sqlite3'
 end
 
 group :production do
-  gem 'rails_12factor', '0.0.2'
-  gem 'unicorn', '4.8.3'
+  gem 'rails_12factor'
+  gem 'unicorn'
+  gem 'pg'
 end
 
