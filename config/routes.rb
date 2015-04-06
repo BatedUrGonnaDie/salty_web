@@ -23,10 +23,12 @@ Rails.application.routes.draw do
   # API Stuff
   namespace :api do
     resources :users, only: [] do
-      resources :quotes, only: [:index, :create, :update, :destroy]
-      resources :puns, only: [:index, :create, :update, :destroy]
-      resources :custom_commands, only: [:create, :update, :destroy]
-      resources :songs, only: [:index, :create]
+      scope module: :users do
+        resources :quotes, only: [:index, :create, :update, :destroy]
+        resources :puns, only: [:index, :create, :update, :destroy]
+        resources :custom_commands, only: [:create, :update, :destroy]
+        resources :songs, only: [:index, :create]
+      end
     end
   end
 end
