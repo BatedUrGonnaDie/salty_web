@@ -10,9 +10,8 @@ gem 'purecss'
 gem 'uglifier'
 gem 'jquery-rails'
 
-gem 'jbuilder'
-
 gem 'httparty'
+
 gem 'sdoc', group: :doc
 
 group :development do
