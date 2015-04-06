@@ -1,7 +1,7 @@
 $(function() {
     window.approve_textutil = function(util) {
         $.ajax({
-            url: "/api/user/" + util["user"] + "/" + util["type"] + "/" + util["id"],
+            url: "/api/users/" + util["user"] + "/" + util["type"] + "/" + util["id"],
             type: "PUT",
             data: "&reviewed=1",
             success: function() {
