@@ -13,7 +13,11 @@
     <%= f.fields_for :custom_commands do |cc| %>
       <div id="ccustom-<%= d.object.id %>", class="pure-u-1-2">
         <div class="custom_command">
-          placeholder stuff goes here
+          Command Trigger: <%= cc.textfield :trigger %>
+          <%= cc.check_box :on %> Enabled<br>
+          <%= cc.check_box :admin %> Mod Only Command?<br>
+          Limit: <%= cc.number_field :limit %>
+          Output: <%= cc.textfield :output %>
         </div>
       </div>
     <% end %>
