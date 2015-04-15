@@ -12,6 +12,7 @@ gem 'jquery-rails'
 
 gem 'httparty'
 
+gem 'figaro'
 gem 'sdoc', group: :doc
 
 group :development do
