@@ -13,7 +13,7 @@
 
 ActiveRecord::Schema.define(version: 20150401101203) do
 
-  create_table "commands", force: true do |t|
+  create_table "commands", force: :cascade do |t|
     t.integer "user_id"
     t.string  "name"
     t.boolean "on"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20150401101203) do
     t.integer "limit"
   end
 
-  create_table "custom_commands", force: true do |t|
+  create_table "custom_commands", force: :cascade do |t|
     t.integer "user_id"
     t.string  "name"
     t.string  "trigger"
@@ -31,7 +31,7 @@ ActiveRecord::Schema.define(version: 20150401101203) do
     t.string  "output"
   end
 
-  create_table "settings", force: true do |t|
+  create_table "settings", force: :cascade do |t|
     t.integer "user_id"
     t.boolean "active",             default: false
     t.boolean "osu_link",           default: false
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20150401101203) do
     t.boolean "voting_mods",        default: false
   end
 
-  create_table "textutils", force: true do |t|
+  create_table "textutils", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "type"
     t.boolean  "reviewed"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20150401101203) do
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "twitch_name"
     t.integer  "twitch_id"
     t.string   "session"
