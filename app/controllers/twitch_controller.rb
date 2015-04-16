@@ -20,7 +20,7 @@ class TwitchController < ApplicationController
 
     if @user.nil?
       @user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
-      new_user = True
+      new_user = true
     end
 
     @user.session = User.digest((SecureRandom.urlsafe_base64).to_s)
