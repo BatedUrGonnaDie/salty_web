@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:update, :q_update]
-  before_action :authenticate, only: [:update, :q_update]
+  before_action :set_user, only: [:update, :q_update, :cc_update]
+  before_action :authenticate, only: [:update, :q_update, :cc_update]
 
   def salty
   end
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     else
       flash[:error] = "There was a problem updating your custom commands."
     end
-    redirect_to update_custom_commands_path
+    redirect_to custom_commands_path
   end
 
   private

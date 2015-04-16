@@ -1,4 +1,4 @@
-<%= provide(title: "Custom Commands") %>
+<%= provide(:title, "Custom Commands") %>
 <% if signed_in? %>
   <div style="float: left; display: inline-block;">
     You are signed in as <%= @current_user.twitch_name %>.<br>
@@ -7,7 +7,7 @@
     <%= link_to "Main Page", salty_path, class: "pure-button" %>
     <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
   </div><br><br>
-  <%= form_for @current_user, update_salty_customs_path, html: {class: "pure-form" do |f| %>
+  <%= form_for @current_user, url: update_custom_commands_path, html: {class: "pure-form"} do |f| %>
     <%= f.hidden_field :twitch_name %>
     <h1>Custom Commands</h1>
     <%= f.fields_for :custom_commands do |cc| %>
@@ -21,7 +21,16 @@
         </div>
       </div>
     <% end %>
-  <% end %>
+    <%= f.submit "Save", class: "pure-button pure-button-primary" %>
+  <% end %><br><br>
+  <h2>Add New Commands</h2>
+  <div class="pure-u-1-3">
+    Trigger: <input id="new-trigger" type="text" name="new-trigger"></input>
+    <input id="new-admin" type="checkbox" name="new-admin" /> Mod Command?<br>
+    Limit: <input id="new-limit" type="number" name="new-limit"></input>
+    Output: <input id="new-output" type="text" name="new-output"></input>
+    <button type="button" class="pure-button pure-button-primary" onclick="">Create New Command</button>
+  </div>
 <% else %>
   Please sign in on the main salty page located <%= link_to "here.", salty_path %>
 <% end %>
