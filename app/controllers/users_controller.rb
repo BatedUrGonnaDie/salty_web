@@ -70,6 +70,9 @@ class UsersController < ApplicationController
     end
 
     def send_update
+      unless !Rails.env.development?
+        return true
+      end
       sock = TCPSocket.new(ENV["salty_ip_address"], 6666)
       sock.write(ENV["salty_web_secret"])
       sock.write JSON.generate({user_id: @user.id})
