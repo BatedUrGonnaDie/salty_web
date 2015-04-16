@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 ruby '2.2.1'
 
 gem 'rails'
+gem 'thin'
 
 gem 'sass-rails'
 gem 'bootstrap-sass', '2.3.2.0'
