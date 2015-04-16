@@ -10,7 +10,7 @@
   <%= form_for @current_user, url: update_salty_quotes_path, html: {class: "pure-form"} do |f| %>
     <%= f.hidden_field :twitch_name %>
     <h1>Quotes</h1>
-    <div class="pure-g">
+    <div id="quotes-form" class="pure-g">
 
       <%= f.fields_for :quotes do |d| %>
         <div id="quotes-<%= d.object.id %>", class="pure-u-1-2">
@@ -25,10 +25,10 @@
       <% end %>
 
     </div><br><br><br>
-    <input id="new_quote_input" type="text" name="new_quote_input"></input>
-    <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quote_input').val()});" >Create New Quote</button>
+    <input id="new_quotes_input" type="text" name="new_quote_input"></input>
+    <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quotes_input').val()});" >Create New Quote</button>
     <h1>Puns</h1>
-    <div class="pure-g">
+    <div id="puns-form" class="pure-g">
       <%= f.fields_for :puns do |d| %>
         <div id="puns-<%= d.object.id %>", class="pure-u-1-2">
           <div class="textutil">
@@ -41,8 +41,8 @@
         </div>
       <% end %>
       </div><br><br><br>
-    <input id="new_pun_input" type="text" name="new_pun_input"></input>
-    <button type="button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_pun_input').val()});" >Create New Pun</button>
+    <input id="new_puns_input" type="text" name="new_pun_input"></input>
+    <button type="button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_puns_input').val()});" >Create New Pun</button>
 
     <br><br>
     <%= f.submit "Save", class: "pure-button pure-button-primary" %>
