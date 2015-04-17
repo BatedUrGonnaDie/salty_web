@@ -10,17 +10,18 @@
   <%= form_for @current_user, url: update_custom_commands_path, html: {class: "pure-form"} do |f| %>
     <%= f.hidden_field :twitch_name %>
     <h1>Custom Commands</h1>
-    <%= f.fields_for :custom_commands do |cc| %>
-      <div id="ccustom-<%= d.object.id %>", class="pure-u-1-2">
-        <div class="custom_command">
-          Command Trigger: <%= cc.textfield :trigger %>
-          <%= cc.check_box :on %> Enabled<br>
-          <%= cc.check_box :admin %> Mod Only Command?<br>
-          Limit: <%= cc.number_field :limit %>
-          Output: <%= cc.textfield :output %>
+    <div id="custom-commands-form" class="pure-g">
+      <%= f.fields_for :custom_commands do |cc| %>
+        <div id="ccustom-<%= cc.object.id %>" class="pure-u-1-2">
+          <div class="custom_command">
+            <%= cc.check_box :on %> Enabled <%= cc.check_box :admin, style: "margin-left: 1em;" %> Mod Only Command?<br>
+            Command Trigger: <%= cc.text_field :trigger %>
+            Limit: <%= cc.number_field :limit %>
+            Output: <%= cc.text_field :output %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
     <%= f.submit "Save", class: "pure-button pure-button-primary" %>
   <% end %><br><br>
   <h2>Add New Commands</h2>
@@ -29,7 +30,7 @@
     <input id="new-admin" type="checkbox" name="new-admin" /> Mod Command?<br>
     Limit: <input id="new-limit" type="number" name="new-limit"></input>
     Output: <input id="new-output" type="text" name="new-output"></input>
-    <button type="button" class="pure-button pure-button-primary" onclick="">Create New Command</button>
+    <button type="button" class="pure-button pure-button-primary" onclick="window.create_custom_command({user: '<%= @current_user.twitch_name %>', on: true, trigger: $('#new-trigger').val(), admin: $('#new-admin').is(':checked'), limit: $('#new-limit').val(), output: $('#new-output').val()})">Create New Command</button>
   </div>
 <% else %>
   Please sign in on the main salty page located <%= link_to "here.", salty_path %>

@@ -31,7 +31,7 @@ Rails.application.routes.draw do
       scope module: :users do
         resources :quotes, only: [:index, :create, :update, :destroy]
         resources :puns, only: [:index, :create, :update, :destroy]
-        resources :custom_commands, only: [:create, :update, :destroy]
+        resources :custom_commands, only: [:create, :destroy]
         resources :songs, only: [:index, :create]
       end
     end
