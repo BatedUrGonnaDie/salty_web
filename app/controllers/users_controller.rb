@@ -36,7 +36,11 @@ class UsersController < ApplicationController
 
   def cc_update
     if @user.update_attributes(user_params)
-      flash[:success] = "Custom Commands Updated"
+      if send_update
+        flash[:success] = "Custom Commands Updated"
+      else
+        flash[:warning] = "Custom commands could not be updated in the bot."
+      end
     else
       flash[:error] = "There was a problem updating your custom commands."
     end
