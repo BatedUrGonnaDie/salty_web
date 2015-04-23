@@ -10,9 +10,11 @@ class TwitchController < ApplicationController
       oauth = twitch_response['access_token']
       user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
       unless user_data.success?
+        flash[:error] = "There was an error retrieving data from twitch."
         redirect_to salty_path
       end
     else
+      flash[:error] = "There was an error retrieving data from twitch."
       redirect_to salty_path
     end
 

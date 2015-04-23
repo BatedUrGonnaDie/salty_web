@@ -47,10 +47,12 @@
       <% end %>
 
         <div class="pure-u-1-3">
-          <b><%= d.text_field :name, readonly: true %></b><br>
-          <%= d.check_box :on %> Enabled<br>
-          <%= d.check_box :admin %> Mod Only Command?<br>
-          Cooldown: <br><%= d.number_field :limit%>
+          <div class="command">
+            <b><%= d.text_field :name, readonly: true %></b><br>
+            <%= d.check_box :on %> Enabled<br>
+            <%= d.check_box :admin %> Mod Only Command?<br>
+            Cooldown: <br><%= d.number_field :limit%>
+          </div>
         </div>
         <% if counter_break % 2 == 0 %>
           <br><br>

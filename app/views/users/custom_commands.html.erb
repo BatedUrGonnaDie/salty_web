@@ -13,7 +13,7 @@
     <div id="custom-commands-form" class="pure-g">
       <%= f.fields_for :custom_commands do |cc| %>
         <div id="ccustom-<%= cc.object.id %>" class="pure-u-1-2">
-          <div class="custom_command">
+          <div class="custom-command">
             <%= cc.check_box :on %> Enabled <%= cc.check_box :admin, style: "margin-left: 1em;" %> Mod Only Command?<br>
             Command Trigger: <%= cc.text_field :trigger %>
             Limit: <%= cc.number_field :limit %>
