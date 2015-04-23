@@ -23,8 +23,6 @@ Rails.application.routes.draw do
   get   'twitch/dashboard',           to: 'dashboard#dashboard',    as: :dashboard
 
 
-  get   'github/mask',                to: 'static_pages#mask',      as: :mask
-
   # API Stuff
   namespace :api do
     resources :users, only: [] do
