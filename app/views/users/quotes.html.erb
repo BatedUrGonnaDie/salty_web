@@ -1,12 +1,15 @@
 <%= provide(:title, "Quotes") %>
 <% if signed_in? %>
-  <div style="float: left; display: inline-block;">
-    You are signed in as <%= @current_user.twitch_name %>.<br>
+  <div id="sub-header">
+    <div id="login-info">
+      You are signed in as <%= @current_user.twitch_name %>.<br>
+    </div>
+    <div id="main-buttons">
+      <%= link_to "Main Page", salty_path, class: "pure-button" %>
+      <%= link_to "Custom Commands", custom_commands_path, class: "pure-button" %>
+      <%= link_to "Sign Out", sign_out_path, class: "pure-button" %>
+    </div>
   </div>
-  <div style="float: right; display: inline-block;">
-    <%= link_to "Main Page", salty_path, class: "pure-button" %>
-    <%= link_to "Sign Out", sign_out_path, class: "pure-button" %><br>
-  </div><br><br>
   <%= form_for @current_user, url: update_salty_quotes_path, html: {class: "pure-form"} do |f| %>
     <%= f.hidden_field :twitch_name %>
     <h1>Quotes</h1>
@@ -24,9 +27,11 @@
         </div>
       <% end %>
 
-    </div><br><br><br>
-    <input id="new_quotes_input" type="text" name="new_quote_input"></input>
-    <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quotes_input').val()});" >Create New Quote</button>
+    </div>
+    <div id="new-qoute">
+      <input id="new_quotes_input" type="text" name="new_quote_input"></input>
+      <button type= "button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'quotes', text: $('#new_quotes_input').val()});" >Create New Quote</button>
+    </div>
     <h1>Puns</h1>
     <div id="puns-form" class="pure-g">
       <%= f.fields_for :puns do |d| %>
@@ -40,10 +45,11 @@
           </div>
         </div>
       <% end %>
-      </div><br><br><br>
-    <input id="new_puns_input" type="text" name="new_pun_input"></input>
-    <button type="button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_puns_input').val()});" >Create New Pun</button>
-
+      </div>
+      <div id="new-pun">
+        <input id="new_puns_input" type="text" name="new_pun_input"></input>
+        <button type="button" class="pure-button pure-button-primary" onclick="window.create_textutil({user: '<%= @current_user.twitch_name %>', type: 'puns', text: $('#new_puns_input').val()});" >Create New Pun</button>
+      </div>
     <br><br>
     <%= f.submit "Save", class: "pure-button pure-button-primary" %>
   <% end %>

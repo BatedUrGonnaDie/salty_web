@@ -152,9 +152,32 @@ input {
   }
 }
 
+#sub-header {
+  margin-bottom: 4em;
+}
+
+#login-info {
+  float: left;
+  display: inline-block;
+}
+
+#main-buttons {
+  float: right;
+  display: inline-block;
+}
+
+#quotes-form, #puns-form {
+  margin-bottom: 4em;
+}
+
 .textutil {
   margin-bottom: 1em;
   padding: 2em;
+}
+
+#new-qoute, #new-pun, #new-custom{
+  padding-left: 2em;
+  padding-right: 2em;
 }
 
 .command {
