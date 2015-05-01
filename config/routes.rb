@@ -17,10 +17,10 @@ Rails.application.routes.draw do
   patch 'twitch/salty/custom/update', to: 'users#cc_update',        as: :update_custom_commands
 
 
-  get   'twitch/dashboard/out',       to: 'dashboard#to_twitch',    as: :dashboard_out
-  get   'twitch/dashboard/auth',      to: 'dashboard#from_twitch',  as: :dashboard_auth
+  get   'twitch/pydash/out',          to: 'dashboard#to_twitch',    as: :dashboard_out
+  get   'twitch/pydash/auth',         to: 'dashboard#from_twitch',  as: :dashboard_auth
 
-  get   'twitch/dashboard',           to: 'dashboard#dashboard',    as: :dashboard
+  get   'twitch/pydash',              to: 'dashboard#dashboard',    as: :dashboard
 
 
   # API Stuff
