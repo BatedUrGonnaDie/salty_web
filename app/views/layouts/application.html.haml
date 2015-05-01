@@ -1,0 +1,16 @@
+!!!
+%html
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title= yield :title
+    = stylesheet_link_tag "application.css"
+    = javascript_include_tag "application.js"
+    = csrf_meta_tags
+    = favicon_link_tag
+  %body
+    = render 'layouts/header'
+    .container
+      - flash.each do |key, value|
+        %div{:class => "alert alert-#{key}"}= value
+      = yield
+      = render 'layouts/footer'

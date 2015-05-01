@@ -3,6 +3,7 @@ ruby '2.2.1'
 
 gem 'rails'
 gem 'thin'
+gem 'haml-rails'
 
 gem 'sass-rails'
 gem 'bootstrap-sass'
