@@ -13,6 +13,7 @@
   <%= form_for @current_user, url: update_custom_commands_path, html: {class: "pure-form"} do |f| %>
     <%= f.hidden_field :twitch_name %>
     <h1>Custom Commands</h1>
+    <h2>Please do not add prefixes for commands, they will be added automatically (ex: !)</h2>
     <div id="custom-commands-form" class="pure-g">
       <%= f.fields_for :custom_commands do |cc| %>
         <div id="ccustom-<%= cc.object.id %>" class="pure-u-1-2">

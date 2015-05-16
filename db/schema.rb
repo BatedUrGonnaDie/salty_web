@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150418075702) do
+ActiveRecord::Schema.define(version: 20150516082051) do
 
   create_table "commands", force: :cascade do |t|
     t.integer "user_id"
@@ -62,17 +62,18 @@ ActiveRecord::Schema.define(version: 20150418075702) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "twitch_name",   limit: 255
+    t.string   "twitch_name",      limit: 255
     t.integer  "twitch_id"
-    t.string   "session",       limit: 255
-    t.string   "email",         limit: 255
-    t.string   "bot_nick",      limit: 255
-    t.string   "bot_oauth",     limit: 255
-    t.string   "srl_nick",      limit: 255
-    t.string   "summoner_name", limit: 255
-    t.string   "osu_nick",      limit: 255
+    t.string   "session",          limit: 255
+    t.string   "email",            limit: 255
+    t.string   "bot_nick",         limit: 255
+    t.string   "bot_oauth",        limit: 255
+    t.string   "srl_nick",         limit: 255
+    t.string   "summoner_name",    limit: 255
+    t.string   "osu_nick",         limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "speedruncom_nick"
   end
 
 end

@@ -47,6 +47,9 @@ class UsersController < ApplicationController
     redirect_to custom_commands_path
   end
 
+  def guide
+  end
+
   private
 
     def user_params
@@ -54,7 +57,7 @@ class UsersController < ApplicationController
                                     :social_active, :social_output, :social_time, :social_messages,
                                     :toobou_active, :toobou_limit, :toobou_trigger, :toobou_output,
                                     :voting_active, :voting_mods, :sub_message_active, :sub_message_text, :sub_message_resub]},
-                                    :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name,
+                                    :twitch_name, :bot_nick, :bot_oauth, :srl_nick, :osu_nick, :summoner_name, :speedruncom_nick,
                                     :commands_attributes => [:id, :name, :on, :admin, :limit],
                                     :custom_commands_attributes => [:id, :trigger, :on, :admin, :limit, :output],
                                     :quotes_attributes => [:id, :text, :reviewed],

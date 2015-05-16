@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   patch 'twitch/salty/quotes',        to: 'users#q_update',         as: :update_salty_quotes
   get   'twitch/salty/custom',        to: 'users#custom_commands',  as: :custom_commands
   patch 'twitch/salty/custom',        to: 'users#cc_update',        as: :update_custom_commands
+  get   'twitch/salty/guide',         to: 'users#guide',            as: :salty_guide
 
 
   get   'twitch/pydash/out',          to: 'dashboard#to_twitch',    as: :dashboard_out
