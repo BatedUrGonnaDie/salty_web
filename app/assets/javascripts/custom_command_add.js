@@ -6,7 +6,10 @@ $(function () {
                 type: "POST",
                 data: command,
                 success: function(response) {
-                    // do stuff here to put in the dom
+                    $('#new-trigger').val("");
+                    $('#new-admin').prop('checked', false);
+                    $('#new-limit').val("");
+                    $('#new-output').val("");
                 },
                 error: function(response) {
                     console.log("Creation of command failed with response: " + JSON.stringify(response));

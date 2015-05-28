@@ -8,7 +8,7 @@ $(function() {
                 $('input[type="hidden"][value="' + util["id"] + '"]').remove();
             },
             error: function(response) {
-                console.log("Creatoin of util failed with response: " + JSON.stringify(response));
+                console.log("Deletion of util failed with response: " + JSON.stringify(response));
             }
         });
     };

@@ -6,11 +6,9 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
   def create
     @c_com = CustomCommand.new(user_id: @user.id, on: params[:on], trigger: params[:trigger], admin: params[:admin], limit: params[:limit], output: params[:output])
     if @c_com.save
-      render status: 200, json: {status: 200, custom_command: @c_com
-      }
+      render status: 200, json: {status: 200, custom_command: @c_com}
     else
-      render status: 400, json: {status: 400, message: "Failed to create custom command."
-      }
+      render status: 400, json: {status: 400, message: "Failed to create custom command."}
     end
   end
 
@@ -25,7 +23,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
   private
 
     def set_custom_command
-      @c_command = Customcommand.find(params[:id])
+      @c_command = CustomCommand.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render status: 404, json: {status: 404, message: "Custom command with '#{params[:id]}' not found."}
     end
