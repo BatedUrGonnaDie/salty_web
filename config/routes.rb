@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root  'static_pages#home'
 
+  match '/404',                       to: 'errors#not_found',       as: :not_found,       via: :all
+  match '/422',                       to: 'errors#unacceptable',    as: :unacceptable,    via: :all
+  match '/500',                       to: 'errors#internal_error',  as: :internal_error,  via: :all
+
   get   '/contact',                   to: 'static_pages#contact',   as: :contact
   get   '/faq',                       to: 'static_pages#faq',       as: :faq
 
