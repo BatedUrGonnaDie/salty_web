@@ -24,11 +24,9 @@
     Osu Nick: <small>*Required for all osu commands</small><%= f.text_field :osu_nick %>
     Summoner Name: <small>*Requred for all League commands</small><%= f.text_field :summoner_name %>
     <% counter = 0 %>
-    <% counter_break = 0 %>
     <%= f.fields_for :commands do |d| %>
 
       <% counter = counter + 1 %>
-      <% counter_break = counter_break + 1 %>
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">
@@ -36,33 +34,27 @@
         </div>
         <h1>Speed Running Commands</h1>
         <div class="pure-g">
-        <% counter_break = 1 %>
       <% elsif counter == 13 %>
         </div>
         <h1>Osu Commands</h1>
         <div class="pure-g">
-        <% counter_break = 1 %>
       <% elsif counter == 15 %>
         </div>
         <h1>League Commands</h1>
         <div class="pure-g">
-        <% counter_break = 1 %>
       <% end %>
 
         <div class="pure-u-1-3">
-          <div class="command">
-            <b><%= d.text_field :name, readonly: true %></b><br>
-            <%= d.check_box :on %> Enabled<br>
-            <%= d.check_box :admin %> Mod Only Command?<br>
-            Cooldown: <br><%= d.number_field :limit%>
+          <div class="panel panel-default">
+            <div class="panel-heading"><h2 style="color: black; margin: 0px;"><%= "!#{d.object.name}" %></h2></div>
+            <div class="panel-body">
+              <%= d.check_box :on %> Enabled<br>
+              <%= d.check_box :admin %> Mod Only Command?<br>
+              Cooldown: <br><%= d.number_field :limit%>
+            </div>
           </div>
         </div>
-        <% if counter_break % 2 == 0 %>
-          <br><br>
-        <% else %>
-          <div class="pure-u-1-3">
-          </div>
-        <% end %>
+
       <% end %>
     </div>
 
@@ -77,20 +69,26 @@
       <%= d.check_box :voting_mods %> Allow mods to create and end polls as well?<br><br>
       <div class="pure-g">
         <div class="pure-u-1-3">
-          <b>Social</b><br>
-          <%= d.check_box :social_active %> Enabled<br>
-          Output: <%= d.text_field :social_output %>
-          Time Between Messages: <small>*Time is in minutes</small><%= d.number_field :social_time %>
-          Number of Messages Before Sending: <%= d.number_field :social_messages %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><h2 style="color: black; margin: 0px;">Social</h2></div>
+            <div class="panel-body">
+              <%= d.check_box :social_active %> Enabled<br>
+              Output: <%= d.text_field :social_output %>
+              Time Between Messages: <small>*Time is in minutes</small><%= d.number_field :social_time %>
+              Number of Messages Before Sending: <%= d.number_field :social_messages %>
+            </div>
+          </div>
         </div>
         <div class="pure-u-1-3">
-        </div>
-        <div class="pure-u-1-3">
-          <b>Toobou</b><br>
-          <%= d.check_box :toobou_active %> Enabled<br>
-          Time Between Insults: <%= d.number_field :toobou_limit %>
-          Trigger: <%= d.text_field :toobou_trigger %>
-          Output: <%= d.text_field :toobou_output %>
+          <div class="panel panel-default">
+            <div class="panel-heading"><h2 style="color: black; margin: 0px;">Toobou</h2></div>
+            <div class="panel-body">
+              <%= d.check_box :toobou_active %> Enabled<br>
+              Time Between Insults: <%= d.number_field :toobou_limit %>
+              Trigger: <%= d.text_field :toobou_trigger %>
+              Output: <%= d.text_field :toobou_output %>
+            </div>
+          </div>
         </div>
       </div>
     <% end %>
