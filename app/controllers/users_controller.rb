@@ -13,7 +13,7 @@ class UsersController < ApplicationController
         flash[:warning] = "Settings could not be updated in the bot."
       end
     else
-      flash[:error] = "There was an error saving your settings.\n" + @user.errors.full_messages.join('\n')
+      flash[:danger] = "There was an error saving your settings.\n" + @user.errors.full_messages.join('\n')
     end
 
     redirect_to salty_path
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     if @user.update_attributes(user_params)
       flash[:success] = "Quotes/Puns Updated"
     else
-      flash[:error] = "There was a problem updating the quotes and puns."
+      flash[:danger] = "There was a problem updating the quotes and puns."
     end
     redirect_to salty_quotes_path
   end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
         flash[:warning] = "Custom commands could not be updated in the bot."
       end
     else
-      flash[:error] = "There was a problem updating your custom commands."
+      flash[:danger] = "There was a problem updating your custom commands."
     end
     redirect_to custom_commands_path
   end
