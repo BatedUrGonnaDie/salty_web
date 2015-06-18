@@ -6,6 +6,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
   def create
     @c_com = CustomCommand.new(user_id: @user.id, on: params[:on], trigger: params[:trigger], admin: params[:admin], limit: params[:limit], output: params[:output])
     if @c_com.save
+      send_update
       render status: 200, json: {status: 200, custom_command: @c_com}
     else
       render status: 400, json: {status: 400, message: "Failed to create custom command."}
@@ -14,6 +15,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
 
   def destroy
     if @c_command.destroy
+      send_update
       render status: 200, json: {status: 200, message: "Custom command '#{params[:id]}' destroyed."}
     else
       render status: 400, json: {status: 200, message: "Custom command '#{params[:id]}' could not be destroyed."}
