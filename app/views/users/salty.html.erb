@@ -30,15 +30,15 @@
       <% if counter == 1 %>
         <h1>General Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 8 %>
+      <% elsif counter == 9 %>
         </div>
         <h1>Speed Running Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 13 %>
+      <% elsif counter == 14 %>
         </div>
         <h1>Osu Commands</h1>
         <div class="pure-g">
-      <% elsif counter == 15 %>
+      <% elsif counter == 16 %>
         </div>
         <h1>League Commands</h1>
         <div class="pure-g">
@@ -48,6 +48,7 @@
           <div class="panel panel-default">
             <div class="panel-heading"><h2 style="color: black; margin: 0px;"><%= "!#{d.object.name}" %></h2></div>
             <div class="panel-body">
+              <%= d.hidden_field :name %>
               <%= d.check_box :on %> Enabled<br>
               <%= d.check_box :admin %> Mod Only Command?<br>
               Cooldown: <br><%= d.number_field :limit%>
