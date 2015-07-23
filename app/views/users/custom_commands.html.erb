@@ -22,7 +22,7 @@
             Command Trigger: <%= cc.text_field :trigger %>
             Limit: <%= cc.number_field :limit %>
             Output: <%= cc.text_field :output %>
-            <button type="button" id="delete-<%= cc.object.id %>" class="pure-button pure-button-delete" onclick="window.delete_custom_command({user: '<%= @current_user.twitch_name %>', id: '<%= cc.object.id %>'});">Delete</button>
+            <button type="button" id="delete-<%= cc.object.id %>" class="pure-button pure-button-delete" onclick="window.delete_custom_command({user: '<%= @current_user.twitch_name %>', id: '<%= cc.object.id %>', trigger: '<%= cc.object.trigger %>'});">Delete</button>
           </div>
         </div>
       <% end %>

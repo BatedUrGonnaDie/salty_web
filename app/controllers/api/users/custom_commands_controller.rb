@@ -25,7 +25,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
   private
 
     def set_custom_command
-      @c_command = CustomCommand.find(params[:id])
+      @c_command = CustomCommand.find_by(user_id: @user.id, trigger: params[:id])
     rescue ActiveRecord::RecordNotFound
       render status: 404, json: {status: 404, message: "Custom command with '#{params[:id]}' not found."}
     end

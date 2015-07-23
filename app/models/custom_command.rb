@@ -1,6 +1,6 @@
 class CustomCommand < ActiveRecord::Base
     belongs_to :user
 
-    validates_presence_of :name, :output, :trigger
+    validates_presence_of :output, :trigger
 
 end
