@@ -1,5 +1,4 @@
 class Api::Users::SongsController < Api::ApplicationController
-  skip_before_filter :verify_authenticity_token, only: [:create]
   before_action :set_user
 
   def index
@@ -26,11 +25,13 @@ class Api::Users::SongsController < Api::ApplicationController
       if params[:key].present?
         if @user.settings[:osu_song_key] != params[:key]
           render status: 401, json: {status: 401, message: "This endpoint requires a valid key."}
+          return
         else
           @u_settings
         end
       else
         render status: 400, json: {status: 400, message: "This endpoint requires the \"key\" parameter."}
+        return
       end
     end
 
@@ -38,9 +39,11 @@ class Api::Users::SongsController < Api::ApplicationController
       if params[:primary].present?
         if params[:primary].empty?
           render status: 200
+          return
         end
       else
         render status: 200
+        return
       end
     end
 end
