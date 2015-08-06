@@ -38,11 +38,11 @@ class Api::Users::SongsController < Api::ApplicationController
     def check_for_primary
       if params[:primary].present?
         if params[:primary].empty?
-          render status: 200
+          render status: 200, json: {status: 200}
           return
         end
       else
-        render status: 200
+        render status: 200, json: {status: 200}
         return
       end
     end
