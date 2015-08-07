@@ -1,5 +1,6 @@
 class Api::Users::SongsController < Api::ApplicationController
   before_action :set_user
+  before_action :authenticate, only: [:update]
   before_action :check_for_key, only: [:create]
   before_action :check_for_primary, only: [:create]
 
@@ -8,11 +9,19 @@ class Api::Users::SongsController < Api::ApplicationController
   end
 
   def create
-    @settings[:osu_current_song] = params[:primary]
-    if @settings.save
+    # Most programs require it to be POST action
+    if @settings.update(osu_current_song: params[:primary])
       render status: 200, json: {status: 200, song: @settings[:osu_current_song]}
     else
       render status: 400, json: {status: 400, message: "Unable to save song."}
+    end
+  end
+
+  def update
+    if @user.settings.update(osu_song_key: User.digest((SecureRandom.urlsafe_base64).to_s))
+      render stauts: 200, json: {status: 200, new_key: @user.settings[:osu_song_key]}
+    else
+      render status: 400, json: {stauts: 400, error: "Error updating key."}
     end
   end
 
@@ -23,7 +32,7 @@ class Api::Users::SongsController < Api::ApplicationController
 
     def check_for_key
       if params[:key].present?
-        if @user.settings[:osu_song_key] != params[:key]
+        if @user.settings[:osu_song_key] != params[:key] && @user.settings[:osu_song_key] != nil
           render status: 401, json: {status: 401, message: "This endpoint requires a valid key."}
           return
         else

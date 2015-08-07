@@ -16,7 +16,7 @@ $(function () {
                     console.log(input_stuff);
                 },
                 error: function(response) {
-                    console.log("Creatoin of util failed with response: " + JSON.stringify(response));
+                    console.log("Creation of util failed with response: " + JSON.stringify(response));
                 }
             });
         };
