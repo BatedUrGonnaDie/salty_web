@@ -62,8 +62,7 @@
     <h1>Random Options</h1>
     <%= f.fields_for :settings do |d| %>
       <%= d.check_box :youtube_link %> Link Youtube Videos In Chat<br><br>
-      <%= d.check_box :osu_link %> Send Osu Songs In Chat To User? <small>*requires osu name</small><br>
-      <button type="button" id="new-osu-key" class="pure-button pure-button-primary" onclick="window.new_osu_key('<%= @current_user.twitch_name %>')">Retrieve new osu key for !song</button><br><br>
+      <%= d.check_box :osu_link %> Send Osu Songs In Chat To User? <small>*requires osu name</small><br><br>
       <%= d.check_box :sub_message_active %> Have bot say a message when a user subscribes!<br>
       Regular Sub: <%= d.text_field :sub_message_text %>
       Resub: <%= d.text_field :sub_message_resub %><br><br>
