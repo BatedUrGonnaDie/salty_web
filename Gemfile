@@ -11,6 +11,7 @@ gem 'purecss'
 
 gem 'uglifier'
 gem 'jquery-rails'
+gem 'd3-rails'
 
 gem 'httparty'
 
