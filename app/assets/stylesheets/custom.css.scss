@@ -194,3 +194,16 @@ input {
 .question {
   margin-bottom: 2.5em;
 }
+
+#chart {
+
+  .bar {
+    fill: steelblue;
+    stroke: white;
+    }
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+}

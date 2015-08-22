@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   get   'twitch/pydash',              to: 'dashboard#dashboard',    as: :dashboard
 
 
+  get   'splits/graph',               to: 'graphs#index',           as: :graphs
+
+
   # API Stuff
   namespace :api do
     resources :users, only: [] do

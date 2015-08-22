@@ -1,0 +1,7 @@
+= provide(:title, "Graphs Generator")
+%center
+  %form{class: "pure-form", action: "javascript:window.generate_graph();"}
+    %input{type: "text", style: "width: auto;", name: "splits-run-id", id: "splits-run-id"}
+    %button{type: "submit", class: "pure-button pure-button-primary"}
+      Generate
+%div{id: "chart"}
