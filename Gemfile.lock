@@ -46,8 +46,6 @@ GEM
     builder (3.2.2)
     d3-rails (3.5.6)
       railties (>= 3.1)
-    d3-tip-rails (0.0.1)
-      railties (>= 3.1)
     daemons (1.2.3)
     erubis (2.7.0)
     eventmachine (1.0.8)
@@ -171,7 +169,6 @@ PLATFORMS
 DEPENDENCIES
   bootstrap-sass
   d3-rails
-  d3-tip-rails
   figaro
   haml-rails
   httparty
