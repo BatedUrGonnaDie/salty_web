@@ -6,7 +6,6 @@ $(function () {
                 $(this).empty().show();
                 if (sessionStorage.getItem(run_id)) {
                     response = JSON.parse(sessionStorage.getItem(run_id));
-                    console.log(response);
                     add_basic(response.run);
                     add_splits(response.run.splits, "PB vs. Golds", false);
                     if (response.run.program == "livesplit") {
@@ -141,7 +140,7 @@ var validate_split = function(split) {
 };
 
 var validate_history = function(split) {
-    if (split.history.length === 0) { return false; };
+    if (split.history === null || split.history.length === 0) { return false; };
     split.history = split.history.filter(function(d) { if (d == 0) { return false; } return true; });
     var mean = d3.mean(split.history);
     if (mean - split.best.duration < Number($("#min-bar-time").val())) { return false; };
