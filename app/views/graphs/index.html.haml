@@ -3,7 +3,19 @@
   Please enter a splits.io run id to get started
 %center
   %form{class: "pure-form", action: "javascript:window.generate_graph();"}
-    %input{type: "text", style: "width: auto;", name: "splits-run-id", id: "splits-run-id"}
+    %input{type: "text", style: "width: auto;", name: "splits-run-id", id: "splits-run-id", required: true}
     %button{type: "submit", class: "pure-button pure-button-primary"}
       Generate
+  %div{id: "graph-options", class: "pure-form pure-form-stacked"}
+    %fieldset
+      %legend Graph Options
+      %div{class: "col-md-4"}
+        %label{for: "min-bar-time"} Minimum time to show bar
+        %input{type: "number", id: "min-bar-time", min: 0, value: 5, style: "width: 5em"}
+      %div{class: "col-md-4"}
+        %label{for: "bar-fill-color"} Fill color
+        %input{type: "color", id: "bar-fill-color", value: "#4863a0"}
+      %div{class: "col-md-4"}
+        %button{type: "button", class: "pure-button pure-button-primary", onclick: "javascript:window.generate_graph();"}
+          Regenerate
 %div{id: "chart"}

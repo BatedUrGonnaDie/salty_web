@@ -2,21 +2,36 @@ $(function () {
     window.generate_graph = function() {
         run_id = $("#splits-run-id").val();
         if (run_id != "") {
-            $("#chart").fadeOut(200, function() { $(this).empty().show(); });
-            $.ajax({
-                url: "https://splits.io/api/v3/runs/" + run_id,
-                type: "GET",
-                success: function(response) {
+            $("#chart").fadeOut(200, function() {
+                $(this).empty().show();
+                if (sessionStorage.getItem(run_id)) {
+                    response = JSON.parse(sessionStorage.getItem(run_id));
+                    console.log(response);
                     add_basic(response.run);
                     add_splits(response.run.splits, "PB vs. Golds", false);
                     if (response.run.program == "livesplit") {
                         add_splits(response.run.splits, "History Mean vs. Golds", true);
                     };
-                },
-                error: function(response) {
-                    console.log(response);
-                }
-            })
+                };
+            });
+            if (!sessionStorage.getItem(run_id)) {
+                $.ajax({
+                    url: "https://splits.io/api/v3/runs/" + run_id,
+                    type: "GET",
+                    crossDomain: true,
+                    success: function(response) {
+                        sessionStorage.setItem(run_id, JSON.stringify(response));
+                        add_basic(response.run);
+                        add_splits(response.run.splits, "PB vs. Golds", false);
+                        if (response.run.program == "livesplit") {
+                            add_splits(response.run.splits, "History Mean vs. Golds", true);
+                        };
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                })
+            };
         } else {
             // red required
         };
@@ -108,18 +123,16 @@ var add_splits = function(splits, graph_title, with_history) {
        .attr("width", x.rangeBand())
        .attr("y", function(d) { return y(d.value); })
        .attr("height", function(d) { return height - y(d.value); })
+       .attr("fill", $("#bar-fill-color").val())
        .append("title")
        .attr("class", "bar-text")
        .text(function(d) { return d.value + " seconds"; });
-
-
-
 };
 
 var validate_split = function(split) {
     if (split.gold || split.skipped) {
         return false;
-    } else if (split.duration - split.best.duration < 5) {
+    } else if (split.duration - split.best.duration < Number($("#min-bar-time").val())) {
         return false;
     } else {
         return {name: split.name, value: Math.round((split.duration - split.best.duration) * 100) / 100}
@@ -127,8 +140,30 @@ var validate_split = function(split) {
 };
 
 var validate_history = function(split) {
-    split.history = split.history.filter(function(d) { if (d == 0) {return false;} return true; });
+    split.history = split.history.filter(function(d) { if (d == 0) { return false; } return true; });
     var mean = d3.mean(split.history);
-    if (mean - split.best.duration < 5) { return false; };
+    if (mean - split.best.duration < Number($("#min-bar-time").val())) { return false; };
     return {name: split.name, value: Math.round((mean - split.best.duration) * 100) / 100};
 };
+
+var export_to_png = function() {
+    var html = d3.select("svg").attr("version", 1.1).attr("xmlns", "http://www.w3.org/2000/svg").node().parentNode.innerHTML;
+    var imgsrc = "data:image/svg+xml;base64," + btoa(html);
+    var img = '<img src="' + imgsrc +'">';
+    var canvas = document.querySelector("canvas"),
+        context = canvas.getContext("2d");
+
+    var image = new Image;
+    image.src = imgsrc;
+    image.onload = function() {
+        context.drawImage(image, 0, 0);
+        var canvasdata = canvas.toDataURL("image/png");
+        var pngimg = '<img src="' + canvasdata + '">';
+        d3.select("#pngdataurl").html(pngimg);
+        var a = document.createElement("a");
+        a.download = "sample.png";
+        a.href = canvasdata;
+        document.body.appendChild(a);
+        a.click();
+    }
+}

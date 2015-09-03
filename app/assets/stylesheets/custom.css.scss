@@ -196,14 +196,17 @@ input {
 }
 
 #chart {
-
   .bar {
-    fill: steelblue;
     stroke: white;
-    }
+  }
   .axis path, .axis line {
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
   }
+}
+
+#bar-fill-color {
+  width: 4.5em;
+  height: 1.75em !important;
 }
