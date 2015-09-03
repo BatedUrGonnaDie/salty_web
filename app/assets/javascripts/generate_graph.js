@@ -52,6 +52,7 @@ var add_splits = function(splits, graph_title, with_history) {
         }
         if (split) { splits_small.push(split)};
     });
+    if (splits_small.length === 0) { return; };
 
     var margin = {top: 30, right: 30, bottom: 120, left: 60},
         width = $("#chart").width() - margin.left - margin.right,
@@ -140,6 +141,7 @@ var validate_split = function(split) {
 };
 
 var validate_history = function(split) {
+    if (split.history.length === 0) { return false; };
     split.history = split.history.filter(function(d) { if (d == 0) { return false; } return true; });
     var mean = d3.mean(split.history);
     if (mean - split.best.duration < Number($("#min-bar-time").val())) { return false; };
