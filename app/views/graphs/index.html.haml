@@ -9,13 +9,21 @@
   %div{id: "graph-options", class: "pure-form pure-form-stacked"}
     %fieldset
       %legend Graph Options
-      %div{class: "col-md-4"}
-        %label{for: "min-bar-time"} Minimum time to show bar
+      %div.col-md-3
+        %label{for: "min-bar-time"} Minimum time to show bar (seconds)
         %input{type: "number", id: "min-bar-time", min: 0, value: 5, style: "width: 5em"}
-      %div{class: "col-md-4"}
+      %div.col-md-3
         %label{for: "bar-fill-color"} Fill color
         %input{type: "color", id: "bar-fill-color", value: "#4863a0"}
-      %div{class: "col-md-4"}
+      %div.col-md-3
+        %label{for: "history-compare-type"} Compare to history type
+        %select{id: "history-compare-type", style: "width: auto;"}
+          %option Mean/Average
+          %option Median
+      %div.col-md-3
         %button{type: "button", class: "pure-button pure-button-primary", onclick: "javascript:window.generate_graph();"}
           Regenerate
+%div.progress
+  %div{class: "progress-bar", role: "progressbar", "aria-valuenow" => "100", "aria-valuemin" => "0", "aria-valuemax" => "100", style: "min-width: 2em; width: 100%", id: "graph-progress"}
+    Ready
 %div{id: "chart"}
