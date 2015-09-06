@@ -1,15 +1,16 @@
 $(function () {
     window.generate_graph = function() {
-        run_id = $("#splits-run-id").val();
+        var run_id = $("#splits-run-id").val();
         if (run_id != "") {
             $("#graph-progress").removeClass("progress-bar-danger");
-            update_progrss("0", "Fetching run...");
+            update_progress("0", "Fetching run...");
             $("#graph-progress").removeClass("")
             $("#chart").fadeOut(200, function() {
                 $(this).empty().show();
-                if (sessionStorage.getItem(run_id)) {
-                    update_progrss(50, "Parsing splits...")
-                    graph_init(run_id);
+                var run = sessionStorage.getItem(run_id);
+                if (run) {
+                    update_progress(50, "Parsing splits...")
+                    graph_init(JSON.parse(run));
                 } else {
                     $.ajax({
                         url: "https://splits.io/api/v3/runs/" + run_id,
@@ -17,11 +18,12 @@ $(function () {
                         crossDomain: true,
                         success: function(response) {
                             sessionStorage.setItem(run_id, JSON.stringify(response));
-                            update_progrss(50, "Parsing splits...")
-                            graph_init(run_id);
+                            update_progress(50, "Parsing splits...")
+                            graph_init(response);
+                            console.log(response);
                         },
                         error: function(response) {
-                            update_progrss(100, "Error retrieving splits (Status: " + response.status + ")");
+                            update_progress(100, "Error retrieving splits (Status: " + response.status + ")");
                             $("#graph-progress").addClass("progress-bar-danger");
                         }
                     });
@@ -34,7 +36,7 @@ $(function () {
     };
 });
 
-var update_progrss = function(percentage, new_text) {
+var update_progress = function(percentage, new_text) {
     var bar = $("#graph-progress");
     bar.attr("style", "mid-width: 2em; width: " + percentage + "%;");
     bar.attr("aria-valuenow", percentage + "%");
@@ -43,12 +45,12 @@ var update_progrss = function(percentage, new_text) {
     };
 };
 
-var graph_init = function(run_id) {
-    response = JSON.parse(sessionStorage.getItem(run_id));
+var graph_init = function(response) {
     add_basic(response.run);
-    add_splits(response.run.splits, "PB vs. Golds", false);
+    // Parse stringify to make copies of the objects and not destory them
+    add_splits(JSON.parse(JSON.stringify(response.run.splits)), "PB vs. Golds", false);
     if (response.run.program.toLowerCase() === "livesplit") {
-        add_splits(response.run.splits, "Split History " + $("#history-compare-type").val() + " vs. Golds", true);
+        add_splits(JSON.parse(JSON.stringify(response.run.splits)), "Split History " + $("#history-compare-type").val() + " vs. Golds", true);
     };
 };
 
@@ -62,14 +64,13 @@ var add_splits = function(splits, graph_title, with_history) {
         splits.forEach(function(d) {
             var split = validate_history(d);
             if (split) { splits_small.push(split); };
-            update_progrss(50 + (30 / splits.length));
+            update_progress(50 + (30 / splits.length));
         });
     } else {
         splits_small = condense_splits(splits);
     };
     if (splits_small.length === 0) { return; };
-    console.log(splits_small);
-    update_progrss(80, "Creating graphs...");
+    update_progress(80, "Creating graphs...");
 
     var margin = {top: 30, right: 30, bottom: 120, left: 60},
         width = $("#chart").width() - margin.left - margin.right,
@@ -114,7 +115,7 @@ var add_splits = function(splits, graph_title, with_history) {
        .attr("dx", "-.8em")
        .attr("dy", ".15em")
        .attr("transform", "rotate(-45)");
-    update_progrss(85);
+    update_progress(85);
 
     svg.append("g")
        .attr("class", "y axis")
@@ -126,7 +127,7 @@ var add_splits = function(splits, graph_title, with_history) {
        .attr("dy", "1em")
        .style("text-anchor", "middle")
        .text("Possible Time Save");
-    update_progrss(90);
+    update_progress(90);
 
     svg.append("text")
        .attr("x", width / 2)
@@ -135,7 +136,7 @@ var add_splits = function(splits, graph_title, with_history) {
        .style("font-size", "16px")
        .style("text-decoration", "underline")
        .text(graph_title);
-    update_progrss(95);
+    update_progress(95);
 
     svg.selectAll("bar")
        .data(splits_small)
@@ -150,7 +151,7 @@ var add_splits = function(splits, graph_title, with_history) {
        .append("title")
        .attr("class", "bar-text")
        .text(function(d) { return d.value + " seconds"; });
-       update_progrss(100, "Ready");
+       update_progress(100, "Ready");
 };
 
 var condense_splits = function(splits) {
@@ -158,19 +159,21 @@ var condense_splits = function(splits) {
     for (var i = 0, length = splits.length; i < length; ++i) {
         if (splits[i].skipped) {
             if (i + 1 < length) {
-                splits[i+1].best += splits[i].best;
+                splits[i+1].best.duration += splits[i].best.duration;
+                splits[i+1].name = splits[i].name + " + " + splits[i+1].name;
             } else {
                 splits.pop();
             };
-            update_progrss(50 + (15 / splits.length));
+            update_progress(50 + (15 / splits.length));
         };
     };
     for (var i = 0, length = splits.length; i < length; ++i) {
+        if (splits[i].skipped) { continue; };
         var cmp_time = splits[i].duration - splits[i].best.duration;
         if (cmp_time > Number($("#min-bar-time").val())) {
             reduced_splits.push({name: splits[i].name, value: Math.round((cmp_time) * 100) / 100});
         };
-        update_progrss(50 + (15 / splits.length));
+        update_progress(50 + (15 / splits.length));
     };
     return reduced_splits;
 }
@@ -216,5 +219,5 @@ var export_to_png = function() {
         a.href = canvasdata;
         document.body.appendChild(a);
         a.click();
-    }
-}
+    };
+};
