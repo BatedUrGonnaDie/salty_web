@@ -2,7 +2,9 @@ $(function () {
     window.generate_graph = function() {
         run_id = $("#splits-run-id").val();
         if (run_id != "") {
+            $("#graph-progress").removeClass("progress-bar-danger");
             update_progrss("0", "Fetching run...");
+            $("#graph-progress").removeClass("")
             $("#chart").fadeOut(200, function() {
                 $(this).empty().show();
                 if (sessionStorage.getItem(run_id)) {
@@ -19,8 +21,8 @@ $(function () {
                             graph_init(run_id);
                         },
                         error: function(response) {
-                            update_progrss(100, "Error retrieving splits");
-                            console.log(response);
+                            update_progrss(100, "Error retrieving splits (Status: " + response.status + ")");
+                            $("#graph-progress").addClass("progress-bar-danger");
                         }
                     });
                 };
