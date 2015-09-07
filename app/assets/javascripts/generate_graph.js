@@ -7,17 +7,27 @@ $(function () {
             $("#graph-progress").removeClass("")
             $("#chart").fadeOut(200, function() {
                 $(this).empty().show();
-                var run = sessionStorage.getItem(run_id);
-                if (run) {
+                var splits = sessionStorage.getItem(run_id + "_splits");
+                // $.ajax({
+                //     url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
+                //     type: "GET",
+                //     success: function(response) {
+                //         add_run_history(response);
+                //     },
+                //     error: function(response) {
+                //         console.log(response);
+                //     }
+                // });
+                if (splits) {
                     update_progress(50, "Parsing splits...")
-                    graph_init(JSON.parse(run));
+                    graph_init(JSON.parse(splits));
                 } else {
                     $.ajax({
-                        url: "https://splits.io/api/v3/runs/" + run_id,
+                        url: "https://splits.io/api/v4/runs/" + run_id + "/splits?historic=1",
                         type: "GET",
                         crossDomain: true,
                         success: function(response) {
-                            sessionStorage.setItem(run_id, JSON.stringify(response));
+                            sessionStorage.setItem(run_id + "_splits", JSON.stringify(response));
                             update_progress(50, "Parsing splits...")
                             graph_init(response);
                             console.log(response);
@@ -46,16 +56,23 @@ var update_progress = function(percentage, new_text) {
 };
 
 var graph_init = function(response) {
-    add_basic(response.run);
     // Parse stringify to make copies of the objects and not destory them
-    add_splits(JSON.parse(JSON.stringify(response.run.splits)), "PB vs. Golds", false);
-    if (response.run.program.toLowerCase() === "livesplit") {
-        add_splits(JSON.parse(JSON.stringify(response.run.splits)), "Split History " + $("#history-compare-type").val() + " vs. Golds", true);
+    add_splits(JSON.parse(JSON.stringify(response)), "PB vs. Golds", false);
+    if (response[0].history.length > 0) {
+        add_splits(JSON.parse(JSON.stringify(response)), "Split History " + $("#history-compare-type").val() + " vs. Golds", true);
     };
 };
 
 var add_basic = function(run) {
 
+};
+
+var get_margins = function(top, right, bottom, left) {
+    var margin = {top: top, right: right, bottom: bottom, left: left};
+    var width = $("#chart").width() - margin.left - margin.right;
+    var height = 500 - margin.top - margin.bottom;
+    var dimensions = {margins: margin, width: width, height: height};
+    return dimensions;
 };
 
 var add_splits = function(splits, graph_title, with_history) {
@@ -72,9 +89,10 @@ var add_splits = function(splits, graph_title, with_history) {
     if (splits_small.length === 0) { return; };
     update_progress(80, "Creating graphs...");
 
-    var margin = {top: 30, right: 30, bottom: 120, left: 60},
-        width = $("#chart").width() - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+    var dimensions = get_margins(30, 30, 120, 60);
+    var margin = dimensions.margins,
+        width = dimensions.width,
+        height = dimensions.height;
 
     var x = d3.scale
               .ordinal()
@@ -154,12 +172,48 @@ var add_splits = function(splits, graph_title, with_history) {
        update_progress(100, "Ready");
 };
 
+var add_run_history = function(response) {
+    var data = [];
+    for (var i = 0, length = response.history.length; i < length; ++i) {
+        data.push(Math.round((response.history[i]) * 100) / 100);
+    };
+
+    var dimensions = get_margins(30, 30, 40, 60);
+    var margin = dimensions.margins,
+        width = dimensions.width,
+        height = dimensions.height;
+
+    var x = d3.scale
+              .linear()
+              .domain([0, d3.max(data)]).range([0 + margin.right + margin.left, height - margin.top - margin.bottom])
+    var y = d3.scale
+              .linear()
+              .domain([0, data.length]).range([0 + margin.top + margin.bottom, width - margin.right - margin.left])
+
+    var svg = d3.select("#chart")
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+    var g = svg.append("g")
+               .attr("transform", "translate(0, 200)");
+
+    var line = d3.svg
+                 .line()
+                 .x(function(d, i) { return x(i); })
+                 .y(function(d) { return -1 * y(d); });
+
+    g.append("path")
+     .attr("d", line(data));
+
+};
+
 var condense_splits = function(splits) {
     var reduced_splits = []
     for (var i = 0, length = splits.length; i < length; ++i) {
         if (splits[i].skipped) {
             if (i + 1 < length) {
-                splits[i+1].best.duration += splits[i].best.duration;
+                splits[i+1].best += splits[i].best;
                 splits[i+1].name = splits[i].name + " + " + splits[i+1].name;
             } else {
                 splits.pop();
@@ -169,7 +223,7 @@ var condense_splits = function(splits) {
     };
     for (var i = 0, length = splits.length; i < length; ++i) {
         if (splits[i].skipped) { continue; };
-        var cmp_time = splits[i].duration - splits[i].best.duration;
+        var cmp_time = splits[i].duration - splits[i].best;
         if (cmp_time > Number($("#min-bar-time").val())) {
             reduced_splits.push({name: splits[i].name, value: Math.round((cmp_time) * 100) / 100});
         };
@@ -183,19 +237,19 @@ var validate_history = function(split) {
 
     var cmp_type = $("#history-compare-type").val();
     if (cmp_type === "Mean/Average") {
-        var min_cap = split.best.duration * .2,
-            max_cap = split.best.duration * 1.8;
+        var min_cap = split.best * .2,
+            max_cap = split.best * 1.8;
         split.history = split.history.filter(function(d) {
             if (d == 0) { return false; }
             else if (d > max_cap || d < min_cap) { return false; };
             return true;
         });
         var mean = d3.mean(split.history);
-        if (mean - split.best.duration < Number($("#min-bar-time").val())) { return false; };
-        return {name: split.name, value: Math.round((mean - split.best.duration) * 100) / 100};
+        if (mean - split.best < Number($("#min-bar-time").val())) { return false; };
+        return {name: split.name, value: Math.round((mean - split.best) * 100) / 100};
     } else if (cmp_type === "Median") {
         var median = d3.median(split.history);
-        if (median - split.best.duration < Number($("#min-bar-time").val())) { return false; };
-        return {name: split.name, value: Math.round((median - split.best.duration) * 100) / 100};
+        if (median - split.best < Number($("#min-bar-time").val())) { return false; };
+        return {name: split.name, value: Math.round((median - split.best) * 100) / 100};
     };
 };
