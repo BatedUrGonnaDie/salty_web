@@ -5,19 +5,27 @@ $(function () {
             $("#graph-progress").removeClass("progress-bar-danger");
             update_progress("0", "Fetching run...");
             $("#graph-progress").removeClass("")
-            $("#chart").fadeOut(200, function() {
+            $("#info-table").add("#chart").fadeOut(200).promise().done(function() {
                 $(this).empty().show();
                 var splits = sessionStorage.getItem(run_id + "_splits");
-                // $.ajax({
-                //     url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
-                //     type: "GET",
-                //     success: function(response) {
-                //         add_run_history(response);
-                //     },
-                //     error: function(response) {
-                //         console.log(response);
-                //     }
-                // });
+                var run_info = sessionStorage.getItem(run_id);
+
+                if (run_info) {
+                    add_basic(JSON.parse(run_info));
+                } else {
+                    $.ajax({
+                        url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
+                        type: "GET",
+                        success: function(response) {
+                            add_run_history(response);
+                            sessionStorage.setItem(run_id, JSON.stringify(response));
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                };
+
                 if (splits) {
                     update_progress(50, "Parsing splits...")
                     graph_init(JSON.parse(splits));
@@ -64,7 +72,23 @@ var graph_init = function(response) {
 };
 
 var add_basic = function(run) {
-
+    var runners = []
+    for (var i = 0; i < run.runners.length; ++i) {
+        runners.push(run.runners[i].name);
+    }
+    var table = "" +
+    "<table class='table table-striped table-condensed'>" +
+      "<caption>Run Information</caption>" +
+      "<tr>" +
+        "<th>Run Name</th><th>Attempts</th><th>Completed Runs</th><th>Program</th><th>Runners</th>" +
+      "</tr>" +
+      "<tr>" +
+        "<td>"+run.name+"</td><td>"+run.attempts+"</td><td>"+run.history.length+" (" +
+        Math.round((run.attempts/run.history.length) * 100) / 100+"%)</td><td>"+run.program+"</td>" +
+        "<td>"+runners.join(", ")+"</td>" +
+      "</tr>" +
+    "</table>"
+    $("#info-table").append(table);
 };
 
 var get_margins = function(top, right, bottom, left) {
