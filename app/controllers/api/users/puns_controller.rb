@@ -31,12 +31,12 @@ class Api::Users::PunsController < Api::ApplicationController
     if @tutil.update_attribute(:reviewed, params[:reviewed])
       render status: 200, json: {
         status: 200,
-        message: "Updated successfully"
+        pun: @tutil
       }
     else
       render status: 400, json: {
         status: 400,
-        message: "Something went wrong"
+        error: "Something went wrong"
       }
     end
   end
@@ -50,7 +50,7 @@ class Api::Users::PunsController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        message: "Something went wrong"
+        error: "Something went wrong"
       }
     end
   end
@@ -59,7 +59,7 @@ class Api::Users::PunsController < Api::ApplicationController
 
     def check_for_puns
       if @user.puns.empty?
-        render status: 400, json: {status: 400, message: "No puns for this user."}
+        render status: 400, json: {status: 400, error: "No puns for this user."}
       end
     end
 end

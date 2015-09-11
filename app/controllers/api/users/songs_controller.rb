@@ -13,7 +13,7 @@ class Api::Users::SongsController < Api::ApplicationController
     if @settings.update(osu_current_song: params[:primary])
       render status: 200, json: {status: 200, song: @settings[:osu_current_song]}
     else
-      render status: 400, json: {status: 400, message: "Unable to save song."}
+      render status: 400, json: {status: 400, error: "Unable to save song."}
     end
   end
 
@@ -33,13 +33,13 @@ class Api::Users::SongsController < Api::ApplicationController
     def check_for_key
       if params[:key].present?
         if @user.settings[:osu_song_key] != params[:key] && @user.settings[:osu_song_key] != nil
-          render status: 401, json: {status: 401, message: "This endpoint requires a valid key."}
+          render status: 401, json: {status: 401, error: "This endpoint requires a valid key."}
           return
         else
           @settings = @user.settings
         end
       else
-        render status: 400, json: {status: 400, message: "This endpoint requires the \"key\" parameter."}
+        render status: 400, json: {status: 400, error: "This endpoint requires the \"key\" parameter."}
         return
       end
     end

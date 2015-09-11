@@ -22,7 +22,7 @@ class Api::Users::QuotesController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        message: "Failed to save."
+        error: "Failed to save."
       }
     end
   end
@@ -31,12 +31,12 @@ class Api::Users::QuotesController < Api::ApplicationController
     if @tutil.update_attribute :reviewed, params[:reviewed]
       render status: 200, json: {
         status: 200,
-        text: "Updated successfully"
+        quote: @tutil
       }
     else
       render status: 400, json: {
         status: 400,
-        message: "Something went wrong"
+        error: "Something went wrong"
       }
     end
   end
@@ -50,7 +50,7 @@ class Api::Users::QuotesController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        message: "Something went wrong"
+        error: "Something went wrong"
       }
     end
   end

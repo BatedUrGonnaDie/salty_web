@@ -9,7 +9,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
       send_update
       render status: 200, json: {status: 200, custom_command: @c_com}
     else
-      render status: 400, json: {status: 400, message: "Failed to create custom command."}
+      render status: 400, json: {status: 400, error: "Failed to create custom command."}
     end
   end
 
@@ -18,7 +18,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
       send_update
       render status: 200, json: {status: 200, message: "Custom command '#{params[:id]}' destroyed."}
     else
-      render status: 400, json: {status: 200, message: "Custom command '#{params[:id]}' could not be destroyed."}
+      render status: 400, json: {status: 200, error: "Custom command '#{params[:id]}' could not be destroyed."}
     end
   end
 
@@ -27,6 +27,6 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
     def set_custom_command
       @c_command = CustomCommand.find_by(user_id: @user.id, trigger: params[:id])
     rescue ActiveRecord::RecordNotFound
-      render status: 404, json: {status: 404, message: "Custom command with '#{params[:id]}' not found."}
+      render status: 404, json: {status: 404, error: "Custom command with '#{params[:id]}' not found."}
     end
 end
