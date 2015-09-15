@@ -1,0 +1,16 @@
+development:
+  salty_client_id: 
+  salty_client_secret: 
+
+  salty_ip_address: "localhost"
+  salty_web_secret: 
+
+production:
+  salty_client_id: 
+  salty_client_secret: 
+
+  salty_ip_address: 
+  salty_web_secret: 
+
+  dashboard_client_id: 
+  dashboard_client_secret: 
