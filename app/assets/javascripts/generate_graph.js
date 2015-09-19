@@ -17,7 +17,7 @@ $(function () {
                         url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
                         type: "GET",
                         success: function(response) {
-                            add_run_history(response);
+                            add_basic(response);
                             sessionStorage.setItem(run_id, JSON.stringify(response));
                         },
                         error: function(response) {
@@ -261,13 +261,15 @@ var validate_history = function(split) {
 
     var cmp_type = $("#history-compare-type").val();
     if (cmp_type === "Mean/Average") {
-        var min_cap = split.best * .2,
-            max_cap = split.best * 1.8;
-        split.history = split.history.filter(function(d) {
-            if (d == 0) { return false; }
-            else if (d > max_cap || d < min_cap) { return false; };
-            return true;
-        });
+        if ($("#remove-mean-outliers").val()) {
+          var min_cap = split.best * .2,
+              max_cap = split.best * 1.8;
+          split.history = split.history.filter(function(d) {
+              if (d == 0) { return false; }
+              else if (d > max_cap || d < min_cap) { return false; };
+              return true;
+          });
+        };
         var mean = d3.mean(split.history);
         if (mean - split.best < Number($("#min-bar-time").val())) { return false; };
         return {name: split.name, value: Math.round((mean - split.best) * 100) / 100};
