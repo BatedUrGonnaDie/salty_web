@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20150516082051) do
 
   create_table "commands", force: :cascade do |t|
     t.integer "user_id"
-    t.string  "name",    limit: 255
+    t.string  "name"
     t.boolean "on"
     t.boolean "admin"
     t.integer "limit"
@@ -23,38 +23,38 @@ ActiveRecord::Schema.define(version: 20150516082051) do
 
   create_table "custom_commands", force: :cascade do |t|
     t.integer "user_id"
-    t.string  "trigger", limit: 255
+    t.string  "trigger"
     t.boolean "on"
     t.boolean "admin"
-    t.integer "limit",               default: 30
-    t.string  "output",  limit: 255
+    t.integer "limit",   default: 30
+    t.string  "output"
   end
 
   create_table "settings", force: :cascade do |t|
     t.integer "user_id"
-    t.boolean "active",                         default: false
-    t.boolean "osu_link",                       default: false
-    t.string  "osu_current_song",   limit: 255, default: ""
-    t.boolean "youtube_link",                   default: false
-    t.boolean "social_active",                  default: false
-    t.string  "social_output",      limit: 255
+    t.boolean "active",             default: false
+    t.boolean "osu_link",           default: false
+    t.string  "osu_current_song",   default: ""
+    t.boolean "youtube_link",       default: false
+    t.boolean "social_active",      default: false
+    t.string  "social_output"
     t.integer "social_time"
     t.integer "social_messages"
-    t.boolean "toobou_active",                  default: false
+    t.boolean "toobou_active",      default: false
     t.integer "toobou_limit"
-    t.string  "toobou_trigger",     limit: 255
-    t.string  "toobou_output",      limit: 255
-    t.string  "osu_song_key",       limit: 255
-    t.boolean "sub_message_active",             default: false
-    t.string  "sub_message_text",   limit: 255, default: ""
-    t.string  "sub_message_resub",  limit: 255, default: ""
-    t.boolean "voting_active",                  default: false
-    t.boolean "voting_mods",                    default: false
+    t.string  "toobou_trigger"
+    t.string  "toobou_output"
+    t.string  "osu_song_key"
+    t.boolean "sub_message_active", default: false
+    t.string  "sub_message_text",   default: ""
+    t.string  "sub_message_resub",  default: ""
+    t.boolean "voting_active",      default: false
+    t.boolean "voting_mods",        default: false
   end
 
   create_table "textutils", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "type",       limit: 255
+    t.string   "type"
     t.boolean  "reviewed"
     t.text     "text"
     t.datetime "created_at"
@@ -62,15 +62,15 @@ ActiveRecord::Schema.define(version: 20150516082051) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "twitch_name",      limit: 255
+    t.string   "twitch_name"
     t.integer  "twitch_id"
-    t.string   "session",          limit: 255
-    t.string   "email",            limit: 255
-    t.string   "bot_nick",         limit: 255
-    t.string   "bot_oauth",        limit: 255
-    t.string   "srl_nick",         limit: 255
-    t.string   "summoner_name",    limit: 255
-    t.string   "osu_nick",         limit: 255
+    t.string   "session"
+    t.string   "email"
+    t.string   "bot_nick"
+    t.string   "bot_oauth"
+    t.string   "srl_nick"
+    t.string   "summoner_name"
+    t.string   "osu_nick"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "speedruncom_nick"
