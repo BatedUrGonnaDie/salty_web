@@ -20,9 +20,9 @@
           <div class="textutil">
             <%= d.text_field :text %>
             <% unless d.object.reviewed %>
-              <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Approve</button>
+              <button type="button", id="approve-<%= d.object.id %>", class="pure-button pure-button-approve text-approve-button", data-user="<%= @current_user.twitch_name %>", data-type="quotes", data-id="<%= d.object.id %>">Approve</button>
             <% end %>
-            <button type="button" id="delete-<%= d.object.id %>", class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'quotes'});">Delete</button>
+            <button type="button", class="pure-button pure-button-delete text-delete-button", data-id="<%= d.object.id %>", data-type="quotes", data-user="<%= @current_user.twitch_name %>">Delete</button>
           </div>
         </div>
       <% end %>
@@ -39,9 +39,9 @@
           <div class="textutil">
             <%= d.text_field :text %>
             <% unless d.object.reviewed %>
-              <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve", onclick="window.approve_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Approve</button>
+              <button type="button" id="approve-<%= d.object.id %>", class="pure-button pure-button-approve text-approve-button", data-user="<%= @current_user.twitch_name %>", data-id="<%= d.object.id %>", data-type="puns">Approve</button>
             <% end %>
-            <button type="button" id="delete-<%= d.object.id %>", class="pure-button pure-button-delete", onclick="window.delete_textutil({user: '<%= @current_user.twitch_name %>', id: '<%= d.object.id %>', type: 'puns'});">Delete</button>
+            <button type="button" id="delete-<%= d.object.id %>", class="pure-button pure-button-delete text-delete-button", data-user="<%= @current_user.twitch_name %>", data-id="<%= d.object.id %>", data-type="puns">Delete</button>
           </div>
         </div>
       <% end %>

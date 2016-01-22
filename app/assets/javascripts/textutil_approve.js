@@ -1,15 +1,19 @@
 $(function() {
-    window.approve_textutil = function(util) {
+    $(".text-approve-button").click(function() {
+        var text_type = $(this).data("type");
+        var text_id = $(this).data("id");
+        var user = $(this).data("user");
+
         $.ajax({
-            url: "/api/users/" + util["user"] + "/" + util["type"] + "/" + util["id"],
+            url: "/api/users/" + user + "/" + text_type + "/" + text_id,
             type: "PUT",
-            data: "&reviewed=1",
+            data: "reviewed=1",
             success: function() {
-                $("#approve-" + util["id"]).replaceWith("<div class='approve-check'>\u2713</div>")
+                $("#approve-" + text_id).replaceWith("<div class='approve-check'>\u2713</div>")
             },
             error: function(response) {
-                console.log("Creation of util failed with response: " + JSON.stringify(response));
+                alert("Creation of util failed with response: " + JSON.stringify(response));
             }
         });
-    };
-});
+    })
+})

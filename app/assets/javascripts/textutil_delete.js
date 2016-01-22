@@ -1,15 +1,19 @@
 $(function() {
-    window.delete_textutil = function(util) {
+    $(".text-delete-button").click(function() {
+        var text_type = $(this).data("type");
+        var text_id = $(this).data("id");
+        var user = $(this).data("user");
+
         $.ajax({
-            url: "/api/users/" + util["user"] + "/" + util["type"] + "/" + util["id"],
+            url: "/api/users/" + user + "/" + text_type + "/" + text_id,
             type: "DELETE",
             success: function() {
-                $("#" + util["type"] + "-" + util["id"]).fadeOut(200, function() { this.remove(); });
-                $('input[type="hidden"][value="' + util["id"] + '"]').remove();
+                $("#" + text_type + "-" + text_id).fadeOut(200, function() { this.remove(); });
+                $('input[type="hidden"][value="' + text_id + '"]').remove();
             },
             error: function(response) {
-                console.log("Deletion of util failed with response: " + JSON.stringify(response));
+                alert("Deletion of util failed with response: " + JSON.stringify(response));
             }
         });
-    };
-});
+    })
+})
