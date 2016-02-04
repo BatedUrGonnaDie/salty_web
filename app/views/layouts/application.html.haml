@@ -2,10 +2,10 @@
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
     %title= yield :title
     = stylesheet_link_tag "application.css"
-    = javascript_include_tag "application.js"
-    %meta{name: "viewport", content: "width=device-width, initial-scale=1"}
+    = javascript_include_tag "application.js", async: Rails.env.production?, defer: Rails.env.production?
     = csrf_meta_tags
     = favicon_link_tag
   %body
