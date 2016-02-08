@@ -99,7 +99,8 @@ var add_history = function(run) {
       text: duration_title
     },
     data: {
-      columns: [duration]
+      columns: [duration],
+      color: function(d, i) { return $("#bar-fill-color").val(); }
     },
     axis: {
       x: {
@@ -151,7 +152,8 @@ var add_splits = function(splits) {
     },
     data: {
       columns: [pb],
-      type: "bar"
+      type: "bar",
+      color: function(d, i) { return $("#bar-fill-color").val(); }
     },
     axis: {
       x: {
@@ -185,7 +187,8 @@ var add_splits = function(splits) {
     },
     data: {
       columns: [history],
-      type: "bar"
+      type: "bar",
+      color: function(d, i) { return $("#bar-fill-color").val(); }
     },
     axis: {
       x: {
