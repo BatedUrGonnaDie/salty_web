@@ -5,19 +5,22 @@ $(function () {
             $("#graph-progress").removeClass("progress-bar-danger");
             update_progress("0", "Fetching run...");
             $("#graph-progress").removeClass("")
-            $("#info-table").add("#chart").fadeOut(200).promise().done(function() {
-                $(this).empty().show();
+            $("#info-table").add("#chart-container").fadeOut(200).promise().done(function() {
+                $(this).children().each(function() {$(this).empty().show(); })
+                $(this).show()
                 var splits = sessionStorage.getItem(run_id + "_splits");
                 var run_info = sessionStorage.getItem(run_id);
 
                 if (run_info) {
                     add_basic(JSON.parse(run_info));
+                    add_history(JSON.parse(run_info));
                 } else {
                     $.ajax({
                         url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
                         type: "GET",
                         success: function(response) {
                             add_basic(response);
+                            add_history(response);
                             sessionStorage.setItem(run_id, JSON.stringify(response));
                         },
                         error: function(response) {
@@ -28,7 +31,7 @@ $(function () {
 
                 if (splits) {
                     update_progress(50, "Parsing splits...")
-                    graph_init(JSON.parse(splits));
+                    add_splits(JSON.parse(splits));
                 } else {
                     $.ajax({
                         url: "https://splits.io/api/v4/runs/" + run_id + "/splits?historic=1",
@@ -37,8 +40,7 @@ $(function () {
                         success: function(response) {
                             sessionStorage.setItem(run_id + "_splits", JSON.stringify(response));
                             update_progress(50, "Parsing splits...")
-                            graph_init(response);
-                            console.log(response);
+                            add_splits(JSON.parse(JSON.stringify(response)));
                         },
                         error: function(response) {
                             update_progress(100, "Error retrieving splits (Status: " + response.status + ")");
@@ -63,14 +65,6 @@ var update_progress = function(percentage, new_text) {
     };
 };
 
-var graph_init = function(response) {
-    // Parse stringify to make copies of the objects and not destory them
-    add_splits(JSON.parse(JSON.stringify(response)), "PB vs. Golds", false);
-    if (response[0].history.length > 0) {
-        add_splits(JSON.parse(JSON.stringify(response)), "Split History " + $("#history-compare-type").val() + " vs. Golds", true);
-    };
-};
-
 var add_basic = function(run) {
     var runners = []
     for (var i = 0; i < run.runners.length; ++i) {
@@ -84,176 +78,160 @@ var add_basic = function(run) {
       "</tr>" +
       "<tr>" +
         "<td>"+run.name+"</td><td>"+run.attempts+"</td><td>"+run.history.length+" (" +
-        Math.round((run.attempts/run.history.length) * 100) / 100+"%)</td><td>"+run.program+"</td>" +
+        (Math.round((run.attempts/run.history.length) * 100) / 100)+"%)</td><td>"+run.program+"</td>" +
         "<td>"+runners.join(", ")+"</td>" +
       "</tr>" +
     "</table>"
     $("#info-table").append(table);
 };
 
-var get_margins = function(top, right, bottom, left) {
-    var margin = {top: top, right: right, bottom: bottom, left: left};
-    var width = $("#chart").width() - margin.left - margin.right;
-    var height = 500 - margin.top - margin.bottom;
-    var dimensions = {margins: margin, width: width, height: height};
-    return dimensions;
+var add_history = function(run) {
+  var duration_title = "Run Duration Over Time";
+  var duration = run.history.map(function(d) {return d; });
+  duration.unshift("Run Length");
+  var duration_ticks = new Array(run.history.length);
+  for (var i = 1; i < duration.length; ++i) {
+    duration_ticks[i - 1] = i;
+  };
+  var chart3 = c3.generate({
+    bindto: "#chart3",
+    title: {
+      text: duration_title
+    },
+    data: {
+      columns: [duration]
+    },
+    axis: {
+      x: {
+        type: "category",
+        categories: duration_ticks
+      },
+      y: {
+        label: {
+          text: "Duration of Run",
+          position: "outer-middle"
+        },
+        tick: {
+          format: time_formatter
+        }
+      }
+    },
+    legend: {
+      hide: true
+    }
+  });
 };
 
-var add_splits = function(splits, graph_title, with_history) {
-    var splits_small = []
-    if (with_history) {
-        splits.forEach(function(d) {
-            var split = validate_history(d);
-            if (split) { splits_small.push(split); };
-            update_progress(50 + (30 / splits.length));
-        });
-    } else {
-        splits_small = condense_splits(splits);
+var add_splits = function(splits) {
+  var pb = ["PB - Gold"];
+  var pb_title = "PB vs Golds";
+  var pb_ticks = [];
+  var small_pb = condense_pb(JSON.parse(JSON.stringify(splits)));
+  small_pb.forEach(function(d) {
+    pb.push(d.value);
+    pb_ticks.push(d.name);
+  });
+
+  var history_title = "Split History " + $("#history-compare-type").val() + "vs Golds";
+  var history = [$("#history-compare-type").val() + " - Gold"];
+  var history_ticks = [];
+  splits.forEach(function(d) {
+    var split = validate_history(d);
+    if (split) {
+      history.push(split.value);
+      history_ticks.push(split.name);
     };
-    if (splits_small.length === 0) { return; };
-    update_progress(80, "Creating graphs...");
+  });
 
-    var dimensions = get_margins(30, 30, 120, 60);
-    var margin = dimensions.margins,
-        width = dimensions.width,
-        height = dimensions.height;
+  update_progress(80, "Creating graphs...");
+  var chart = c3.generate({
+    bindto: "#chart",
+    title: {
+      text: pb_title
+    },
+    data: {
+      columns: [pb],
+      type: "bar"
+    },
+    axis: {
+      x: {
+        type: 'category',
+        categories: pb_ticks,
+        tick: {
+          rotate: -45,
+          multiline: false
+        },
+        height: 80
+      },
+      y: {
+        label: {
+          text: "Possible Time Save",
+          position: "outer-middle"
+        },
+        tick: {
+          format: function(d) { return d + "s"; }
+        }
+      },
+    },
+    legend: {
+      hide: true
+    }
+  });
 
-    var x = d3.scale
-              .ordinal()
-              .rangeRoundBands([0, width], .1);
-    var y = d3.scale
-              .linear()
-              .range([height, 0]);
+  var chart2 = c3.generate({
+    bindto: "#chart2",
+    title: {
+      text: history_title
+    },
+    data: {
+      columns: [history],
+      type: "bar"
+    },
+    axis: {
+      x: {
+        type: "category",
+        categories: history_ticks,
+        tick: {
+          rotate: -45,
+          multiline: false
+        },
+        height: 80
+      },
+      y: {
+        label: {
+          text: "Possible Time Save",
+          position: "outer-middle"
+        },
+        tick: {
+          format: function(d) { return d + "s"; }
+        }
+      }
+    },
+    legend: {
+      hide: true
+    }
+  });
 
-    var xAxis = d3.svg
-                  .axis()
-                  .scale(x)
-                  .orient("bottom")
-                  .tickSize(6, 0, 0);
-    var yAxis = d3.svg
-                  .axis()
-                  .scale(y)
-                  .orient("left")
-                  .ticks(10)
-                  .tickFormat(function(d) { return d + "s"; })
-                  .tickSize(-width, 0, 0);
-
-    var svg = d3.select("#chart")
-                .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
-                .append("g")
-                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    x.domain(splits_small.map(function(d) { return d.name; }));
-    y.domain([0, d3.max(splits_small, function(d) { return d.value; })]);
-
-    svg.append("g")
-       .attr("class", "x axis")
-       .attr("transform", "translate(0," + height + ")")
-       .call(xAxis)
-       .selectAll("text")
-       .style("text-anchor", "end")
-       .attr("dx", "-.8em")
-       .attr("dy", ".15em")
-       .attr("transform", "rotate(-45)");
-    update_progress(85);
-
-    svg.append("g")
-       .attr("class", "y axis")
-       .call(yAxis)
-       .append("text")
-       .attr("transform", "rotate(-90)")
-       .attr("y", 0 - margin.left)
-       .attr("x", 0 - height / 2)
-       .attr("dy", "1em")
-       .style("text-anchor", "middle")
-       .text("Possible Time Save");
-    update_progress(90);
-
-    svg.append("text")
-       .attr("x", width / 2)
-       .attr("y", 0 - margin.top / 2)
-       .attr("text-anchor", "middle")
-       .style("font-size", "16px")
-       .style("text-decoration", "underline")
-       .text(graph_title);
-    update_progress(95);
-
-    svg.selectAll("bar")
-       .data(splits_small)
-       .enter()
-       .append("rect")
-       .attr("class", "bar")
-       .attr("x", function(d) { return x(d.name); })
-       .attr("width", x.rangeBand())
-       .attr("y", function(d) { return y(d.value); })
-       .attr("height", function(d) { return height - y(d.value); })
-       .attr("fill", $("#bar-fill-color").val())
-       .append("title")
-       .attr("class", "bar-text")
-       .text(function(d) { return d.value + " seconds"; });
-       update_progress(100, "Ready");
+  update_progress(100, "All Done!");
 };
 
-var add_run_history = function(response) {
-    var data = [];
-    for (var i = 0, length = response.history.length; i < length; ++i) {
-        data.push(Math.round((response.history[i]) * 100) / 100);
+var condense_pb = function(splits) {
+  var reduced_splits = [];
+  for (var i = 0, length = splits.length; i < length; ++i) {
+    if (splits[i].skipped) {
+      if (i < length) {
+        splits[i + 1].best += splits[i].best;
+        splits[i + 1].duration += splits[i].duration;
+        splits[i + 1].name = splits[i].name + " + " + splits[i + 1].name;
+      };
+      continue;
     };
-
-    var dimensions = get_margins(30, 30, 40, 60);
-    var margin = dimensions.margins,
-        width = dimensions.width,
-        height = dimensions.height;
-
-    var x = d3.scale
-              .linear()
-              .domain([0, d3.max(data)]).range([0 + margin.right + margin.left, height - margin.top - margin.bottom])
-    var y = d3.scale
-              .linear()
-              .domain([0, data.length]).range([0 + margin.top + margin.bottom, width - margin.right - margin.left])
-
-    var svg = d3.select("#chart")
-                .append("svg")
-                .attr("width", width)
-                .attr("height", height);
-
-    var g = svg.append("g")
-               .attr("transform", "translate(0, 200)");
-
-    var line = d3.svg
-                 .line()
-                 .x(function(d, i) { return x(i); })
-                 .y(function(d) { return -1 * y(d); });
-
-    g.append("path")
-     .attr("d", line(data));
-
-};
-
-var condense_splits = function(splits) {
-    var reduced_splits = []
-    for (var i = 0, length = splits.length; i < length; ++i) {
-        if (splits[i].skipped) {
-            if (i + 1 < length) {
-                splits[i+1].best += splits[i].best;
-                splits[i+1].name = splits[i].name + " + " + splits[i+1].name;
-            } else {
-                splits.pop();
-            };
-            update_progress(50 + (15 / splits.length));
-        };
-    };
-    for (var i = 0, length = splits.length; i < length; ++i) {
-        if (splits[i].skipped) { continue; };
-        var cmp_time = splits[i].duration - splits[i].best;
-        if (cmp_time > Number($("#min-bar-time").val())) {
-            reduced_splits.push({name: splits[i].name, value: Math.round((cmp_time) * 100) / 100});
-        };
-        update_progress(50 + (15 / splits.length));
-    };
-    return reduced_splits;
+    var cmp_time = splits[i].duration - splits[i].best;
+    if (cmp_time > Number($("#min-bar-time").val())) {
+      reduced_splits.push({name: splits[i].name, value: round_two(cmp_time)});
+    }
+  };
+  return reduced_splits;
 }
 
 var validate_history = function(split) {
@@ -272,10 +250,26 @@ var validate_history = function(split) {
         };
         var mean = d3.mean(split.history);
         if (mean - split.best < Number($("#min-bar-time").val())) { return false; };
-        return {name: split.name, value: Math.round((mean - split.best) * 100) / 100};
+        return {name: split.name, value: round_two(mean - split.best)};
     } else if (cmp_type === "Median") {
         var median = d3.median(split.history);
         if (median - split.best < Number($("#min-bar-time").val())) { return false; };
-        return {name: split.name, value: Math.round((median - split.best) * 100) / 100};
+        return {name: split.name, value: round_two(median - split.best)};
     };
 };
+
+var round_two = function(num) {
+  return Math.round((num) * 100) / 100;
+}
+
+var time_formatter = function(x) {
+  var minutes = x / 60;
+  var hours = Math.floor(minutes / 60);
+  minutes = Math.floor(minutes % 60);
+  var seconds = Math.floor(x % 60);
+  if (minutes < 10) { minutes = "0" + minutes; };
+  if (seconds < 10) { seconds = "0" + seconds; };
+
+  var output = hours + ":" + minutes + ":" + seconds;
+  return output;
+}

@@ -12,6 +12,7 @@ gem 'purecss'
 gem 'uglifier'
 gem 'jquery-rails'
 gem 'd3-rails'
+gem 'c3-rails'
 
 gem 'httparty'
 
@@ -24,6 +25,10 @@ group :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'rack-mini-profiler'
+  gem 'stackprof'
+  gem 'flamegraph'
+  gem 'memory_profiler'
 end
 
 group :production do
