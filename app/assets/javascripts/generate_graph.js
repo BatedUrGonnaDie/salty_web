@@ -15,8 +15,10 @@ $(function () {
                   update_progress(50, "Parsing splits...");
                   add_basic(run);
                   add_splits(run.splits);
-                  add_history(run);
-                  add_resets(run);
+                  if (run.history !== undefined && run.history.length > 0) {
+                    add_history(run);
+                    add_resets(run);
+                  };
                 } else {
                   var info_call = $.ajax({
                     url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
@@ -35,8 +37,10 @@ $(function () {
                       sessionStorage.setItem(run_id, JSON.stringify(run_info[0]));
                       add_basic(run_info[0]);
                       add_splits(run_info[0].splits);
-                      add_history(run_info[0]);
-                      add_resets(run_info[0]);
+                      if (run.history !== undefined && run.history.length > 0) {
+                        add_history(run_info[0]);
+                        add_resets(run_info[0]);
+                      };
                     } else {
                       $("#graph-progress").addClass("progress-bar-danger");
                       update_progress(100, "Error retirving splits (history too long most likely");
