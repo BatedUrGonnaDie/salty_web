@@ -6,47 +6,42 @@ $(function () {
             update_progress("0", "Fetching run...");
             $("#graph-progress").removeClass("")
             $("#info-table").add("#chart-container").fadeOut(200).promise().done(function() {
+                $("#info-table").empty().show();
                 $(this).children().each(function() {$(this).empty().show(); })
                 $(this).show()
-                var splits = sessionStorage.getItem(run_id + "_splits");
-                var run_info = sessionStorage.getItem(run_id);
+                var run = JSON.parse(sessionStorage.getItem(run_id));
 
-                if (run_info) {
-                    add_basic(JSON.parse(run_info));
-                    add_history(JSON.parse(run_info));
+                if (run) {
+                  update_progress(50, "Parsing splits...");
+                  add_basic(run);
+                  add_splits(run.splits);
+                  add_history(run);
+                  add_resets(run);
                 } else {
-                    $.ajax({
-                        url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
-                        type: "GET",
-                        success: function(response) {
-                            add_basic(response);
-                            add_history(response);
-                            sessionStorage.setItem(run_id, JSON.stringify(response));
-                        },
-                        error: function(response) {
-                            console.log(response);
-                        }
-                    });
-                };
-
-                if (splits) {
-                    update_progress(50, "Parsing splits...")
-                    add_splits(JSON.parse(splits));
-                } else {
-                    $.ajax({
-                        url: "https://splits.io/api/v4/runs/" + run_id + "/splits?historic=1",
-                        type: "GET",
-                        crossDomain: true,
-                        success: function(response) {
-                            sessionStorage.setItem(run_id + "_splits", JSON.stringify(response));
-                            update_progress(50, "Parsing splits...")
-                            add_splits(JSON.parse(JSON.stringify(response)));
-                        },
-                        error: function(response) {
-                            update_progress(100, "Error retrieving splits (Status: " + response.status + ")");
-                            $("#graph-progress").addClass("progress-bar-danger");
-                        }
-                    });
+                  var info_call = $.ajax({
+                    url: "https://splits.io/api/v4/runs/" + run_id + "?historic=1",
+                    type: "GET",
+                    crossDomain: true
+                  });
+                  var splits_call = $.ajax({
+                    url: "https://splits.io/api/v4/runs/" + run_id + "/splits?historic=1",
+                    type: "GET",
+                    crossDomain: true
+                  });
+                  $.when(info_call, splits_call).then(function(run_info, splits) {
+                    if (run_info[1] === "success" && splits[1] === "success") {
+                      update_progress(50, "Parsing splits...");
+                      run_info[0].splits = splits[0];
+                      sessionStorage.setItem(run_id, JSON.stringify(run_info[0]));
+                      add_basic(run_info[0]);
+                      add_splits(run_info[0].splits);
+                      add_history(run_info[0]);
+                      add_resets(run_info[0]);
+                    } else {
+                      $("#graph-progress").addClass("progress-bar-danger");
+                      update_progress(100, "Error retirving splits (history too long most likely");
+                    };
+                  });
                 };
             });
 
@@ -66,9 +61,9 @@ var update_progress = function(percentage, new_text) {
 };
 
 var add_basic = function(run) {
-    var runners = []
+    var runner_names = [];
     for (var i = 0; i < run.runners.length; ++i) {
-        runners.push(run.runners[i].name);
+        runner_names.push(run.runners[i].name);
     }
     var table = "" +
     "<table class='table table-striped table-condensed'>" +
@@ -77,9 +72,9 @@ var add_basic = function(run) {
         "<th>Run Name</th><th>Attempts</th><th>Completed Runs</th><th>Program</th><th>Runners</th>" +
       "</tr>" +
       "<tr>" +
-        "<td>"+run.name+"</td><td>"+run.attempts+"</td><td>"+run.history.length+" (" +
-        (Math.round((run.attempts/run.history.length) * 100) / 100)+"%)</td><td>"+run.program+"</td>" +
-        "<td>"+runners.join(", ")+"</td>" +
+        "<td>"+run.name+"</td><td>"+run.attempts+"</td><td>"+(run.history.length + 1)+" (" +
+        (Math.round(((run.history.length + 1) / run.attempts) * 100) / 100)+"%)</td><td>"+run.program+"</td>" +
+        "<td>"+runner_names.join(", ")+"</td>" +
       "</tr>" +
     "</table>"
     $("#info-table").append(table);
@@ -119,6 +114,31 @@ var add_history = function(run) {
     },
     legend: {
       hide: true
+    }
+  });
+};
+
+var add_resets = function(run) {
+  var reset_data = [];
+  var counter = run.attempts;
+  run.splits.forEach(function(d) {
+    reset_data.push([d.name, counter - d.history.length]);
+    counter = d.history.length;
+  });
+  var chart4 = c3.generate({
+    bindto: "#chart4",
+    title: {
+      text: "Resets/Split"
+    },
+    data: {
+      columns: reset_data,
+      type: "donut"
+    },
+    donut: {
+      title: "Resets/Level",
+      label: {
+        format: function(v) { return v; }
+      }
     }
   });
 };
