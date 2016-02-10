@@ -14,9 +14,6 @@
           %label{for: "min-bar-time"} Minimum time to show bar (seconds)
           %input{type: "number", id: "min-bar-time", min: 0, value: 5, style: "width: 5em"}
         %div.col-md-3
-          %label{for: "bar-fill-color"} Fill color
-          %input{type: "color", id: "bar-fill-color", value: "#4863a0"}
-        %div.col-md-3
           %label{for: "history-compare-type"} Compare to history type
           %select{id: "history-compare-type", style: "width: auto;"}
             %option Mean/Average
@@ -24,7 +21,6 @@
         %div.col-md-3
           %label{for: "mean-comapre-outliers"} Remove outliers from mean
           %input{type: "checkbox", id: "mean-compare-outliers"}
-      %div.row
         %div.col-md-3
           %button{type: "button", class: "pure-button pure-button-primary", onclick: "javascript:window.generate_graph();"}
             Regenerate

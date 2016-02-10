@@ -37,14 +37,14 @@ $(function () {
                       sessionStorage.setItem(run_id, JSON.stringify(run_info[0]));
                       add_basic(run_info[0]);
                       add_splits(run_info[0].splits);
-                      if (run.history !== undefined && run.history.length > 0) {
+                      if (run_info.history !== undefined && run_info.history.length > 0) {
                         add_history(run_info[0]);
                         add_resets(run_info[0]);
                       };
-                    } else {
-                      $("#graph-progress").addClass("progress-bar-danger");
-                      update_progress(100, "Error retirving splits (history too long most likely");
                     };
+                  }, function(run_info, splits) {
+                    $("#graph-progress").addClass("progress-bar-danger");
+                    update_progress(100, "Error fetching splits (History probably too long)");
                   });
                 };
             });
@@ -98,8 +98,7 @@ var add_history = function(run) {
       text: duration_title
     },
     data: {
-      columns: [duration],
-      color: function(d, i) { return $("#bar-fill-color").val(); }
+      columns: [duration]
     },
     axis: {
       x: {
@@ -143,6 +142,11 @@ var add_resets = function(run) {
       label: {
         format: function(v) { return v; }
       }
+    },
+    tooltip: {
+      format: {
+        value: function(value, ratio) { return value + " | " + d3.round(ratio * 100, 1) + "%"; }
+      }
     }
   });
 };
@@ -176,8 +180,7 @@ var add_splits = function(splits) {
     },
     data: {
       columns: [pb],
-      type: "bar",
-      color: function(d, i) { return $("#bar-fill-color").val(); }
+      type: "bar"
     },
     axis: {
       x: {
@@ -211,8 +214,7 @@ var add_splits = function(splits) {
     },
     data: {
       columns: [history],
-      type: "bar",
-      color: function(d, i) { return $("#bar-fill-color").val(); }
+      type: "bar"
     },
     axis: {
       x: {
