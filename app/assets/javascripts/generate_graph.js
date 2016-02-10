@@ -37,6 +37,8 @@ $(function () {
                       sessionStorage.setItem(run_id, JSON.stringify(run_info[0]));
                       add_basic(run_info[0]);
                       add_splits(run_info[0].splits);
+                      console.log(run_info);
+                      console.log(run_info[0].history !== undefined && run_info[0].history.length > 0);
                       if (run_info.history !== undefined && run_info.history.length > 0) {
                         add_history(run_info[0]);
                         add_resets(run_info[0]);
