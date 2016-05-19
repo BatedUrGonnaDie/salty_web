@@ -11,7 +11,10 @@ class Api::ApplicationController < ApplicationController
 
     def authenticate
       unless current_user == @user
-        render status: 403, error: '403 Unauthorized'
+        render status: 403, json: {
+          status: 403,
+          error: "A session cookie is required."
+        }
         return
       end
     end

@@ -22,7 +22,7 @@ class Api::Users::PunsController < Api::ApplicationController
     else
       render status: 400, json: {
         status: 400,
-        message: "Failed to save."
+        error: "Failed to save."
       }
     end
   end
