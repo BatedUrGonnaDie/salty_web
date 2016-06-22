@@ -36,10 +36,10 @@ class User < ActiveRecord::Base
       "race"        => Command.new(name: "race",        on: false, admin: false, limit: 30),
 
       "song"        => Command.new(name: "song",        on: false, admin: false, limit: 30),
-      "rank"        => Command.new(name: "rank",        on: false, admin: false, limit: 30),
+      "rank"        => Command.new(name: "rank",        on: false, admin: false, limit: 30)
 
-      "runes"       => Command.new(name: "runes",       on: false, admin: false, limit: 30),
-      "masteries"   => Command.new(name: "masteries",   on: false, admin: false, limit: 30)
+      # "runes"       => Command.new(name: "runes",       on: false, admin: false, limit: 30),
+      # "masteries"   => Command.new(name: "masteries",   on: false, admin: false, limit: 30)
     }.merge(super.map{ |command| {command.name => command} }.inject(:merge) || {}).values
   end
 end
