@@ -11,11 +11,11 @@ class TwitchController < ApplicationController
       user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
       unless user_data.success?
         flash[:danger] = "There was an error retrieving data from twitch."
-        redirect_to salty_path
+        redirect_to salty_path && return
       end
     else
       flash[:danger] = "There was an error retrieving data from twitch."
-      redirect_to salty_path
+      redirect_to salty_path && return
     end
 
     @user = User.find_by(twitch_id: user_data['_id'])
@@ -30,10 +30,10 @@ class TwitchController < ApplicationController
     if @user.save
       @user.create_settings! if new_user
       sign_in @user
-      redirect_to salty_path
+      redirect_to salty_path && return
     else
       flash[:danger] = @user.errors
-      redirect_to root_path
+      redirect_to root_path && return
     end
   end
 
