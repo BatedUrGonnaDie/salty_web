@@ -11,10 +11,10 @@ gem 'purecss'
 
 gem 'uglifier'
 gem 'jquery-rails'
-gem 'd3-rails'
-gem 'c3-rails'
 
 gem 'httparty'
+
+gem 'newrelic_rpm'
 
 gem 'figaro'
 gem 'sdoc', group: :doc
