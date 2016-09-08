@@ -30,10 +30,10 @@ class TwitchController < ApplicationController
     if @user.save
       @user.create_settings! if new_user
       sign_in @user
-      redirect_to salty_path && return
+      redirect_to salty_path
     else
       flash[:danger] = @user.errors
-      redirect_to root_path && return
+      redirect_to root_path
     end
   end
 
