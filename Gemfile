@@ -14,10 +14,10 @@ gem 'jquery-rails'
 
 gem 'httparty'
 
-gem 'newrelic_rpm'
-
 gem 'figaro'
 gem 'sdoc', group: :doc
+
+gem 'chunky_png'
 
 group :development do
   gem 'spring'

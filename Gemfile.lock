@@ -50,6 +50,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.3.0)
     builder (3.2.2)
+    chunky_png (1.3.7)
     coderay (1.1.0)
     daemons (1.2.3)
     debug_inspector (0.0.2)
@@ -97,7 +98,6 @@ GEM
     mini_portile (0.6.2)
     minitest (5.8.0)
     multi_xml (0.5.5)
-    newrelic_rpm (3.16.2.321)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     pg (0.18.3)
@@ -188,13 +188,13 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
+  chunky_png
   figaro
   flamegraph
   haml-rails
   httparty
   jquery-rails
   memory_profiler
-  newrelic_rpm
   pg
   purecss
   rack-mini-profiler
