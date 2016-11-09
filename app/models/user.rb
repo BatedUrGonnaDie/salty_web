@@ -1,4 +1,4 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   has_one   :settings
   has_many  :commands
   has_many  :custom_commands

@@ -1,2 +1,2 @@
-class Textutil < ActiveRecord::Base
+class Textutil < ApplicationRecord
 end

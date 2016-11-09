@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.3.1'
 
 gem 'rails'
-gem 'thin'
+gem 'puma'
 gem 'haml-rails'
 
 gem 'sass-rails'
@@ -15,7 +15,6 @@ gem 'jquery-rails'
 gem 'httparty'
 
 gem 'figaro'
-gem 'sdoc', group: :doc
 
 gem 'chunky_png'
 

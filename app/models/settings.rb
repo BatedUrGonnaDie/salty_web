@@ -1,2 +1,2 @@
-class Settings < ActiveRecord::Base
+class Settings < ApplicationRecord
 end
