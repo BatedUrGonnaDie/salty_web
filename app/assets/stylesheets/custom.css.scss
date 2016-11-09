@@ -195,22 +195,13 @@ input {
   margin-bottom: 2.5em;
 }
 
-#chart {
-  .bar {
-    stroke: white;
-  }
-  .axis path, .axis line {
-    fill: none;
-    stroke: #000;
-    shape-rendering: crispEdges;
-  }
+.mini-text {
+  font-size: 80%;
+  display: inline;
+  font-weight: normal;
 }
 
-#bar-fill-color {
-  width: 4.5em;
-  height: 1.75em !important;
-}
-
-#graph-progress {
-  min-width: 5em;
+.command-heading {
+  color: black;
+  margin: 0px;
 }

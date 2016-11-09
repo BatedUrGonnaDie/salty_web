@@ -6,10 +6,10 @@ gem 'thin'
 gem 'haml-rails'
 
 gem 'sass-rails'
-gem 'bootstrap-sass'
 gem 'purecss'
-
 gem 'uglifier'
+
+gem 'bootstrap-sass'
 gem 'jquery-rails'
 
 gem 'httparty'

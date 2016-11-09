@@ -1,0 +1,7 @@
+- if path != :salty
+  = link_to "Home", salty_path, class: "pure-button"
+- if path != :quotes
+  = link_to "Quotes", salty_quotes_path, class: "pure-button"
+- if path != :custom_commands
+  = link_to "Custom Commands", custom_commands_path, class: "pure-button"
+= link_to "Sign Out", sign_out_path, class: "pure-button"

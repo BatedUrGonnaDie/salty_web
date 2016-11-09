@@ -1,0 +1,149 @@
+= provide(:title, "SaltyBot")
+- if signed_in?
+  #sub-header
+    #login-info
+      = "You are signed in as #{@current_user.twitch_name}."
+    #main-buttons
+      = render partial: "shared/buttons", locals: {path: :salty}
+  = form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f|
+    %h1 General Info
+    .pure-control-group
+      = f.fields_for :settings do |d|
+        = d.label :active do
+          = d.check_box :active
+          Enable Bot In Your Channel
+    .pure-control-group
+      = f.label :twitch_name, "Channel to Join:"
+      = f.text_field :twitch_name, readonly: true
+    .pure-control-group
+      = f.label :bot_nick do
+        Bot Nick to Use:
+        .mini-text *Leave blank if using default name of TheSaltyBot
+      = f.text_field :bot_nick, placeholder: "TheSaltyBot"
+    .pure-control-group
+      = f.label :bot_oauth do
+        Oauth for Bot Nick:
+        .mini-text *Leave blank if using default name
+      = f.password_field :bot_oauth
+    .pure-control-group
+      = f.label :srl_nick, "SpeedRunsLive Nick:"
+      = f.text_field :srl_nick
+    .pure-control-group
+      = f.label :speedruncom_nick do
+        Speedrun.com Username:
+        .mini-text *Optional if twitch name is exactly the same
+      = f.text_field :speedruncom_nick
+    .pure-control-group
+      = f.label :osu_nick, "Osu Nick:"
+      = f.text_field :osu_nick
+
+    - counter = 0
+    = f.fields_for :commands do |d|
+      - counter = counter + 1
+      - if counter == 1
+        %h1 General Commands
+        <div class="pure-g">
+      - elsif counter == 9
+        </div>
+        %h1 Speedrunning Commands
+        <div class="pure-g">
+      - elsif counter == 14
+        </div>
+        %h1 Osu Commands
+        <div class="pure-g">
+
+
+      .pure-u-1-3
+        .panel.panel-default
+          .panel-heading
+            %h2.command-heading= "!#{d.object.name}"
+          .panel-body
+            = d.hidden_field :name
+            .form-goup
+              = d.label :on do
+                = d.check_box :on
+                Enabled
+            .pure-control-group
+              = d.label :admin do
+                = d.check_box :admin
+                Mod Only Command?
+            .pure-control-group
+              = d.label :limit, "Cooldown:"
+              = d.number_field :limit, min: 0
+
+    </div>
+    .h1 Random Options
+    = f.fields_for :settings do |d|
+      .pure-control-group
+        = d.label :youtube_link do
+          = d.check_box :youtube_link
+          Link YouTube Videos In Chat?
+      .pure-control-group
+        = d.label :osu_link do
+          = d.check_box :osu_link
+          Send Osu Songs In Chat To Game Chat?
+      .pure-control-group
+        = d.label :voting_active do
+          = d.check_box :voting_active
+          Ability to Create Polls in Chat?
+      .pure-control-group
+        = d.label :voting_mods do
+          = d.check_box :voting_mods
+          Allow Mods to Manage Polls?
+      .pure-g
+        .pure-u-1-3
+          .panel.panel-default
+            .panel-heading
+              %h2.command-heading Sub Messages
+            .panel-body
+              .pure-control-group
+                = d.label :sub_message_active do
+                  = d.check_box :sub_message_active
+                  Have Bot Say a Message When User Subs
+              .pure-control-group
+                = d.label :sub_message_text, "Regular Sub:"
+                = d.text_field :sub_message_text
+              .pure-control-group
+                = d.label :sub_message_resub, "Resubscription:"
+                = d.text_field :sub_message_resub
+        .pure-u-1-3
+          .panel.panel-default
+            .panel-heading
+              %h2.command-heading Social
+            .panel-body
+              .pure-control-group
+                = d.label :social_active do
+                  = d.check_box :social_active
+                  Have bot say messages at regular intervals (minutes)
+              .pure-control-group
+                = d.label :social_output, "Output:"
+                = d.text_field :sub_message_text
+              .pure-control-group
+                = d.label :social_time, "Time Between Messgaes:"
+                = d.number_field :social_time, min: 0
+              .pure-control-group
+                = d.label :social_messages, "Number of Messages Inbetween Outputs:"
+                = d.number_field :social_messages, min: 0
+        .pure-u-1-3
+          .panel.panel-default
+            .panel-heading
+              %h2.command-heading Toobou
+            .panel-body
+              .pure-control-group
+                = d.label :toobou_active do
+                  = d.check_box :toobou_active
+                  Say something based on words in chat
+              .pure-control-group
+                = d.label :toobou_limit, "Cooldown:"
+                = d.number_field :toobou_limit, min: 0
+              .pure-control-group
+                = d.label :toobou_trigger, "Tigger:"
+                = d.text_field :toobou_trigger
+              .pure-control-group
+                = d.label :toobou_output, "Output:"
+                = d.text_field :toobou_output
+
+    = f.submit "Save", class: "pure-button pure-button-primary"
+- else
+  .div= link_to "Login with Twitch", to_twitch_path, class: "pure-button pure-button-login"
+  This page is the web interface for SaltyBot.  If you would like to use it just log in to this page and select the options that you would like.
