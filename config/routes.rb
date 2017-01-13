@@ -37,7 +37,5 @@ Rails.application.routes.draw do
         resources :songs, only: [:index, :create, :update]
       end
     end
-
-    get 'glitchify/mod/:username', to: 'glitchify#modbadge', as: :mod_badge
   end
 end
