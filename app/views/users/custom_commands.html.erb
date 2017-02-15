@@ -22,6 +22,7 @@
             Command Trigger: <%= cc.text_field :trigger %>
             Limit: <%= cc.number_field :limit %>
             Output: <%= cc.text_field :output %>
+            Help Text: <%= cc.text_field :help_text %>
             <button type="button" id="delete-<%= cc.object.id %>" class="pure-button pure-button-delete" onclick="window.delete_custom_command({user: '<%= @current_user.twitch_name %>', id: '<%= cc.object.id %>', trigger: '<%= cc.object.trigger %>'});">Delete</button>
           </div>
         </div>
@@ -35,7 +36,8 @@
     <input id="new-admin" type="checkbox" name="new-admin" /> Mod Command?<br>
     Limit: <input id="new-limit" type="number" name="new-limit"></input>
     Output: <input id="new-output" type="text" name="new-output"></input>
-    <button type="button" class="pure-button pure-button-primary" onclick="window.create_custom_command({user: '<%= @current_user.twitch_name %>', on: true, trigger: $('#new-trigger').val(), admin: $('#new-admin').is(':checked'), limit: $('#new-limit').val(), output: $('#new-output').val()})">Create New Command</button>
+    Help Text: <input id="new-help-text" type="text" name="new-help-htext"></input>
+    <button type="button" class="pure-button pure-button-primary" onclick="window.create_custom_command({user: '<%= @current_user.twitch_name %>', on: true, trigger: $('#new-trigger').val(), admin: $('#new-admin').is(':checked'), limit: $('#new-limit').val(), output: $('#new-output').val(), help_text: $('#new-help-text').val()})">Create New Command</button>
   </div>
 <% else %>
   Please sign in on the main salty page located <%= link_to "here.", salty_path %>

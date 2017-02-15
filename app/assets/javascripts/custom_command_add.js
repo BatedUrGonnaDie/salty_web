@@ -10,6 +10,7 @@ $(function () {
                     $('#new-admin').prop('checked', false);
                     $('#new-limit').val("");
                     $('#new-output').val("");
+                    $('#new-help-text').val("");
                 },
                 error: function(response) {
                     console.log("Creation of command failed with response: " + JSON.stringify(response));

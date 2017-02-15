@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150516082051) do
+ActiveRecord::Schema.define(version: 20170214235831) do
 
   create_table "commands", force: :cascade do |t|
     t.integer "user_id"
@@ -26,8 +25,9 @@ ActiveRecord::Schema.define(version: 20150516082051) do
     t.string  "trigger"
     t.boolean "on"
     t.boolean "admin"
-    t.integer "limit",   default: 30
+    t.integer "limit",     default: 30
     t.string  "output"
+    t.string  "help_text"
   end
 
   create_table "settings", force: :cascade do |t|

@@ -4,7 +4,7 @@ class Api::Users::CustomCommandsController < Api::ApplicationController
   before_action :set_custom_command, only: [:destroy]
 
   def create
-    @c_com = CustomCommand.new(user_id: @user.id, on: params[:on], trigger: params[:trigger], admin: params[:admin], limit: params[:limit], output: params[:output])
+    @c_com = CustomCommand.new(user_id: @user.id, on: params[:on], trigger: params[:trigger], admin: params[:admin], limit: params[:limit], output: params[:output], help_text: params[:help_text])
     if @c_com.save
       send_update
       render status: 200, json: {status: 200, custom_command: @c_com}
