@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.3.1'
+ruby '2.5.3'
 
 gem 'rails'
 gem 'puma'
@@ -24,6 +24,7 @@ group :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'pry-rails'
   gem 'rack-mini-profiler'
   gem 'stackprof'
   gem 'flamegraph'

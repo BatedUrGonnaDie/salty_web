@@ -1,7 +1,7 @@
 $(function() {
     window.delete_custom_command = function(command) {
         $.ajax({
-            url: "/api/users/" + command["user"] + "/custom_commands/" + command["trigger"],
+            url: "/api/users/" + command["user"] + "/custom_commands/" + encodeURIComponent(command["trigger"]),
             type: "DELETE",
             success: function() {
                 $("#ccustom-" + command["id"]).fadeOut(200, function() { this.remove(); });
