@@ -1,21 +1,23 @@
 class TwitchController < ApplicationController
 
   def to_twitch
-    redirect_to "https://api.twitch.tv/kraken/oauth2/authorize?response_type=code&client_id=#{client_id}&redirect_uri=#{redirect_uri}&scope=user_read"
+    redirect_to "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=#{client_id}&redirect_uri=#{redirect_uri}&scope=user_read"
   end
 
   def from_twitch
-    twitch_response = HTTParty.post("https://api.twitch.tv/kraken/oauth2/token", query: full_twitch_info)
+    # raise
+    twitch_response = HTTParty.post("https://id.twitch.tv/oauth2/token", query: full_twitch_info)
     if twitch_response.success?
       oauth = twitch_response['access_token']
-      user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}")
+      user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}", headers: {'Accept': 'application/vnd.twitchtv.v5+json'})
       unless user_data.success?
         flash[:danger] = "There was an error retrieving data from twitch."
-        redirect_to salty_path && return
+        redirect_to(salty_path) && return
       end
     else
       flash[:danger] = "There was an error retrieving data from twitch."
-      redirect_to salty_path && return
+      redirect_to(salty_path) && return
+
     end
 
     @user = User.find_by(twitch_id: user_data['_id'])
@@ -30,17 +32,17 @@ class TwitchController < ApplicationController
     if @user.save
       @user.create_settings! if new_user
       sign_in @user
-      redirect_to salty_path
+      redirect_to(salty_path)
     else
       flash[:danger] = @user.errors
-      redirect_to root_path
+      redirect_to(root_path)
     end
   end
 
   def sign_out
     destroy
     flash[:success] = "Signed out"
-    redirect_to root_path
+    redirect_to(root_path)
   end
 
   private
