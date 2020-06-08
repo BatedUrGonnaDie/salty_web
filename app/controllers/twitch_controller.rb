@@ -6,16 +6,16 @@ class TwitchController < ApplicationController
 
   def from_twitch
     # raise
-    twitch_response = HTTParty.post("https://id.twitch.tv/oauth2/token", query: full_twitch_info)
+    twitch_response = HTTParty.post('https://id.twitch.tv/oauth2/token', query: full_twitch_info)
     if twitch_response.success?
       oauth = twitch_response['access_token']
       user_data = HTTParty.get("https://api.twitch.tv/kraken/user?oauth_token=#{oauth}", headers: {'Accept': 'application/vnd.twitchtv.v5+json'})
       unless user_data.success?
-        flash[:danger] = "There was an error retrieving data from twitch."
+        flash[:danger] = 'There was an error retrieving data from twitch.'
         redirect_to(salty_path) && return
       end
     else
-      flash[:danger] = "There was an error retrieving data from twitch."
+      flash[:danger] = 'There was an error retrieving data from twitch.'
       redirect_to(salty_path) && return
 
     end
