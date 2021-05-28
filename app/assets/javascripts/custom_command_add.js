@@ -2,7 +2,7 @@ $(function () {
     window.create_custom_command = function(command) {
         if (command["trigger"] != "") {
             $.ajax({
-                url: "/api/users/" + command["user"] + "/custom_commands",
+                url: "/api/users/" + encodeURIComponent(command["user"]) + "/custom_commands",
                 type: "POST",
                 data: command,
                 success: function(response) {

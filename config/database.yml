@@ -61,7 +61,4 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: salty_web_v2_production
-  username: salty_web_v2
-  password: <%= ENV['SALTY_WEB_V2_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

@@ -5,7 +5,7 @@ $(function() {
         var user = $(this).data("user");
 
         $.ajax({
-            url: "/api/users/" + user + "/" + text_type + "/" + text_id,
+            url: "/api/users/" + encodeURIComponent(user) + "/" + encodeURIComponent(text_type) + "/" + encodeURIComponent(text_id),
             type: "DELETE",
             success: function() {
                 $("#" + text_type + "-" + text_id).fadeOut(200, function() { this.remove(); });

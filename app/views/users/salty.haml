@@ -82,14 +82,6 @@
         = d.label :osu_link do
           = d.check_box :osu_link
           Send Osu Songs In Chat To Game Chat?
-      .pure-control-group
-        = d.label :voting_active do
-          = d.check_box :voting_active
-          Ability to Create Polls in Chat?
-      .pure-control-group
-        = d.label :voting_mods do
-          = d.check_box :voting_mods
-          Allow Mods to Manage Polls?
       .pure-g
         .pure-u-1-3
           .panel.panel-default
@@ -146,4 +138,4 @@
     = f.submit "Save", class: "pure-button pure-button-primary"
 - else
   .div= link_to "Login with Twitch", to_twitch_path, class: "pure-button pure-button-login"
-  This page is the web interface for SaltyBot.  If you would like to use it just log in to this page and select the options that you would like.
+  This page is the web interface for SaltyBot.  If you would like to use it just log in to this page using Twitch and select the options that you would like.

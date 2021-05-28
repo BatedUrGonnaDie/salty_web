@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get   '/contact',                   to: 'static_pages#contact',   as: :contact
   get   '/faq',                       to: 'static_pages#faq',       as: :faq
 
-
   get   'twitch/salty/sign_in',       to: 'twitch#to_twitch',       as: :to_twitch
   get   'twitch/salty/auth',          to: 'twitch#from_twitch',     as: :twitch_auth
   get   'twitch/salty/sign_out',      to: 'twitch#sign_out',        as: :sign_out
@@ -20,7 +19,6 @@ Rails.application.routes.draw do
   get   'twitch/salty/custom',        to: 'users#custom_commands',  as: :custom_commands
   patch 'twitch/salty/custom',        to: 'users#cc_update',        as: :update_custom_commands
   get   'twitch/salty/guide',         to: 'users#guide',            as: :salty_guide
-
 
   get   'twitch/pydash/out',          to: 'dashboard#to_twitch',    as: :dashboard_out
   get   'twitch/pydash/auth',         to: 'dashboard#from_twitch',  as: :dashboard_auth

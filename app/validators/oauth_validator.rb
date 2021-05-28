@@ -18,10 +18,14 @@ class OauthValidator < ActiveModel::Validator
   def validate_user_record(user_record)
     return if user_record.bot_oauth.blank?
 
-    if user_record.bot_oauth.start_with?("oauth:")
-      user_record.bot_oauth = user_record.bot_oauth[6..-1]
-    end
-    response = HTTParty.get("https://api.twitch.tv/kraken/?oauth_token=#{user_record[:bot_oauth]}", headers: {'Accept': 'application/vnd.twitchtv.v5+json', 'Client-ID': ENV['salty_client_id']})
+    user_record.bot_oauth = user_record.bot_oauth[6..-1] if user_record.bot_oauth.start_with?('oauth:')
+    response = HTTParty.get(
+      "https://api.twitch.tv/kraken/?oauth_token=#{user_record[:bot_oauth]}",
+      headers: {
+        'Accept': 'application/vnd.twitchtv.v5+json',
+        'Client-ID': ENV['salty_client_id']
+      }
+    )
 
     unless response.success?
       user_record.errors[:base] << "Validating the bot's oauth with Twitch failed, please try updating it later."

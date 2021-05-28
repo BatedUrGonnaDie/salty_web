@@ -2,7 +2,7 @@ $(function () {
     window.create_textutil = function(util) {
         if (util["text"] != "") {
             $.ajax({
-                url: "/api/users/" + util["user"] + "/" + util["type"],
+                url: "/api/users/" + encodeURIComponent(util["user"]) + "/" + encodeURIComponent(util["type"]),
                 type: "POST",
                 data: "&text=" + encodeURIComponent(util["text"]) + "&reviewed=1",
                 success: function(response) {

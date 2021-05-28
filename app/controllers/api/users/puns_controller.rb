@@ -28,7 +28,7 @@ class Api::Users::PunsController < Api::ApplicationController
   end
 
   def update
-    if @tutil.update_attribute(:reviewed, params[:reviewed])
+    if @tutil.update(:reviewed, params[:reviewed])
       render status: 200, json: {
         status: 200,
         pun: @tutil
