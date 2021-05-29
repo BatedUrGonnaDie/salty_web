@@ -1,13 +1,14 @@
 class Api::Users::SongsController < Api::ApplicationController
   before_action :set_user
+  before_action :set_song
   before_action :authenticate, only: [:update]
 
   def index
     render status: 200, json: {
       status: 200,
-      mapName: @user.song.map_name,
-      mapId: @user.song.map_id,
-      setId: @user.song.set_id
+      mapName: @song.map_name,
+      mapId: @song.map_id,
+      setId: @song.set_id
     }
   end
 
@@ -17,5 +18,12 @@ class Api::Users::SongsController < Api::ApplicationController
     else
       render status: 400, json: { stauts: 400, error: 'Error updating key.' }
     end
+  end
+
+  private
+
+  def set_song
+    @song = @user.song
+    head :no_content unless @song
   end
 end
