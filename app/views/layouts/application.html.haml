@@ -18,4 +18,5 @@
       = yield
       = render 'layouts/footer'
 
-    = render 'modals/song_command'
+    - if signed_in?
+      = render 'modals/song_command'
