@@ -1,4 +1,5 @@
-@import "bootstrap-sprockets";
+@import "bootstrap/functions";
+@import "bootstrap/variables";
 @import "bootstrap";
 
 /* mixins, variables, etc. */
@@ -41,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 3em;
+  font-size: 2em;
   letter-spacing: -2px;
   margin-bottom: 30px;
   text-align: center;
@@ -54,7 +55,6 @@ h2 {
   margin-bottom: 30px;
   text-align: center;
   font-weight: normal;
-  color: $gray-light;
 }
 
 h4 {
@@ -68,6 +68,11 @@ p {
 
 
 /* header */
+
+header {
+  height: 50px;
+  margin-bottom: 20px;
+}
 
 #logo {
   float: left;
@@ -90,11 +95,13 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $gray-medium-light;
-  color: $gray-light;
+  color: $gray-200;
   a {
-    color: $gray;
+    color: $gray-700;
+    text-decoration: none;
     &:hover {
-      color: $gray-darker;
+      color: $gray-900;
+      text-decoration: underline;
     }
   }
   small {
@@ -129,14 +136,6 @@ input, textarea, select, .uneditable-input {
   @include box_sizing;
 }
 
-input[type="checkbox"], input[type="submit"] {
-  width: auto;
-}
-
-input {
-  height: auto !important;
-}
-
 #error_explanation {
   color: red;
   ul {
@@ -145,15 +144,8 @@ input {
   }
 }
 
-.field_with_errors {
-  @extend .has-error;
-  .form-control {
-    color: $state-danger-text;
-  }
-}
-
 #sub-header {
-  margin-bottom: 4em;
+  margin-bottom: 1em;
 }
 
 #login-info {
@@ -202,6 +194,15 @@ input {
 }
 
 .command-heading {
-  color: black;
   margin: 0px;
+}
+
+.btn-twitch {
+  background-color: rgb(100, 65, 165);
+  border-color: rgb(100, 65, 165);
+  color: white;
+  &:hover {
+    color: white;
+    text-decoration: underline;
+  }
 }

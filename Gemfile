@@ -5,11 +5,10 @@ gem 'haml-rails'
 gem 'puma'
 gem 'rails', '~> 6.1'
 
-gem 'purecss'
 gem 'sass-rails'
 gem 'uglifier'
 
-gem 'bootstrap-sass'
+gem 'bootstrap', '~> 5.0.1'
 gem 'jquery-rails'
 
 gem 'httparty'

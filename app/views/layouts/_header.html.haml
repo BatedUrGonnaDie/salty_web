@@ -1,10 +1,9 @@
-%body
-  %header.navbar.navbar-static-top.navbar-inverse
-    .container
-      = link_to "League of Newbs", root_path, id: "logo"
-      %nav
-        %ul.nav.navbar-nav.navbar-right
-          %li= link_to "Home", root_path
-          %li= link_to "FAQ", faq_path
-          %li= link_to "PyDash", dashboard_path
-          %li= link_to "SaltyBot", salty_path
+%header.navbar.navbar-expand.navbar-dark.bg-dark
+  .container
+    = link_to "League of Newbs", root_path, id: "logo", class: "navbar-brand"
+    %nav
+      %ul.navbar-nav.navbar-right
+        %li.navbar-item= link_to "Home", root_path, class: "nav-link #{request.path == root_path ? " active" : ""}"
+        %li.navbar-item= link_to "FAQ", faq_path, class: "nav-link #{request.path == faq_path ? " active" : ""}"
+        %li.navbar-item= link_to "PyDash", dashboard_path, class: "nav-link #{request.path == dashboard_path ? " active" : ""}"
+        %li.navbar-item= link_to "SaltyBot", salty_path, class: "nav-link #{request.path == salty_path ? " active" : ""}"

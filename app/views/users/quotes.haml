@@ -1,0 +1,51 @@
+= provide(:title, "Quotes")
+- if signed_in?
+  #sub-header.row
+    .col-sm-4
+      = "You are signed in as #{@current_user.twitch_name}."
+    .col-sm-8.text-end
+      = render partial: "shared/buttons", locals: {path: :quotes}
+
+  = form_for @current_user, url: update_salty_quotes_path do |f|
+    = f.hidden_field :twitch_name
+    %h1 Quotes
+    .row.mb-3
+      = f.fields_for :quotes do |d|
+        .col-xs-12.col-md-6{id: "quotes-#{d.object.id}"}
+          .textutil
+            = d.text_field :text, class: "form-control"
+            - unless d.object.reviewed
+              %button.btn.btn-success.text-approve-button{type: "button", id: "approve-#{d.object.id}", data: {user: @current_user.twitch_name, type: "quotes", id: d.object.id}}
+                Approve
+
+            %button.btn.btn-danger.text-delete-button{type: "button", data: {id: d.object.id, type: "quotes", user: @current_user.twitch_name}}
+              Delete
+
+    #new-qoute
+      %input#new_quotes_input.form-control{type: "text", name: "new_quote_input"}
+      %button.btn.btn-primary{type: "button", onclick: "window.create_textutil({user: '#{@current_user.twitch_name}', type: 'quotes', text: $('#new_quotes_input').val()});"}
+        Create New Quote
+
+    %h1 Puns
+    .row.mb-3
+      = f.fields_for :puns do |d|
+        .col-xs-12.col-md-6{id: "puns-#{d.object.id}"}
+          .textutil
+            = d.text_field :text, class: "form-control"
+            - unless d.object.reviewed
+              %button.btn.btn-success.text-approve-button{type: "button", id: "approve-#{d.object.id}", data: {user: @current_user.twitch_name, id: d.object.id, type: "puns"}}
+                Approve
+
+            %button.btn.btn-danger.text-delete-button{type: "button", id: "delete-#{d.object.id}", data: {user: @current_user.twitch_name, id: d.object.id, type: "puns"}}
+              Delete
+
+      #new-pun
+        %input#new_puns_input.form-control{type: "text", name:"new_pun_input"}
+        %button.btn.btn-primary{type: "button", onclick: "window.create_textutil({user: '#{@current_user.twitch_name}', type: 'puns', text: $('#new_puns_input').val()});"}
+          Create New Pun
+
+    = f.submit "Save", class: "btn btn-primary w-auto"
+
+- else
+  %div Please sign in on the main salty page located
+  = link_to "here.", salty_path

@@ -1,7 +1,9 @@
 - if path != :salty
-  = link_to "Home", salty_path, class: "pure-button"
+  = link_to "Home", salty_path, class: "btn btn-secondary"
 - if path != :quotes
-  = link_to "Quotes", salty_quotes_path, class: "pure-button"
+  = link_to "Quotes", salty_quotes_path, class: "btn btn-secondary"
 - if path != :custom_commands
-  = link_to "Custom Commands", custom_commands_path, class: "pure-button"
-= link_to "Sign Out", sign_out_path, class: "pure-button"
+  = link_to "Custom Commands", custom_commands_path, class: "btn btn-secondary"
+- if path == :salty
+  %button.btn.btn-secondary{type: "button", data: {"bs-toggle" => "modal", "bs-target" => "#songModal"}} !song info
+= link_to "Sign Out", sign_out_path, class: "btn btn-secondary"

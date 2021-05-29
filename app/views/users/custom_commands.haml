@@ -1,0 +1,67 @@
+= provide(:title, "Custom Commands")
+- if signed_in?
+  #sub-header.row
+    .col-sm-4
+      = "You are signed in as #{@current_user.twitch_name}."
+    .col-sm-8.text-end
+      = render partial: "shared/buttons", locals: {path: :custom_commands}
+
+  = form_for @current_user, url: update_custom_commands_path do |f|
+    = f.hidden_field :twitch_name
+    %h1 Custom Commands
+    %h2 Please do not add prefixes for commands, they will be added automatically (ex: !)
+    #custom-commands-form
+      .row
+        = f.fields_for :custom_commands do |cc|
+          .col-xs-12.col-md-6{id: "ccustom-#{cc.object.id}"}
+            .custom-command.border
+              = cc.check_box :on, class: "form-check-input"
+              = cc.label :on, "Enabled", class: "form-check-label"
+
+              .form-check
+                = cc.check_box :admin, class: "form-check-input"
+                = cc.label :admin, "Mod Only Command", class: "form-check-label"
+
+              = cc.label :trigger, "Command Trigger:", class: "form-label"
+              = cc.text_field :trigger, class: "form-control"
+
+              = cc.label :limit, "Limit:", class: "form-label"
+              = cc.number_field :limit, class: "form-control"
+
+              = cc.label :output, "Output:", class: "form-label"
+              = cc.text_field :output, class: "form-control"
+
+              = cc.label :help_text, "Help Text:", class: "form-label"
+              = cc.text_field :help_text, class: "form-control"
+
+              %button.btn.btn-danger{type: "button", id: "delete-#{cc.object.id}", onclick: "window.delete_custom_command({user: '#{@current_user.twitch_name}', id: '#{cc.object.id}', trigger: '#{cc.object.trigger}'});"}
+                Delete
+
+    = f.submit "Save", class: "btn btn-primary w-auto"
+
+  %h2 Add New Commands
+  #new-custom.row
+    .col-xs-12.col-md-6
+      %label.form-label{for: "new-trigger"} Trigger:
+      %input#new-trigger.form-control{type: "text", name:"new-trigger"}
+
+      .form-check
+        %input#new-admin.form-check-input{type: "checkbox", name: "new-admin"}
+        %label.form-check-label{for: "new-admin"} Mod Command?
+
+      %label.form-label{for: "new-limit"} Limit:
+      %input#new-limit.form-control{type: "number", name: "new-limit"}
+
+      %label.form-label{for: "new-output"} Output:
+      %input#new-output.form-control{type: "text", name: "new-output"}
+
+      %label.form-label{for: "new-help-text"} Help Text:
+      %input#new-help-text.form-control{type: "text", name: "new-help-text"}
+
+      %button.btn.btn-primary{type: "button", onclick: "window.create_custom_command({user: '#{@current_user.twitch_name}', on: true, trigger: $('#new-trigger').val(), admin: $('#new-admin').is(':checked'), limit: $('#new-limit').val(), output: $('#new-output').val(), help_text: $('#new-help-text').val()})"}
+        Create New Command
+
+- else
+  Please sign in on the main salty page located
+  = link_to "here.", salty_path
+

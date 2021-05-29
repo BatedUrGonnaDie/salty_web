@@ -1,0 +1,18 @@
+.modal#songModal{tabindex: -1}
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title !Song Information
+        %button.btn-close{type: "button", data: {'bs-dismiss' => "modal"}}
+
+      .modal-body
+        %p Add the following values to Stream Companion on the osu!Post tab of settings
+        %p Check the "Enable osu!Post" checkbox
+        %p= "User Id: #{@current_user.osu_nick || 'ENTER OSU NICK ON MAIN PAGE'}"
+        %p= "User Key: #{@current_user.settings.osu_song_key || 'CLICK GENERATE BELOW'}"
+        %p Check the "Advanced" checkbox
+        %p= "URL: https://#{request.host_with_port}/api/songs?user="
+
+      .modal-footer
+        %button.btn.btn-primary{type: "button", onClick: "new_osu_key('#{@current_user.twitch_name}');"} Generate new key
+        %button.btn.btn-secondary{type: "button", data: {'bs-dismiss' => "modal"}} Close

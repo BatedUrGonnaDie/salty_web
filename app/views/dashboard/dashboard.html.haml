@@ -1,10 +1,11 @@
 = provide(:title, "PyDash")
-- if @info.present?
-  Please paste this code into the auth code input box: #{@info}
-- else
-  %div{style: "display: block; margin-bottom: 1em;"}
-    = link_to "Get Auth Code", dashboard_out_path, class: "pure-button pure-button-login"
+%div{style: 'margin-bottom: 20px;'}
+  - if @info.present?
+    Please paste this code into the auth code input box: #{@info}
+  - else
+    = link_to "Get Auth Code", dashboard_out_path, class: 'btn btn-twitch'
 
-  = link_to "Download", "https://github.com/batedurgonnadie/pydash/releases", class: "pure-button pure-button-primary"
-  %p Use the above button to go to the download page for PyDash, and select the newest release.
-  %p If you would like to run it off of the source, just clone the repo once there.
+= link_to "Download", "https://github.com/batedurgonnadie/pydash/releases", class: "btn btn-primary"
+%p
+%p Use the above button to go to the download page for PyDash, and select the newest release.
+%p If you would like to run it off of the source, just clone the repo once there.

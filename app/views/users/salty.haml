@@ -1,141 +1,148 @@
 = provide(:title, "SaltyBot")
 - if signed_in?
-  #sub-header
-    #login-info
+  #sub-header.row
+    .col-sm-4
       = "You are signed in as #{@current_user.twitch_name}."
-    #main-buttons
+    .col-sm-8.text-end
       = render partial: "shared/buttons", locals: {path: :salty}
-  = form_for @current_user, url: update_salty_path, html: {class: "pure-form"} do |f|
+
+  = form_for @current_user, url: update_salty_path do |f|
     %h1 General Info
-    .pure-control-group
+    .form-check.mb-3
       = f.fields_for :settings do |d|
-        = d.label :active do
-          = d.check_box :active
+        = d.check_box :active, class: "form-check-input"
+        = d.label :active, class: "form-check-label" do
           Enable Bot In Your Channel
-    .pure-control-group
-      = f.label :twitch_name, "Channel to Join:"
-      = f.text_field :twitch_name, readonly: true
-    .pure-control-group
-      = f.label :bot_nick do
-        Bot Nick to Use:
-        .mini-text *Leave blank if using default name of TheSaltyBot
-      = f.text_field :bot_nick, placeholder: "TheSaltyBot"
-    .pure-control-group
-      = f.label :bot_oauth do
-        Oauth for Bot Nick:
-        .mini-text *Leave blank if using default name
-      = f.password_field :bot_oauth
-    .pure-control-group
-      = f.label :srl_nick, "SpeedRunsLive Nick:"
-      = f.text_field :srl_nick
-    .pure-control-group
-      = f.label :speedruncom_nick do
-        Speedrun.com Username:
-        .mini-text *Optional if twitch name is exactly the same
-      = f.text_field :speedruncom_nick
-    .pure-control-group
-      = f.label :osu_nick, "Osu Nick:"
-      = f.text_field :osu_nick
+
+    .row
+      .col-xs-12.col-md-6
+        = f.label :twitch_name, "Channel to Join:", class: "form-label"
+        = f.text_field :twitch_name, readonly: true, class: "form-control"
+
+        = f.label :bot_nick, class: "form-label" do
+          Bot Nick to Use:
+          .mini-text *Leave blank if using default name of TheSaltyBot
+        = f.text_field :bot_nick, placeholder: "TheSaltyBot", class: "form-control"
+
+        = f.label :bot_oauth, class: "form-label" do
+          Oauth for Bot Nick:
+          .mini-text *Leave blank if using default name
+        = f.password_field :bot_oauth, class: "form-control"
+
+      .col-xs-12.col-md-6
+        = f.label :srl_nick, "SpeedRunsLive Nick:", class: "form-label"
+        = f.text_field :srl_nick, class: "form-control"
+
+        = f.label :speedruncom_nick, class: "form-label" do
+          Speedrun.com Username:
+          .mini-text *Optional if twitch name is exactly the same
+        = f.text_field :speedruncom_nick, class: "form-control"
+
+        = f.label :osu_nick, "Osu Nick:", class: "form-label"
+        = f.text_field :osu_nick, class: "form-control"
 
     - counter = 0
     = f.fields_for :commands do |d|
       - counter = counter + 1
       - if counter == 1
         %h1 General Commands
-        <div class="pure-g">
+        <div class="row g-0 mb-3">
       - elsif counter == 9
         </div>
         %h1 Speedrunning Commands
-        <div class="pure-g">
+        <div class="row g-0 mb-3">
       - elsif counter == 14
         </div>
         %h1 Osu Commands
-        <div class="pure-g">
+        <div class="row g-0 mb-3">
 
 
-      .pure-u-1-3
-        .panel.panel-default
-          .panel-heading
+      .col-xs-12.col-md-4
+        .card
+          .card-header.bg-dark.text-light
             %h2.command-heading= "!#{d.object.name}"
-          .panel-body
+          .card-body
             = d.hidden_field :name
-            .form-goup
-              = d.label :on do
-                = d.check_box :on
+            .form-check
+              = d.check_box :on, class: "form-check-input"
+              = d.label :on, class: "form-check-label" do
                 Enabled
-            .pure-control-group
-              = d.label :admin do
-                = d.check_box :admin
+            .form-check
+              = d.check_box :admin, class: "form-check-input"
+              = d.label :admin, class: "form-check-label" do
                 Mod Only Command?
-            .pure-control-group
-              = d.label :limit, "Cooldown:"
-              = d.number_field :limit, min: 0
+
+            = d.label :limit, "Cooldown:", class: "form-check-label"
+            = d.number_field :limit, min: 0, class: "form-control"
 
     </div>
     .h1 Random Options
     = f.fields_for :settings do |d|
-      .pure-control-group
-        = d.label :youtube_link do
-          = d.check_box :youtube_link
+      .form-check
+        = d.check_box :youtube_link, class: "form-check-input"
+        = d.label :youtube_link, class: "form-check-label" do
           Link YouTube Videos In Chat?
-      .pure-control-group
-        = d.label :osu_link do
-          = d.check_box :osu_link
+      .form-check
+        = d.check_box :osu_link, class: "form-check-input"
+        = d.label :osu_link, class: "form-check-label" do
           Send Osu Songs In Chat To Game Chat?
-      .pure-g
-        .pure-u-1-3
-          .panel.panel-default
-            .panel-heading
-              %h2.command-heading Sub Messages
-            .panel-body
-              .pure-control-group
-                = d.label :sub_message_active do
-                  = d.check_box :sub_message_active
-                  Have Bot Say a Message When User Subs
-              .pure-control-group
-                = d.label :sub_message_text, "Regular Sub:"
-                = d.text_field :sub_message_text
-              .pure-control-group
-                = d.label :sub_message_resub, "Resubscription:"
-                = d.text_field :sub_message_resub
-        .pure-u-1-3
-          .panel.panel-default
-            .panel-heading
-              %h2.command-heading Social
-            .panel-body
-              .pure-control-group
-                = d.label :social_active do
-                  = d.check_box :social_active
-                  Have bot say messages at regular intervals (minutes)
-              .pure-control-group
-                = d.label :social_output, "Output:"
-                = d.text_field :social_output
-              .pure-control-group
-                = d.label :social_time, "Time Between Messgaes:"
-                = d.number_field :social_time, min: 0
-              .pure-control-group
-                = d.label :social_messages, "Number of Messages Inbetween Outputs:"
-                = d.number_field :social_messages, min: 0
-        .pure-u-1-3
-          .panel.panel-default
-            .panel-heading
-              %h2.command-heading Toobou
-            .panel-body
-              .pure-control-group
-                = d.label :toobou_active do
-                  = d.check_box :toobou_active
-                  Say something based on words in chat
-              .pure-control-group
-                = d.label :toobou_limit, "Cooldown:"
-                = d.number_field :toobou_limit, min: 0
-              .pure-control-group
-                = d.label :toobou_trigger, "Tigger:"
-                = d.text_field :toobou_trigger
-              .pure-control-group
-                = d.label :toobou_output, "Output:"
-                = d.text_field :toobou_output
 
-    = f.submit "Save", class: "pure-button pure-button-primary"
+      .row.mb-3
+        .col-xs-12.col-md-4
+          .card
+            .card-header.bg-dark.text-light
+              %h2.command-heading Sub Messages
+            .card-body
+              .form-check
+                = d.check_box :sub_message_active, class: "form-check-input"
+                = d.label :sub_message_active, class: "form-check-label" do
+                  Have Bot Say a Message When User Subs
+
+              = d.label :sub_message_text, "Regular Sub:", class: "form-check-label"
+              = d.text_field :sub_message_text, class: "form-control"
+
+              = d.label :sub_message_resub, "Resubscription:", class: "form-check-label"
+              = d.text_field :sub_message_resub, class: "form-control"
+
+        .col-xs-12.col-md-4
+          .card
+            .card-header.bg-dark.text-light
+              %h2.command-heading Social
+            .card-body
+              .form-check
+                = d.check_box :social_active, class: "form-check-input"
+                = d.label :social_active, class: "form-check-label" do
+                  Have bot say messages at regular intervals (minutes)
+
+              = d.label :social_output, "Output:", class: "form-check-label"
+              = d.text_field :social_output, class: "form-control"
+
+              = d.label :social_time, "Time Between Messgaes:", class: "form-check-label"
+              = d.number_field :social_time, min: 0, class: "form-control"
+
+              = d.label :social_messages, "Number of Messages Inbetween Outputs:", class: "form-check-label"
+              = d.number_field :social_messages, min: 0, class: "form-control"
+
+        .col-xs-12.col-md-4
+          .card
+            .card-header.bg-dark.text-light
+              %h2.command-heading Toobou
+            .card-body
+              .form-check
+                = d.check_box :toobou_active, class: "form-check-input"
+                = d.label :toobou_active, class: "form-check-label" do
+                  Say something based on words in chat
+
+              = d.label :toobou_limit, "Cooldown:", class: "form-check-label"
+              = d.number_field :toobou_limit, min: 0, class: "form-control"
+
+              = d.label :toobou_trigger, "Tigger:", class: "form-check-label"
+              = d.text_field :toobou_trigger, class: "form-control"
+
+              = d.label :toobou_output, "Output:", class: "form-check-label"
+              = d.text_field :toobou_output, class: "form-control"
+
+    = f.submit "Save", class: "btn btn-primary w-auto"
 - else
-  .div= link_to "Login with Twitch", to_twitch_path, class: "pure-button pure-button-login"
+  = link_to "Login with Twitch", to_twitch_path, class: "btn btn-primary"
   This page is the web interface for SaltyBot.  If you would like to use it just log in to this page using Twitch and select the options that you would like.
