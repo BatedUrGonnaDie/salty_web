@@ -35,5 +35,7 @@ Rails.application.routes.draw do
         resources :songs, only: [:index, :create, :update]
       end
     end
+
+    resources :songs, only: [:create]
   end
 end

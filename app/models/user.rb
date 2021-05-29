@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_one   :settings
+  has_one   :song
   has_many  :commands
   has_many  :custom_commands
   has_many  :quotes

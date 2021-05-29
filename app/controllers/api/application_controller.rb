@@ -3,7 +3,6 @@ class Api::ApplicationController < ApplicationController
 
   private
 
-
   def set_user
     unless @user = User.find_by(twitch_name: params[:user_id])
       render status: 404, json: {status: 404, error: "Invalid user."}

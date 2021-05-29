@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_040418) do
+ActiveRecord::Schema.define(version: 2021_05_29_005706) do
 
   create_table "commands", force: :cascade do |t|
     t.integer "user_id"
@@ -50,6 +50,16 @@ ActiveRecord::Schema.define(version: 2021_05_28_040418) do
     t.string "sub_message_resub", limit: 255, default: ""
   end
 
+  create_table "songs", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "map_name"
+    t.string "map_id"
+    t.string "set_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_songs_on_user_id"
+  end
+
   create_table "textutils", force: :cascade do |t|
     t.integer "user_id"
     t.string "type", limit: 255
@@ -73,4 +83,5 @@ ActiveRecord::Schema.define(version: 2021_05_28_040418) do
     t.string "speedruncom_nick"
   end
 
+  add_foreign_key "songs", "users"
 end
