@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-  has_one   :settings
-  has_one   :song
-  has_many  :commands
-  has_many  :custom_commands
-  has_many  :quotes
-  has_many  :puns
+  has_one   :settings, dependent: :destroy
+  has_one   :song, dependent: :destroy
+  has_many  :commands, dependent: :destroy
+  has_many  :custom_commands, dependent: :destroy
+  has_many  :quotes, dependent: :destroy
+  has_many  :puns, dependent: :destroy
   accepts_nested_attributes_for :settings
   accepts_nested_attributes_for :commands
   accepts_nested_attributes_for :custom_commands
