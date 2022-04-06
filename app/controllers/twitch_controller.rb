@@ -8,9 +8,13 @@ class TwitchController < ApplicationController
     if twitch_response.success?
       oauth = twitch_response['access_token']
       user_data = HTTParty.get(
-        "https://api.twitch.tv/kraken/user?oauth_token=#{oauth}",
-        headers: {'Accept': 'application/vnd.twitchtv.v5+json'}
+        'https://api.twitch.tv/helix/users',
+        headers: {
+          'Client-Id': client_id,
+          'Authorization': "Bearer #{oauth}"
+        }
       )
+
       unless user_data.success?
         flash[:danger] = 'There was an error retrieving data from twitch.'
         redirect_to(salty_path) && return
@@ -21,10 +25,10 @@ class TwitchController < ApplicationController
 
     end
 
-    @user = User.find_by(twitch_id: user_data['_id'])
+    @user = User.find_by(twitch_id: user_data['data'][0]['id'])
 
     if @user.nil?
-      @user = User.new(email: user_data['email'], twitch_id: user_data['_id'], twitch_name: user_data['name'])
+      @user = User.new(email: user_data['data'][0]['email'], twitch_id: user_data['data'][0]['id'], twitch_name: user_data['data'][0]['login'])
       new_user = true
     end
 
