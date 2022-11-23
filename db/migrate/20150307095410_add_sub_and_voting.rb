@@ -1,4 +1,4 @@
-class AddSubAndVoting < ActiveRecord::Migration
+class AddSubAndVoting < ActiveRecord::Migration[4.2]
   def change
     add_column :settings, :sub_message_active, :boolean, default: false
     add_column :settings, :sub_message_text, :string, default: ""

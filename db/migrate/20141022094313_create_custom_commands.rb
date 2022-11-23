@@ -1,4 +1,4 @@
-class CreateCustomCommands < ActiveRecord::Migration
+class CreateCustomCommands < ActiveRecord::Migration[4.2]
   def change
     create_table :custom_commands do |t|
       t.integer :user_id
